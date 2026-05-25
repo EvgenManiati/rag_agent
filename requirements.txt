@@ -1,0 +1,13 @@
+langgraph
+langchain-huggingface
+langchain-core
+langchain-community
+langchain-text-splitters
+transformers
+accelerate
+bitsandbytes
+faiss-cpu
+sentence-transformers
+pypdf
+torch
+os
