@@ -1,3 +1,4 @@
+
 from langgraph.graph import StateGraph, END
 from typing import TypedDict
 
@@ -11,7 +12,7 @@ hellos = ["γεια", "καλημέρα", "καλησπέρα", "hi", "hello", "
 byes   = ["ευχαριστώ", "ευχαριστώ πολύ", "thanks", "βοήθησες πολύ, ευχαριστώ"]
 
 
-def build_retriever(llm, retriever):
+def build_agent(llm, retriever):
     def should_retrieve(state: AgentState) -> str:
         quest = state["question"].lower().strip()
         if any(h in quest for h in hellos):

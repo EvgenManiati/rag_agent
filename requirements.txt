@@ -10,4 +10,4 @@ faiss-cpu
 sentence-transformers
 pypdf
 torch
-os
+ragas datasets

@@ -1,26 +1,22 @@
-
 from model import load_model
 from retriever import load_retriever
-from agent import build_retriever, AgentState
-
+from agent import build_agent
 
 if __name__ == "__main__":
-
-    print("Μοντέλο έτοιμο!")
+    print("Φόρτωση μοντέλου...")
     llm = load_model()
 
-    print(f"Vector store έτοιμο! Φόρτωση αρχείων...")
+    print("Φόρτωση εγγράφων...")
     retriever = load_retriever()
 
-    app = build_retriever(llm, retriever)
-    print("Agent έτοιμος!")
+    app = build_agent(llm, retriever)
+    print("Agent έτοιμος!\n")
 
     while True:
         user_input = input("Ερώτηση (ή 'exit' για έξοδο): ")
         if user_input.lower() == "exit":
             print("Αντίο!")
             break
-
         result = app.invoke({
             "question":   user_input,
             "context":    "",

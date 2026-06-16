@@ -1,4 +1,5 @@
 """
+evaluation.py
 Συγκριτική αξιολόγηση RAG agent με το RAG Triad (RAGAS):
 - Faithfulness
 - Answer Relevancy
@@ -8,19 +9,21 @@
 from ragas import evaluate
 from ragas.metrics import faithfulness, answer_relevancy, context_precision
 from datasets import Dataset
-from model import load_llm
+from model import load_model
 from retriever import load_retriever
 from agent import build_agent
+from ragas.llms import LangchainLLMWrapper
 
-# Test data for evaluation
+#Test questions 
+# Αντικατέστησε με ερωτήσεις από τα δικά σου ΦΕΚ
 TEST_DATA = [
     {
-        "question": "Πόσες μέρες γονικής άδειας δικαιούμαι ανά έτος;",
-        "ground_truth": "Κάθε γονέας ή πρόσωπο που ασκεί τη γονική μέριμνα δικαιούται 4 μήνες συνεχόμενης ή τμηματικής άδειας μέχρι τη συμπλήρωση των 8 ετών του τέκνου."
+        "question": "Τι χρειάζεται για ταξιδιωτικά έξοδα;",
+        "ground_truth": "Αίτηση 5 εργάσιμες μέρες πριν"
     },
     {
-        "question": "Πόσες μέρες άδεια πατρότητας δικαιούμαι;",
-        "ground_truth": "Κάθε εργαζόμενος πατέρας δικαιούται άδεια πατρότητας δεκατεσσάρων (14) εργάσιμων ημερών."
+        "question": "Πόσες μέρες άδεια χρειάζονται ιατρική γνωμάτευση;",
+        "ground_truth": "Άνω των 3 ημερών"
     },
     {
         "question": "Τι απαιτείται για προμήθεια άνω των 1000 ευρώ;",
@@ -29,13 +32,13 @@ TEST_DATA = [
 ]
 
 #Evaluation function
-def run_evaluation(app, test_data: list, mode_name: str) -> dict:
+def run_evaluation(app, test_data: list, mode_name: str, llm) -> dict:
     print(f"Αξιολόγηση: {mode_name}")
-   
+
 
     results = []
     for item in test_data:
-        print(f"Ερώτηση: {item['question']}")
+        print(f"  Ερώτηση: {item['question']}")
 
         result = app.invoke({
             "question":   item["question"],
@@ -53,12 +56,15 @@ def run_evaluation(app, test_data: list, mode_name: str) -> dict:
 
     dataset = Dataset.from_list(results)
 
+    ragas_llm = LangchainLLMWrapper(llm)
+
     scores = evaluate(
-        dataset,
-        metrics=[faithfulness, answer_relevancy, context_precision]
+    dataset,
+    metrics=[faithfulness, answer_relevancy, context_precision],
+    llm=llm
     )
 
-    print(f"\n Αποτελέσματα {mode_name}:")
+    print(f"\nΑποτελέσματα {mode_name}:")
     print(f"  Faithfulness:      {scores['faithfulness']:.3f}")
     print(f"  Answer Relevancy:  {scores['answer_relevancy']:.3f}")
     print(f"  Context Precision: {scores['context_precision']:.3f}")
@@ -66,24 +72,39 @@ def run_evaluation(app, test_data: list, mode_name: str) -> dict:
     return scores
 
 
-# Main
+#Main 
 if __name__ == "__main__":
 
     print("Φόρτωση LLM...")
-    llm = load_llm()
+    llm = load_model()
+    print("Φόρτωση μοντέλου ολοκληρώθηκε!\n")
+    #αντί για γραμμή 79 βάζουμε: 
+    '''
+    print("Διαθέσιμα LLM models:")
+    print("1. krikri")
+    print("2. mistral")
+
+    choice = input("Διάλεξε μοντέλο [Enter = krikri]: ").strip()
+
+    if choice == "2":
+        selected_model = "mistral"
+    else:
+        selected_model = "krikri"
+
+    llm = load_model(selected_model)
+    '''
 
     all_scores = {}
 
     for mode in ["minilm", "bge", "ensemble"]:
-        print(f"\n Φόρτωση retriever ({mode})...")
+        print(f"\nΦόρτωση retriever ({mode})...")
         retriever = load_retriever(mode=mode)
         app = build_agent(llm, retriever)
-        all_scores[mode] = run_evaluation(app, TEST_DATA, mode)
+        all_scores[mode] = run_evaluation(app, TEST_DATA, mode, llm)
 
-    # ── Συγκριτικός πίνακας 
+    #Συγκριτικός πίνακας
     print("ΣΥΓΚΡΙΤΙΚΟΣ ΠΙΝΑΚΑΣ")
     print(f"{'Μετρική':<25} {'MiniLM':>10} {'BGE-M3':>10} {'Ensemble':>10}")
-    
 
     for metric in ["faithfulness", "answer_relevancy", "context_precision"]:
         row = f"{metric:<25}"
@@ -92,3 +113,4 @@ if __name__ == "__main__":
         print(row)
 
     print(f"Evaluation ολοκληρώθηκε!")
+

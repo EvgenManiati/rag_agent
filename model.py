@@ -1,8 +1,8 @@
 from langchain_huggingface import HuggingFacePipeline, HuggingFaceEmbeddings
 from transformers import pipeline
 import torch
-from confing import model_id
-
+from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
+from config import MINILM_MODEL, BGE_MODEL, MINILM_WEIGHT, BGE_WEIGHT, MODEL_ID
 
 
 
@@ -27,13 +27,11 @@ def load_model():
         model=model,
         tokenizer=tokenizer,
         max_new_tokens=512,
+        max_length=2048,
         temperature=0.1,
         do_sample=True,
         return_full_text=False
     )
 
     return HuggingFacePipeline(pipeline=pipe)
-
-#llm = HuggingFacePipeline(pipeline=pipe)
-
 
