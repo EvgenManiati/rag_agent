@@ -2,23 +2,23 @@ from langchain_huggingface import HuggingFacePipeline, HuggingFaceEmbeddings
 from transformers import pipeline
 import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
-from config import MINILM_MODEL, BGE_MODEL, MINILM_WEIGHT, BGE_WEIGHT, MODEL_ID
+from config import DEFAULT_MODEL, LLM_MODELS
 
 
 
-def load_model():
-    bnb_config = BitsAndBytesConfig(
-        load_in_4bit=True,
-        bnb_4bit_quant_type="nf4",
-        bnb_4bit_compute_dtype=torch.float32
-    )
+def load_model(model_name=DEFAULT_MODEL):
+    model_id = LLM_MODELS.get(model_name, LLM_MODELS[DEFAULT_MODEL])
 
-    tokenizer = AutoTokenizer.from_pretrained(MODEL_ID)
+    print(f"Φόρτωση μοντέλου: {model_name} -> {model_id}")
+
+    tokenizer = AutoTokenizer.from_pretrained(model_id)
+
     model = AutoModelForCausalLM.from_pretrained(
-        MODEL_ID,
-        quantization_config=bnb_config,
-        device_map="cpu"
+        model_id,
+        device_map="auto",
+        torch_dtype=torch.float32
     )
+
 
 
 
@@ -26,7 +26,7 @@ def load_model():
         "text-generation",
         model=model,
         tokenizer=tokenizer,
-        max_new_tokens=512,
+        max_new_tokens=128,
         max_length=2048,
         temperature=0.1,
         do_sample=True,
