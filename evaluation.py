@@ -13,31 +13,28 @@ from model import load_model
 from retriever import load_retriever
 from agent import build_agent
 from ragas.llms import LangchainLLMWrapper
+from langchain_huggingface import HuggingFaceEmbeddings
+from config import MINILM_MODEL
 
 #Test questions 
-# Αντικατέστησε με ερωτήσεις από τα δικά σου ΦΕΚ
+
 TEST_DATA = [
     {
-        "question": "Τι χρειάζεται για ταξιδιωτικά έξοδα;",
-        "ground_truth": "Αίτηση 5 εργάσιμες μέρες πριν"
-    },
-    {
-        "question": "Πόσες μέρες άδεια χρειάζονται ιατρική γνωμάτευση;",
-        "ground_truth": "Άνω των 3 ημερών"
-    },
-    {
-        "question": "Τι απαιτείται για προμήθεια άνω των 1000 ευρώ;",
-        "ground_truth": "Έγκριση από τον προϊστάμενο"
-    },
-]
-
+    
+        "question": "Πόσες μέρες αναρρωτικής άδειας δικαιούμαι;",
+        "ground_truth": "Mέχρι τρεις (3) ημέρες, οι εργαζόμενοι δικαιούνται να λάβουν το 1/2 του ημερησίου μισθού τους για κάθε μέρα ασθενείας."
+    }
+    ]
+  
 #Evaluation function
-def run_evaluation(app, test_data: list, mode_name: str, llm) -> dict:
+def run_evaluation(app, test_data: list, mode_name: str, evaluator_llm) -> dict:
     print(f"Αξιολόγηση: {mode_name}")
 
 
     results = []
-    for item in test_data:
+    test_items = list(test_data)[:1]  # Limit to the first item for testing
+
+    for item in test_items:
         print(f"  Ερώτηση: {item['question']}")
 
         result = app.invoke({
@@ -55,62 +52,107 @@ def run_evaluation(app, test_data: list, mode_name: str, llm) -> dict:
         })
 
     dataset = Dataset.from_list(results)
-
-    ragas_llm = LangchainLLMWrapper(llm)
+    
+    ragas_llm = LangchainLLMWrapper(evaluator_llm)
+    ragas_embeddings = HuggingFaceEmbeddings(model_name=MINILM_MODEL)
 
     scores = evaluate(
     dataset,
-    metrics=[faithfulness, answer_relevancy, context_precision],
-    llm=llm
+    metrics=[faithfulness], #, answer_relevancy, context_precision],
+    llm= ragas_llm,
+    embeddings=ragas_embeddings
     )
 
     print(f"\nΑποτελέσματα {mode_name}:")
     print(f"  Faithfulness:      {scores['faithfulness']:.3f}")
-    print(f"  Answer Relevancy:  {scores['answer_relevancy']:.3f}")
-    print(f"  Context Precision: {scores['context_precision']:.3f}")
+    #print(f"  Answer Relevancy:  {scores['answer_relevancy']:.3f}")
+    #print(f"  Context Precision: {scores['context_precision']:.3f}")
 
     return scores
 
 
-#Main 
+#Main evaluation 
+
 if __name__ == "__main__":
 
-    print("Φόρτωση LLM...")
-    llm = load_model()
-    print("Φόρτωση μοντέλου ολοκληρώθηκε!\n")
-    #αντί για γραμμή 79 βάζουμε: 
-    '''
-    print("Διαθέσιμα LLM models:")
-    print("1. krikri")
-    print("2. mistral")
-
-    choice = input("Διάλεξε μοντέλο [Enter = krikri]: ").strip()
-
-    if choice == "2":
-        selected_model = "mistral"
-    else:
-        selected_model = "krikri"
-
-    llm = load_model(selected_model)
-    '''
-
+    # a dict to store the scores for each model
     all_scores = {}
 
-    for mode in ["minilm", "bge", "ensemble"]:
-        print(f"\nΦόρτωση retriever ({mode})...")
-        retriever = load_retriever(mode=mode)
-        app = build_agent(llm, retriever)
-        all_scores[mode] = run_evaluation(app, TEST_DATA, mode, llm)
+    # main retriever mode
+    retriever_mode = "ensemble"
 
-    #Συγκριτικός πίνακας
-    print("ΣΥΓΚΡΙΤΙΚΟΣ ΠΙΝΑΚΑΣ")
-    print(f"{'Μετρική':<25} {'MiniLM':>10} {'BGE-M3':>10} {'Ensemble':>10}")
+  
+    print("Φόρτωση evaluator LLM: Qwen")
+    evaluator_llm = load_model("qwen") #loading the evaluator model (Krikri) once to avoid double loading
 
-    for metric in ["faithfulness", "answer_relevancy", "context_precision"]:
+
+    print(f"Φόρτωση retriever: {retriever_mode}")
+    retriever = load_retriever(mode=retriever_mode)
+
+    # compare the two models: Krikri and TinyLlama
+
+    for model_name in ["krikri", "qwen"]:
+
+        print(f"Evaluation Generator: {model_name}")
+        
+        
+        if model_name == "krikri":
+            generator_llm = evaluator_llm #loading the same model for evaluation and generation to avoid double loading
+        else:
+            print(f"Φόρτωση generator: {model_name}")
+            generator_llm = load_model(model_name)
+
+       
+        app = build_agent(
+            generator_llm,
+            retriever
+        )
+
+        all_scores[model_name] = run_evaluation(
+            app,
+            TEST_DATA,
+            model_name,
+            evaluator_llm
+        )
+
+    #comparative table of scores
+
+    print("ΣΥΓΚΡΙΤΙΚΟΣ ΠΙΝΑΚΑΣ ΜΟΝΤΕΛΩΝ")
+    print(
+        f"{'Μετρική':<25}"
+        f"{'Krikri':>12}"
+        f"{'Qwen':>12}"
+    )
+
+    for metric in [
+        "faithfulness",
+        #"answer_relevancy",
+        #"context_precision"
+    ]:
+
         row = f"{metric:<25}"
-        for mode in ["minilm", "bge", "ensemble"]:
-            row += f" {all_scores[mode][metric]:>10.3f}"
+        #row += f"{all_scores['krikri'].get(metric, float('nan')):>12.3f}"
+        #row += f"{all_scores['qwen'].get(metric, float('nan')):>12.3f}"
+
+        row += f"{all_scores['krikri'][metric]:>12.3f}"
+        row += f"{all_scores['qwen'][metric]:>12.3f}"
+
         print(row)
 
-    print(f"Evaluation ολοκληρώθηκε!")
+    print("\nEvaluation ολοκληρώθηκε!")
 
+'''δεν τρέχει με το κρικρι γιατί είναι πολύ μεγάλο και η μνήμη δεν επαρκεί. 
+επίσης δεν τρέχει ούτε το tinyllama γιατί δεν μπορεί να κάνει σωστό ragas 
+και βγάζει failed to parse output. returning none'''
+
+
+
+  '''
+    {
+        "question": "Πόσες μέρες κανονική άδεια δικαιούμαι;",
+        "ground_truth": "Η αναλογία της χορηγούμενης άδειας υπολογίζεται βάσει ετήσιας αδείας 20 εργασίμων ημερών επί πενθημέρου εβδομαδιαίας εργασίας."
+     },
+    {
+        "question": "Πώς αποζημιώνομαι για την εκτός έδρας εργασία;",
+        "ground_truth": ". Η αποζημίωση για την εκτός έδρας μετακίνηση ισούται με ένα (1) ημερομίσθιο ή με 1/25 του νόμιμου μισθού για όσους αμείβονται με μισθό."
+    },'''

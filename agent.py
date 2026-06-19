@@ -1,4 +1,5 @@
 
+from accelerate import state
 from langgraph.graph import StateGraph, END
 from typing import TypedDict
 
@@ -46,15 +47,39 @@ def build_agent(llm, retriever):
             state["answer"] = "Η ευχαρίστηση είναι όλη δική μου!"
             return state
 
-        prompt = f"""Είσαι βοηθός οργανισμού. Απάντησε ΜΟΝΟ με βάση το context.
+        prompt = f"""Είσαι βοηθός οργανισμού.
+        Απάντησε ΜΟΝΟ με βάση το context.
+        Απάντησε σύντομα και καθαρά. 
+
+        Αν δεν μπορείς να εντοπίσεις την απάντηση στο context, πες: 
+        "Δεν βρέθηκε σαφής απάντηση στις διαθέσιμες πληροφορίες."
+
+        Απάντησε χρησιμοποιώντας μόνο αριθμούς και πληροφορίες που εμφανίζονται αυτούσιες στο context.
+        Μην κάνεις υπολογισμούς.
+        Μην συνδυάζεις πληροφορίες από διαφορετικές παραγράφους.
+        Μην δημιουργείς επιπλέον ερωτήσεις ή πληροφορίες. 
+        Μην προσθέτεις τίποτα που δεν υπάρχει στο context.
+        Μην συνεχίζεις μετά την απάντηση. 
+        Απάντησε αυστηρά στα ελληνικά.
 
 Context:
 {state['context']}
 
-Ερώτηση: {state['question']}
+Ερώτηση: 
+{state['question']}
+
 Απάντηση:"""
 
+        print("\n Ανακτημένο context:")
+        print(state["context"])
+        print("\n Τέλος context\n")
+
         raw = llm.invoke(prompt)
+        if hasattr(raw, "content"):
+            raw = raw.content
+
+        raw = str(raw)
+
         for stop in ["Ερώτηση:", "Χρήστης:", "Question:", "User:"]:
             if stop in raw:
                 raw = raw.split(stop)[0]

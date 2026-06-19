@@ -1,3 +1,5 @@
+from xml.parsers.expat import model
+
 from langchain_huggingface import HuggingFacePipeline, HuggingFaceEmbeddings
 from transformers import pipeline
 import torch
@@ -13,12 +15,21 @@ def load_model(model_name=DEFAULT_MODEL):
 
     tokenizer = AutoTokenizer.from_pretrained(model_id)
 
+    if tokenizer.pad_token is None:
+        tokenizer.pad_token = tokenizer.eos_token
+
     model = AutoModelForCausalLM.from_pretrained(
         model_id,
-        device_map="auto",
-        torch_dtype=torch.float32
+        dtype=torch.float32,
+        low_cpu_mem_usage= False
+        #generation_config=model.generation_config
     )
-
+    
+    model.generation_config.temperature = None
+    model.generation_config.top_p = None
+    model.generation_config.top_k = None
+    model.generation_config.do_sample = False
+    model.generation_config.max_length = 2048
 
 
 
@@ -26,11 +37,11 @@ def load_model(model_name=DEFAULT_MODEL):
         "text-generation",
         model=model,
         tokenizer=tokenizer,
-        max_new_tokens=128,
-        max_length=2048,
-        temperature=0.1,
-        do_sample=True,
-        return_full_text=False
+        max_new_tokens=300,
+        #temperature= 0.1 
+        do_sample=False,
+        return_full_text=False,
+        clean_up_tokenization_spaces=False,
     )
 
     return HuggingFacePipeline(pipeline=pipe)
