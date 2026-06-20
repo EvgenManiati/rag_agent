@@ -1,8 +1,10 @@
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_community.vectorstores import FAISS
 from langchain_community.document_loaders import PyPDFDirectoryLoader
-from langchain_huggingface import HuggingFaceEmbeddings
-from langchain.retrievers import EnsembleRetriever
+from langchain_community.embeddings import HuggingFaceEmbeddings
+# from langchain_huggingface import HuggingFaceEmbeddings
+from langchain_community.retrievers import BM25Retriever
+#from langchain.retrievers.ensemble import EnsembleRetriever
 from config import PDF_FOLDER, CHUNK_SIZE, CHUNK_OVERLAP, RETRIEVER_TOP_K, MINILM_MODEL, BGE_MODEL, MINILM_WEIGHT, BGE_WEIGHT
 from sentence_transformers.util import normalize_embeddings
 
@@ -25,7 +27,7 @@ def load_embeddings():
     return minilm, bge
 
 
-def load_retriever(mode: str = "ensemble"):
+def load_retriever(mode: str = "bge"):
     """
     mode = "minilm"   → μόνο MiniLM
     mode = "bge"      → μόνο BGE-M3
@@ -50,11 +52,13 @@ def load_retriever(mode: str = "ensemble"):
     if mode == "minilm":
         return retriever_minilm
     elif mode == "bge":
-        return retriever_bge
+      return retriever_bge
     else:
-        return EnsembleRetriever(
-            retrievers=[retriever_minilm, retriever_bge],
-            weights=[MINILM_WEIGHT, BGE_WEIGHT]
-        )
+        raise ValueError(f"Αγνωστος retriever: {mode}")
+    #else:
+     #   return EnsembleRetriever(
+      #      retrievers=[retriever_minilm, retriever_bge],
+       #     weights=[MINILM_WEIGHT, BGE_WEIGHT])
+        
 
 

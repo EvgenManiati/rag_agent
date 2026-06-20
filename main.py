@@ -1,23 +1,24 @@
-from model import load_model
+from model import load_ollama_model #load_model
 from retriever import load_retriever
 from agent import build_agent
 
 if __name__ == "__main__":
-    print("Διάλεξε μοντέλο:")
-    print("1. Krikri")
-    print("2. Qwen")
+    print("Διάλεξε retriever:")
+    print("1. MiniLM")
+    print("2. BGE-M3")
+    
 
-    choice = input("Επιλογή [Enter = Qwen]: ").strip() #Krikri has been set as the default model 
+    choice = input("Επιλογή [Enter = BGE]: ").strip() #Krikri has been set as the default model 
     if choice == "1":
-        selected_model = "krikri"
-    elif choice == "2":
-        selected_model = "qwen"
+        retriever_mode = "minilm"
     else:
-        selected_model = "qwen"
+        retriever_mode = "bge"
+        
+   
 
-    llm = load_model(selected_model)
+    llm = load_ollama_model("llama3.2:3b", max_new_tokens=120)
 
-    retriever = load_retriever(mode="ensemble")  # ή minilm/bge
+    retriever = load_retriever(mode="bge")  # ή minilm/bge
     app = build_agent(llm, retriever)
     print("Agent έτοιμος!\n")
 
@@ -34,3 +35,6 @@ if __name__ == "__main__":
             "iterations": 0
         })
         print(f"Απάντηση: {result['answer']}\n")
+
+        
+       

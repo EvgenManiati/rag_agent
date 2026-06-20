@@ -56,11 +56,15 @@ def build_agent(llm, retriever):
 
         Απάντησε χρησιμοποιώντας μόνο αριθμούς και πληροφορίες που εμφανίζονται αυτούσιες στο context.
         Μην κάνεις υπολογισμούς.
-        Μην συνδυάζεις πληροφορίες από διαφορετικές παραγράφους.
+        Αν το context περιέχει πολλές διαφορετικές περιπτώσεις, ανέφερε όλες τις περιπτώσεις με τη συνθήκη τους.
+        Μην επιλέγεις μόνο μία τιμή.
         Μην δημιουργείς επιπλέον ερωτήσεις ή πληροφορίες. 
         Μην προσθέτεις τίποτα που δεν υπάρχει στο context.
-        Μην συνεχίζεις μετά την απάντηση. 
-        Απάντησε αυστηρά στα ελληνικά.
+        Μην συνεχίζεις μετά την απάντηση.
+        Δώσε ΜΟΝΟ μία απάντηση.
+        Αν στο Context υπάρχει αριθμός μέσα σε παρένθεση, π.χ. (14), χρησιμοποίησε αυτόν τον αριθμό.
+        Μην αλλάζεις τον αριθμό.
+        Μην γράφεις άλλη ερώτηση μετά την απάντηση.
 
 Context:
 {state['context']}
@@ -76,14 +80,27 @@ Context:
 
         raw = llm.invoke(prompt)
         if hasattr(raw, "content"):
-            raw = raw.content
+          raw = raw.content
 
         raw = str(raw)
 
-        for stop in ["Ερώτηση:", "Χρήστης:", "Question:", "User:"]:
+        if 'Απάντηση:' in raw:
+            raw = raw.split('Απάντηση:')[1]
+
+        for stop in ["Πόσοι", "Πόσες", "Ερώτηση:", "Χρήστης:", "Question:", "User:", "Context:","Απάντηση:"]:
+            
             if stop in raw:
                 raw = raw.split(stop)[0]
-        state["answer"] = raw.strip()
+        
+        lines = raw.strip().splitlines()
+        clean_lines= []
+
+        for line in lines:
+            line = line.strip()
+            if line and line not in clean_lines:
+                clean_lines.append(line)
+        
+        state["answer"] = "\n".join(clean_lines)
         return state
 
     # ── graph ──────────────────────────────────────────────────────────────────────

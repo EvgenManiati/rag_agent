@@ -13,7 +13,7 @@ from model import load_model
 from retriever import load_retriever
 from agent import build_agent
 from ragas.llms import LangchainLLMWrapper
-from langchain_huggingface import HuggingFaceEmbeddings
+from langchain_community.embeddings import HuggingFaceEmbeddings
 from config import MINILM_MODEL
 
 #Test questions 
@@ -89,9 +89,9 @@ if __name__ == "__main__":
     print(f"Φόρτωση retriever: {retriever_mode}")
     retriever = load_retriever(mode=retriever_mode)
 
-    # compare the two models: Krikri and TinyLlama
+    # compare the two models: Krikri and TinyLlama and adding a third just to try it
 
-    for model_name in ["krikri", "qwen"]:
+    for model_name in ["krikri", "qwen", "llama"]:
 
         print(f"Evaluation Generator: {model_name}")
         
@@ -122,6 +122,7 @@ if __name__ == "__main__":
         f"{'Μετρική':<25}"
         f"{'Krikri':>12}"
         f"{'Qwen':>12}"
+        f"{'Llama':>12}"
     )
 
     for metric in [
@@ -136,6 +137,7 @@ if __name__ == "__main__":
 
         row += f"{all_scores['krikri'][metric]:>12.3f}"
         row += f"{all_scores['qwen'][metric]:>12.3f}"
+        row += f"{all_scores['llama'][metric]:>12.3f}"
 
         print(row)
 
@@ -147,7 +149,7 @@ if __name__ == "__main__":
 
 
 
-  '''
+'''
     {
         "question": "Πόσες μέρες κανονική άδεια δικαιούμαι;",
         "ground_truth": "Η αναλογία της χορηγούμενης άδειας υπολογίζεται βάσει ετήσιας αδείας 20 εργασίμων ημερών επί πενθημέρου εβδομαδιαίας εργασίας."
