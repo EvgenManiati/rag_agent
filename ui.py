@@ -545,9 +545,9 @@ else:
 for message in st.session_state.messages:
 
     if message["role"] == "user":
-        avatar = "assets/user_avatar.png"
+        avatar = "👤"
     else:
-        avatar = "assets/assistant_avatar.png"
+        avatar = "🤖"
 
     with st.chat_message(
         message["role"],
@@ -603,7 +603,7 @@ if user_question:
 
     with st.chat_message(
     "assistant",
-    avatar="💬"):
+    avatar="🤖"):
         try:
             with st.spinner("Αναζήτηση στα έγγραφα..."):
                 result = st.session_state.agent.invoke(
