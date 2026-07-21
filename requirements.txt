@@ -17,8 +17,6 @@ pypdf==5.6.1
 
 datasets==4.0.0
 
-ragas==0.1.21
-
 python-dotenv==1.1.1
 tqdm==4.67.1
 
@@ -27,3 +25,14 @@ einops==0.8.1
 protobuf==6.31.1
 safetensors==0.5.3
 tokenizers==0.21.2
+
+google-api-python-client
+google-auth
+google-auth-oauthlib
+
+deepeval
+
+streamlit
+
+openai
+

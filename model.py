@@ -1,52 +1,158 @@
-#from xml.parsers.expat import model
-
-#from langchain_huggingface import HuggingFacePipeline, HuggingFaceEmbeddings
-#from transformers import pipeline
-#import torch
-#from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
-#from config import DEFAULT_MODEL, LLM_MODELS
+from email import message
+import os
+from secrets import choice
+from urllib import response
+from datasets import config
+from dotenv import load_dotenv
 from langchain_ollama import ChatOllama
+from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
+from langchain_huggingface import HuggingFacePipeline
+import torch
+from openai import OpenAI
+from dataclasses import dataclass
 
-'''
-def load_model(model_name=DEFAULT_MODEL, max_new_tokens=200):
-    model_id = LLM_MODELS.get(model_name, LLM_MODELS[DEFAULT_MODEL])
 
-    print(f"Φόρτωση μοντέλου: {model_name} -> {model_id}")
+load_dotenv()
+@dataclass
 
-    tokenizer = AutoTokenizer.from_pretrained(model_id)
+class ModelLoader:
+    name: str
+    provider: str
+    model_id : str
+    max_new_tokens: int
+
+models = {
+    "krikri": ModelLoader(
+        name = "krikri",
+        provider =  "huggingface",
+        model_id = "ilsp/Llama-Krikri-8B-Instruct",
+        max_new_tokens = 300
+    ),
+    "llama": ModelLoader(
+        name = "llama",
+        provider = "ollama",
+        model_id = "llama3.2:3b",
+        max_new_tokens = 300
+    ),
+     
+     "gptoss20b": ModelLoader(
+         name = "gptoss20b",
+         provider = "openrouter",
+         model_id = "openai/gpt-oss-20b:free",
+         max_new_tokens = 2000
+     ), 
+
+     "gptoss120b": ModelLoader(
+         name = "gptoss120b",
+         provider  = "openrouter",
+         model_id = "openai/gpt-oss-120b:free",
+         max_new_tokens = 2000
+     ),
+
+     "gemini_flash_lite": ModelLoader(
+        name="Gemini 2.5 Flash Lite",
+        provider="openrouter",
+        model_id="google/gemini-2.5-flash-lite",
+        max_new_tokens=1200
+        #meh NA FYGEI
+    ),
+
+    "gpt41_mini": ModelLoader(
+        name="GPT-4.1 Mini",
+        provider="openrouter",
+        model_id="openai/gpt-4.1-mini",
+        max_new_tokens=1200
+    ),
+
+    "gemini_flash": ModelLoader(
+        name="Gemini 2.5 Flash",
+        provider="openrouter",
+        model_id="google/gemini-2.5-flash",
+        max_new_tokens=1200
+    ), #meh
+
+    "claude_haiku": ModelLoader(
+        name="Claude Haiku 4.5",
+        provider="openrouter",
+        model_id="anthropic/claude-haiku-4.5",
+        max_new_tokens=500
+),
+
+}
+class OpenRouterLLM:
+    def __init__(
+        self,
+        model_name: str,
+        max_new_tokens: int = 1000,
+    ):
+        self.model_id = model_name
+        self.max_new_tokens = max_new_tokens
+
+        self.api_key = os.getenv("OPENROUTER_API_KEY")
+
+        if not self.api_key:
+            raise ValueError(
+                "Δεν βρέθηκε OPENROUTER_API_KEY στο .env"
+            )
+
+    def _create_client(self):
+        """
+        Δημιουργεί νέο OpenRouter client.
+
+        Έτσι, αν ένας προηγούμενος HTTP client έχει κλείσει
+        από το DeepEval, η επόμενη κλήση χρησιμοποιεί νέο client.
+        """
+        return OpenAI(
+            base_url="https://openrouter.ai/api/v1",
+            api_key=self.api_key,
+        )
+
+    def invoke(self, prompt: str):
+        client = self._create_client()
+
+        try:
+            response = client.chat.completions.create(
+                model=self.model_id,
+                messages=[
+                    {
+                        "role": "user",
+                        "content": prompt,
+                    }
+                ],
+                temperature=0,
+                max_tokens=self.max_new_tokens,
+            )
+
+            content = response.choices[0].message.content
+
+            if not content:
+                raise RuntimeError(
+                    f"Το {self.model_name} δεν επέστρεψε απάντηση."
+                )
+
+            return content
+
+        finally:
+            client.close()
+    
+def load_hf_model(config: ModelLoader):
+    
+    tokenizer = AutoTokenizer.from_pretrained(config.model_id)
 
     if tokenizer.pad_token is None:
         tokenizer.pad_token = tokenizer.eos_token
 
     model = AutoModelForCausalLM.from_pretrained(
-        model_id,
-        dtype=torch.float32,
-        low_cpu_mem_usage= False
-        #generation_config=model.generation_config
-    )
-    
-    model.generation_config.temperature = None
-    model.generation_config.top_p = None
-    model.generation_config.top_k = None
-    model.generation_config.do_sample = False
-    model.generation_config.max_length = 2048
-'''
-
-def load_ollama_model(model_name="llama3.2:1b", max_new_tokens=120):
-    print(f"Φόρτωση Ollama μοντέλου: {model_name}")
-
-    return ChatOllama(
-        model=model_name,
-        temperature=0,
-        num_predict=max_new_tokens
+        config.model_id,
+        device_map="auto",
+        trust_remote_code=True
     )
 
     pipe = pipeline(
         "text-generation",
         model=model,
         tokenizer=tokenizer,
-        max_new_tokens=80,
-        #temperature= 0.1 
+        max_new_tokens=config.max_new_tokens,
         do_sample=False,
         return_full_text=False,
         clean_up_tokenization_spaces=False,
@@ -54,5 +160,40 @@ def load_ollama_model(model_name="llama3.2:1b", max_new_tokens=120):
 
     return HuggingFacePipeline(pipeline=pipe)
 
+def load_ollama_model(config: ModelLoader):
+    print(f"Φόρτωση Ollama μοντέλου: {config.name}")
+
+    return ChatOllama(
+        model=config.model_id,
+        temperature=0,
+        num_predict=config.max_new_tokens
+    )
+
+def load_openrouter_model(config: ModelLoader):
+    print(f"Φόρτωση OpenRouter μοντέλου: {config.name}")
+
+    return OpenRouterLLM(
+        model_name=config.model_id,
+        max_new_tokens=config.max_new_tokens
+    )
+
+def load_llm(model_key: str = "llama"):
+    if model_key not in models:
+        raise ValueError(f"Άγνωστο μοντέλο: {model_key}")
+
+    config = models[model_key]
+
+    if config.provider == "huggingface":
+        return load_hf_model(config)
+
+    if config.provider == "ollama":
+        return load_ollama_model(config)
+
+    if config.provider == "openrouter":
+        return load_openrouter_model(config)
+
+    raise ValueError(f"Άγνωστος provider: {config.provider}")
 
 
+def list_available_models():
+    return models

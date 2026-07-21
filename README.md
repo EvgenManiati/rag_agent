@@ -10,19 +10,44 @@ This project implements an Agentic Retrieval-Augmented Generation (RAG) assistan
 
 The system retrieves information from organizational documents (PDFs), gives responses based on retrieved context, and answers employee questions in Greek.
 
-The architecture supports multiple local LLMs, multiple retrievers, and gathers information from a local folder. 
+The architecture supports multiple LLMs, multiple retrievers and evaluation frameworks.
+
+## Features
+
+- Agentic RAG architecture using LangGraph
+- Multiple LLM providers
+  -OpenRouter
+  -HuggingFace (local)
+-Multiple retrieval strategies
+ -MiniLM
+ -BGE-M3
+ -Ensemble Retriever
+-Google Drive document retrieval
+-FAISS vector database
+-Streamlit graphical interface
+-Custom evaluation framework
+-DeepEval evaluation
+
 
 ## Architecture
 
-User Query
+User Question
     ↓
-[Router]
+Google Drive Documents
     ↓
-[Retriever]
+Document Loader
+    ↓
+Chunking
+    ↓
+Embeddings
     ↓
 FAISS Vector Store
     ↓
-[LLM Generator]
+Retriever
+    ↓
+LangGraph Agent
+    ↓
+LLM
     ↓
 Answer
 
@@ -30,30 +55,58 @@ Answer
 
 The system currently supports:
  
--Qwen 2.5 1.5B Instruct
--Llama 3.2 3B (via Ollama)
+- GPT-OSS 20B
+- GPT-OSS 120B
+- Gemini Flash
+- Gemini Flash Lite
+- GPT-4.1 Mini
+- Claude Haiku
 
 Future integration:
 
--Krikri 
+- Krikri 
 
-##Retrieval Models
+##Supported Retrievers
 
-The system supports embedding models:
-
--MiniLM
--BGE-M3
+- MiniLM
+- BGE-M3
+- Ensemble Retriever
 
 ##Sturture
 
--config.py
+- config.py
 - model.py (HuggingFace and OLlama model)
-- retriever (PDF loading, Chunking, MiniLM and BGE-M3 embeddings)
+- retriever.py (PDF loading, Chunking, MiniLM and BGE-M3 embeddings)
 - agent.py (routing, retrieval, generation)
 - main.py (chat interface)
-- evaluation.py (RAGAS Triad evaluation metrics)
+- custom_eval.py (custom evaluation metrics)
 - evaluation_deepeval.py (DeepEval metrics)
+- google_drive_loader.py (Google Drive integration)
+- ui.py (Streamlit interface)
+- requirements.txt
+- README.md
 
+## Installation
+Create a virtual environment
+
+΄΄΄bash
+python -m venv .venv
+΄΄΄
+
+Activate it
+
+΄΄΄bash
+.venv\Scripts\activate
+΄΄΄
+
+Install the required packages
+
+΄΄΄bash
+pip install -r requirements.txt
+΄΄΄
+
+## Configuration
+Create a ΄.env΄ file containing your API keys.
 
 ## Usage 
 
@@ -61,9 +114,31 @@ How to run the agent:
 
 python main.py
 
-Choose a model:
-Type 1 to choose Qwen, 2 to choose Krikri and 3 to choose Llama 3.2 (via OLlama)
+The user must select an LLM and a Retriever and starts asking questions.
+
+## Streamlit Interface
+
+Run:
+
+streamlit run ui.py
 
 ## Evaluation
 
-Future integration of RAGAS or DeepEval
+### DeepEval
+  How to run the evaluation:
+  python evaluation_deepeval.py
+
+### Custom Evaluation
+
+##Technologies 
+
+- Python
+- LangGraph
+- LangChain
+- FAISS
+- Transformers
+- HuggingFace
+- OpenRouter
+- Streamlit
+- Google Drive API
+- DeepEval
