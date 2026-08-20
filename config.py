@@ -1,6 +1,6 @@
 PDF_FOLDER = "C:/Users/user/Desktop/fek"
-CHUNK_SIZE = 600
-CHUNK_OVERLAP = 120
+CHUNK_SIZE = 1000
+CHUNK_OVERLAP = 150
 MINILM_MODEL = "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
 DEFAULT_MODEL = "krikri"
 LLM_MODELS= {"krikri": "ilsp/Llama-Krikri-8B-Instruct", "llama": "meta-llama/Llama-3.2-1B-Instruct"}
@@ -8,11 +8,13 @@ LLM_MODELS= {"krikri": "ilsp/Llama-Krikri-8B-Instruct", "llama": "meta-llama/Lla
 #TOP_K = 2
 RETRIEVER_TOP_K = 2
 BGE_MODEL = "BAAI/bge-m3"
-MINILM_WEIGHT = 0.5
-BGE_WEIGHT = 0.5
+MINILM_WEIGHT = 0.3
+BGE_WEIGHT = 0.7
+SEARCH_K = 5
+ENSEMBLE_K = 5
 
 # Google Drive configuration
-
+'''
 GOOGLE_DRIVE_FOLDER_IDS = [
     "1wsj-Hr8FlVk2CcVqbUS019tiFl9vRJBs",
     "1uj-rTyFzAwAXT737AX2HqaGqlbfprUyu",
@@ -23,6 +25,17 @@ GOOGLE_DRIVE_FOLDER_IDS = [
 GOOGLE_CREDENTIALS_FILE = "credentials.json"
 GOOGLE_TOKEN_FILE = "token.json"
 
+
 # Αν είναι True, διαβάζονται και υποφάκελοι.
 DRIVE_RECURSIVE = True
+'''
 
+from pathlib import Path
+
+DIAVGEIA_DATASET_FILE = Path("data/diavgeia/final_dataset.jsonl")
+
+VECTOR_STORE_DIR = Path("data/vectorstores")
+
+MINILM_INDEX_DIR = VECTOR_STORE_DIR / "minilm_index"
+BGE_INDEX_DIR = VECTOR_STORE_DIR / "bge_index"
+  

@@ -1,0 +1,1 @@
+﻿model,retriever,category,answerable,question,expected_answer,actual_answer,retrieved_context,expected_adas,expected_source_ids,faithfulness,answer_relevancy,contextual_precision,contextual_recall,refusal_accuracy,hallucination_rate

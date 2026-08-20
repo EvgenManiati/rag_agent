@@ -1,0 +1,20 @@
+{
+    "gptoss120b_bge": {
+        "model": "gptoss120b",
+        "retriever": "bge",
+        "answerable_overall": {
+            "faithfulness": null,
+            "answer_relevancy": null,
+            "contextual_precision": null,
+            "contextual_recall": null
+        },
+        "unanswerable_overall": {
+            "faithfulness": null,
+            "answer_relevancy": null,
+            "refusal_accuracy": null,
+            "hallucination_rate": null
+        },
+        "by_category": {},
+        "details": []
+    }
+}

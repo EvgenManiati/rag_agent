@@ -1,13 +1,16 @@
 
 from accelerate import state
 from langgraph.graph import StateGraph, END
-from typing import TypedDict
+from typing import TypedDict, List, Dict, Any
+
+import retriever
 
 class AgentState(TypedDict):
     question: str
     context: str
     answer: str
     iterations: int
+    sources: List[Dict[str, Any]]
 
 hellos = ["γεια", "καλημέρα", "καλησπέρα", "hi", "hello", "θέλω βοήθεια", "sos"]
 byes   = ["ευχαριστώ", "ευχαριστώ πολύ", "thanks", "βοήθησες πολύ, ευχαριστώ"]
@@ -28,97 +31,222 @@ def build_agent(llm, retriever):
         return state
 
     def retrieve(state: AgentState) -> AgentState:
+        """
+        Retrieve relevant Diavgeia documents and construct
+        the context that will be provided to the LLM.
+        """
+
         docs = retriever.invoke(state["question"])
-        state["context"] = "\n\n".join([
-            f"[Πηγή: {doc.metadata.get('source')}]\n{doc.page_content}"
-            for doc in docs
-        ])
-        state["iterations"] = state.get("iterations", 0) + 1
+
+        context_parts = []
+
+        for doc in docs:
+            metadata = doc.metadata
+
+            ada = metadata.get(
+                "ada",
+                "Άγνωστος ΑΔΑ",
+            )
+
+            subject = metadata.get(
+                "subject",
+                "Χωρίς θέμα",
+            )
+
+            issue_date = metadata.get(
+                "issue_date",
+                "Άγνωστη ημερομηνία",
+            )
+
+            document_url = metadata.get(
+                "document_url",
+                "",
+            )
+
+            context_part = (
+                f"Θέμα: {subject}\n"
+                f"ΑΔΑ: {ada}\n"
+                f"Ημερομηνία: {issue_date}\n"
+                f"URL: {document_url}\n\n"
+                f"{doc.page_content}"
+            )
+
+            context_parts.append(
+                context_part
+            )
+
+        state["context"] = (
+            "\n\n"
+        ).join(
+            context_parts
+        )
+
+        state["iterations"] = (
+            state.get(
+                "iterations",
+                0,
+            )
+            + 1
+        )
+
+        state["sources"] = [
+        {
+            "ada": doc.metadata.get("ada", ""),
+            "subject": doc.metadata.get("subject", ""),
+            "issue_date": doc.metadata.get("issue_date", ""),
+            "document_url": doc.metadata.get("document_url", ""),
+            "chunk_id": doc.metadata.get("chunk_id", ""),
+        }
+        for doc in docs
+        ]
+        
         return state
 
     def generate(state: AgentState) -> AgentState:
-        question_lower = state["question"].lower().strip()
+            """
+            Generate the final answer using only the retrieved
+            Diavgeia context.
+            """
 
-        if any(h in question_lower for h in hellos):
-            state["answer"] = "Γεια σου συνάδελφε! Πώς μπορώ να σε βοηθήσω;"
+            question_lower = state["question"].lower().strip()
+
+            if any(h in question_lower for h in hellos):
+                state["answer"] = (
+                    "Γεια σου συνάδελφε! Πώς μπορώ να σε βοηθήσω;"
+                )
+                return state
+
+            if any(b in question_lower for b in byes):
+                state["answer"] = (
+                    "Η ευχαρίστηση είναι όλη δική μου!"
+                )
+                return state
+
+            prompt = f"""
+    Είσαι βοηθός οργανισμού που απαντά σε ερωτήσεις
+    με βάση αποφάσεις και έγγραφα της Διαύγειας.
+
+    Απάντησε ΜΟΝΟ με βάση το Context που σου δίνεται.
+
+    Κανόνες:
+    - Μην χρησιμοποιείς εξωτερικές γνώσεις.
+    - Μην επινοείς πληροφορίες.
+    - Αν δεν υπάρχει αρκετή πληροφορία στο Context, απάντησε:
+    "Δεν βρέθηκε σαφής απάντηση στις διαθέσιμες πληροφορίες."
+    - Απάντησε σύντομα, καθαρά και στα ελληνικά.
+    - Αν η απάντηση προκύπτει από συγκεκριμένη απόφαση,
+    μπορείς να αναφέρεις τον ΑΔΑ της.
+    - Μην επινοείς ΑΔΑ, ημερομηνίες, ποσά, ονόματα ή αριθμούς.
+    - Χρησιμοποίησε μόνο αριθμούς και πληροφορίες που
+    εμφανίζονται στο Context.
+    - Μην κάνεις υπολογισμούς ή μετατροπές μονάδων.
+    - Αν υπάρχουν πολλές σχετικές περιπτώσεις στο Context,
+    ανέφερε όλες τις σχετικές περιπτώσεις.
+    - Μην επιλέγεις αυθαίρετα μόνο μία περίπτωση.
+    - Αν η πληροφορία υπάρχει αλλά είναι ελλιπής,
+    δώσε μόνο ό,τι τεκμηριώνεται από το Context.
+    - Μην δημιουργείς νέες ερωτήσεις.
+    - Μην προσθέτεις σχόλια μετά την απάντηση.
+    - Δώσε μόνο την τελική απάντηση.
+
+    Context:
+    {state["context"]}
+
+    Ερώτηση:
+    {state["question"]}
+
+    Απάντηση:
+    """
+
+            print("\nΑνακτημένο context:")
+            print(state["context"])
+            print("\nΤέλος context\n")
+
+            raw = llm.invoke(prompt)
+
+            if hasattr(raw, "content"):
+                raw = raw.content
+
+            raw = str(raw)
+
+            if "Απάντηση:" in raw:
+                raw = raw.split(
+                    "Απάντηση:",
+                    1,
+                )[1]
+
+            stop_tokens = [
+                "Πόσοι",
+                "Πόσες",
+                "Ερώτηση:",
+                "Χρήστης:",
+                "Question:",
+                "User:",
+                "Context:",
+                "Απάντηση:",
+            ]
+
+            for stop in stop_tokens:
+                if stop in raw:
+                    raw = raw.split(
+                        stop,
+                        1,
+                    )[0]
+
+            lines = raw.strip().splitlines()
+            clean_lines = []
+
+            for line in lines:
+                line = line.strip()
+
+                if line and line not in clean_lines:
+                    clean_lines.append(line)
+
+            state["answer"] = "\n".join(clean_lines)
+
             return state
 
-        if any(b in question_lower for b in byes):
-            state["answer"] = "Η ευχαρίστηση είναι όλη δική μου!"
-            return state
 
-        prompt = f"""Είσαι βοηθός οργανισμού.
-        Απάντησε ΜΟΝΟ με βάση το context.
-        Απάντησε σύντομα και καθαρά. 
+    # ── graph ──────────────────────────────────────────────
 
-        Αν δεν μπορείς να εντοπίσεις την απάντηση στο context, πες: 
-        "Δεν βρέθηκε σαφής απάντηση στις διαθέσιμες πληροφορίες."
-
-        Απάντησε χρησιμοποιώντας μόνο αριθμούς και πληροφορίες που εμφανίζονται αυτούσιες στο context.
-        Μην κάνεις υπολογισμούς.
-        Αν το context περιέχει πολλές διαφορετικές περιπτώσεις, ανέφερε όλες τις περιπτώσεις με τη συνθήκη τους.
-        Μην επιλέγεις μόνο μία τιμή.
-        Μην δημιουργείς επιπλέον ερωτήσεις ή πληροφορίες. 
-        Μην προσθέτεις τίποτα που δεν υπάρχει στο context.
-        Μην συνεχίζεις μετά την απάντηση.
-        Δώσε ΜΟΝΟ μία απάντηση.
-        Αν στο Context υπάρχει αριθμός μέσα σε παρένθεση, π.χ. (14), χρησιμοποίησε αυτόν τον αριθμό.
-        Μην αλλάζεις τον αριθμό.
-        Αν η απάντηση αναφέρεται καθαρά στο context, δώσε την ακριβώς με τη μονάδα μέτρησης που εμφανίζεται στο context.
-        Αν η ερώτηση ζητά διαφορετική μονάδα μέτρησης από αυτήν του context, μην κάνεις μετατροπή. Δώσε την πληροφορία όπως εμφανίζεται στο context.
-        Μην γράφεις άλλη ερώτηση μετά την απάντηση.
-        Αν βρεις την απάντηση στο context, μετάφερε την απάντηση ακόμα κι αν δεν είναι πλήρης ή δεν απαντάει πλήρως στην ερώτηση.
-
-Context:
-{state['context']}
-
-Ερώτηση: 
-{state['question']}
-
-Απάντηση:"""
-
-        print("\n Ανακτημένο context:")
-        print(state["context"])
-        print("\n Τέλος context\n")
-
-        raw = llm.invoke(prompt)
-        if hasattr(raw, "content"):
-          raw = raw.content
-
-        raw = str(raw)
-
-        if 'Απάντηση:' in raw:
-            raw = raw.split('Απάντηση:')[1]
-
-        for stop in ["Πόσοι", "Πόσες", "Ερώτηση:", "Χρήστης:", "Question:", "User:", "Context:","Απάντηση:"]:
-            
-            if stop in raw:
-                raw = raw.split(stop)[0]
-        
-        lines = raw.strip().splitlines()
-        clean_lines= []
-
-        for line in lines:
-            line = line.strip()
-            if line and line not in clean_lines:
-                clean_lines.append(line)
-        
-        state["answer"] = "\n".join(clean_lines)
-        return state
-
-    # ── graph ──────────────────────────────────────────────────────────────────────
     graph = StateGraph(AgentState)
-    graph.add_node("router",   router)
-    graph.add_node("retrieve", retrieve)
-    graph.add_node("generate", generate)
 
-    graph.set_entry_point("router")
+    graph.add_node(
+        "router",
+        router,
+    )
+
+    graph.add_node(
+        "retrieve",
+        retrieve,
+    )
+
+    graph.add_node(
+        "generate",
+        generate,
+    )
+
+    graph.set_entry_point(
+        "router"
+    )
+
     graph.add_conditional_edges(
         "router",
         should_retrieve,
-        {"retrieve": "retrieve", "generate": "generate"}
+        {
+            "retrieve": "retrieve",
+            "generate": "generate",
+        },
     )
-    graph.add_edge("retrieve", "generate")
-    graph.add_edge("generate", END)
+
+    graph.add_edge(
+        "retrieve",
+        "generate",
+    )
+
+    graph.add_edge(
+        "generate",
+        END,
+    )
 
     return graph.compile()

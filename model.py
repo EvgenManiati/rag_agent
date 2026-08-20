@@ -34,27 +34,12 @@ models = {
         model_id = "llama3.2:3b",
         max_new_tokens = 300
     ),
-     
-     "gptoss20b": ModelLoader(
-         name = "gptoss20b",
-         provider = "openrouter",
-         model_id = "openai/gpt-oss-20b:free",
-         max_new_tokens = 2000
-     ), 
 
-     "gptoss120b": ModelLoader(
-         name = "gptoss120b",
-         provider  = "openrouter",
-         model_id = "openai/gpt-oss-120b:free",
-         max_new_tokens = 2000
-     ),
-
-     "gemini_flash_lite": ModelLoader(
-        name="Gemini 2.5 Flash Lite",
+   "qwen": ModelLoader(
+        name="Qwen3 14B",
         provider="openrouter",
-        model_id="google/gemini-2.5-flash-lite",
-        max_new_tokens=1200
-        #meh NA FYGEI
+        model_id="qwen/qwen3-14b",
+        max_new_tokens=500,
     ),
 
     "gpt41_mini": ModelLoader(
@@ -127,7 +112,7 @@ class OpenRouterLLM:
 
             if not content:
                 raise RuntimeError(
-                    f"Το {self.model_name} δεν επέστρεψε απάντηση."
+                    f"Το {self.model_id} δεν επέστρεψε απάντηση."
                 )
 
             return content

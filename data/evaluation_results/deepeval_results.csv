@@ -1,0 +1,2 @@
+﻿model,retriever,category,faithfulness,answer_relevancy,contextual_precision,contextual_recall,refusal_accuracy,hallucination_rate
+gptoss120b,bge,answerable_overall,,,,,,

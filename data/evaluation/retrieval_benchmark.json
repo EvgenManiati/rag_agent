@@ -1,0 +1,4037 @@
+{
+    "minilm": {
+        "retriever": "minilm",
+        "hit@1": 0.2,
+        "hit@3": 0.32,
+        "hit@5": 0.36,
+        "mrr": 0.2633333333333333,
+        "queries": [
+            {
+                "query": "Ποια απόφαση δημοσίευσε πρόσκληση για συνεργάτη στο Οριζόντιο ΙΠΣΥ;",
+                "expected_adas": [
+                    "ΨΨ7Α469ΗΞΩ-Ι9Ο"
+                ],
+                "expected_source_ids": [],
+                "ranking": [
+                    {
+                        "document_id": "ΡΗΝΓ469ΗΞΩ-ΝΡΑ",
+                        "ada": "ΡΗΝΓ469ΗΞΩ-ΝΡΑ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Αποτελέσματα πρόσκλησης εκδήλωσης ενδιαφέροντος για συνεργάτη με κωδικό HBP_112022",
+                        "issue_date": "2023-01-26",
+                        "chunk_id": 158
+                    },
+                    {
+                        "document_id": "9Ζ87469ΗΞΩ-ΕΩΟ",
+                        "ada": "9Ζ87469ΗΞΩ-ΕΩΟ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Πρόσκληση Εκδήλωσης Ενδιαφέροντος με κωδικό ILSP.293.ARIA-0421",
+                        "issue_date": "2021-04-22",
+                        "chunk_id": 2427
+                    },
+                    {
+                        "document_id": "9ΖΝ0469ΗΞΩ-Ο7Μ",
+                        "ada": "9ΖΝ0469ΗΞΩ-Ο7Μ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Αποτελέσματα πρόσκλησης εκδήλωσης ενδιαφέροντος με κωδικό AutoFAIR_122022",
+                        "issue_date": "2023-01-26",
+                        "chunk_id": 326
+                    },
+                    {
+                        "document_id": "ΡΟΒ7469ΗΞΩ-Δ2Χ",
+                        "ada": "ΡΟΒ7469ΗΞΩ-Δ2Χ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Αποτελέσματα της πρόσκλησης εκδήλωσης ενδιαφέροντος με κωδικό GraspOS_December_2022",
+                        "issue_date": "2023-01-26",
+                        "chunk_id": 339
+                    },
+                    {
+                        "document_id": "6ΩΠΟ469ΗΞΩ-ΜΕΕ",
+                        "ada": "6ΩΠΟ469ΗΞΩ-ΜΕΕ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Αποτελέσματα πρόσκλησης εκδήλωσης ενδιαφέροντος με κωδικό RAISE_122022",
+                        "issue_date": "2023-01-26",
+                        "chunk_id": 313
+                    }
+                ],
+                "metrics": {
+                    "rank": null,
+                    "hit@1": 0,
+                    "hit@3": 0,
+                    "hit@5": 0,
+                    "rr": 0.0
+                }
+            },
+            {
+                "query": "Βρες μου την πρόσκληση για νέο συνεργάτη στο Οριζόντιο έργο ΙΠΣΥ.",
+                "expected_adas": [
+                    "ΨΨ7Α469ΗΞΩ-Ι9Ο"
+                ],
+                "expected_source_ids": [],
+                "ranking": [
+                    {
+                        "document_id": "6ΠΙΟ469ΗΞΩ-1ΦΛ",
+                        "ada": "6ΠΙΟ469ΗΞΩ-1ΦΛ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Δημοσίευση πρόσκλησης εκδήλωσης ενδιαφέροντος στο πλαίσιο του έργου ΑΡΧΙΜΗΔΗΣ",
+                        "issue_date": "2023-06-26",
+                        "chunk_id": 1989
+                    },
+                    {
+                        "document_id": "6Β3Λ469ΗΞΩ-Ξ1Ε",
+                        "ada": "6Β3Λ469ΗΞΩ-Ξ1Ε",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Πρόσκληση CEI BOOST 002.2023 (ΔΣ 364)",
+                        "issue_date": "2023-06-29",
+                        "chunk_id": 1778
+                    },
+                    {
+                        "document_id": "ΨΨ7Α469ΗΞΩ-Ι9Ο",
+                        "ada": "ΨΨ7Α469ΗΞΩ-Ι9Ο",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Πρόσκληση εκδήλωσης ενδιαφέροντος για συνεργάτη στο πλαίσιο υλοποίησης του έργου \"Οριζόντιο ΙΠΣΥ\"",
+                        "issue_date": "2023-06-29",
+                        "chunk_id": 1164
+                    },
+                    {
+                        "document_id": "6ΙΧΒ469ΗΞΩ-ΕΤΦ",
+                        "ada": "6ΙΧΒ469ΗΞΩ-ΕΤΦ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Πρόσκληση ENVISION II 001.2023 (ΔΣ 364)",
+                        "issue_date": "2023-06-29",
+                        "chunk_id": 1509
+                    },
+                    {
+                        "document_id": "9Ζ87469ΗΞΩ-ΕΩΟ",
+                        "ada": "9Ζ87469ΗΞΩ-ΕΩΟ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Πρόσκληση Εκδήλωσης Ενδιαφέροντος με κωδικό ILSP.293.ARIA-0421",
+                        "issue_date": "2021-04-22",
+                        "chunk_id": 2427
+                    }
+                ],
+                "metrics": {
+                    "rank": 3,
+                    "hit@1": 0,
+                    "hit@3": 1,
+                    "hit@5": 1,
+                    "rr": 0.3333333333333333
+                }
+            },
+            {
+                "query": "Ποια απόφαση αφορά τα αποτελέσματα της πρόσκλησης του έργου ΠΕΡΙΠΛΟΥΣ;",
+                "expected_adas": [
+                    "ΡΕΒΜ469ΗΞΩ-7Φ1"
+                ],
+                "expected_source_ids": [],
+                "ranking": [
+                    {
+                        "document_id": "Ω8ΙΚ469ΗΞΩ-ΡΓ2",
+                        "ada": "Ω8ΙΚ469ΗΞΩ-ΡΓ2",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Ανάρτηση αποτελεσμάτων της πρόσκλησης εκδήλωσης ενδιαφέροντος με κωδικό ILSP.356.PER-08.ΧΑΝ.0423 στο πλαίσιο του έργου ΠΕΡΙΠΛΟΥΣ",
+                        "issue_date": "2023-06-29",
+                        "chunk_id": 1617
+                    },
+                    {
+                        "document_id": "ΨΒ2Μ469ΗΞΩ-6Δ1",
+                        "ada": "ΨΒ2Μ469ΗΞΩ-6Δ1",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Έγκριση δαπάνης μετακίνησης με ID-6700 και σκοπό τη συμμετοχή στη συνάντηση του συνασπισμού εθνικών χορηγών έρευνας σε ΤΠΕ \"CHIST-ERA\" στο πλαίσιο του έργου OpenAire NEXUS",
+                        "issue_date": "2023-03-30",
+                        "chunk_id": 1019
+                    },
+                    {
+                        "document_id": "68ΚΑ469ΗΞΩ-Θ7Ι",
+                        "ada": "68ΚΑ469ΗΞΩ-Θ7Ι",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Σύναψη συμβάσεων εργασίας ορισμένου χρόνου στο πλαίσιο υλοποίησης των ερευνητικών έργων του ΙΠΣΥ",
+                        "issue_date": "2023-04-19",
+                        "chunk_id": 792
+                    },
+                    {
+                        "document_id": "6ΔΡΛ469ΗΞΩ-ΞΟΕ",
+                        "ada": "6ΔΡΛ469ΗΞΩ-ΞΟΕ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Προγραμματική Σύμβαση μεταξύ Ε.Κ. Αθηνά - ΜΟΔ ΑΕ για την Αναβάθμιση και αναδιαμόρφωση του ιδιόκτητου κτηρίου του Ερευνητικού Κέντρου Αθηνά στην Αθήνα (Μαρούσι)",
+                        "issue_date": "2023-01-30",
+                        "chunk_id": 706
+                    },
+                    {
+                        "document_id": "923Β469ΗΞΩ-4ΘΨ",
+                        "ada": "923Β469ΗΞΩ-4ΘΨ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Έγκριση δαπάνης μετακίνησης με ID-6602 και σκοπό τη συμμετοχή στη 2η συνάντηση των εταίρων του έργου STELAR",
+                        "issue_date": "2023-05-10",
+                        "chunk_id": 589
+                    }
+                ],
+                "metrics": {
+                    "rank": null,
+                    "hit@1": 0,
+                    "hit@3": 0,
+                    "hit@5": 0,
+                    "rr": 0.0
+                }
+            },
+            {
+                "query": "Βρες μου τα αποτελέσματα της πρόσκλησης ILSP.356.PER-07.ΧΑΝ.0423.",
+                "expected_adas": [
+                    "ΡΕΒΜ469ΗΞΩ-7Φ1"
+                ],
+                "expected_source_ids": [],
+                "ranking": [
+                    {
+                        "document_id": "ΡΕΒΜ469ΗΞΩ-7Φ1",
+                        "ada": "ΡΕΒΜ469ΗΞΩ-7Φ1",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Ανάρτηση αποτελεσμάτων της πρόσκλησης εκδήλωσης ενδιαφέροντος με κωδικό ILSP.356.PER-07.ΧΑΝ.0423 στο πλαίσιο του έργου ΠΕΡΙΠΛΟΥΣ",
+                        "issue_date": "2023-06-29",
+                        "chunk_id": 1649
+                    },
+                    {
+                        "document_id": "9Ζ87469ΗΞΩ-ΕΩΟ",
+                        "ada": "9Ζ87469ΗΞΩ-ΕΩΟ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Πρόσκληση Εκδήλωσης Ενδιαφέροντος με κωδικό ILSP.293.ARIA-0421",
+                        "issue_date": "2021-04-22",
+                        "chunk_id": 2417
+                    },
+                    {
+                        "document_id": "6ΒΥ8469ΗΞΩ-Κ0Τ",
+                        "ada": "6ΒΥ8469ΗΞΩ-Κ0Τ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Σύναψη ιδιωτικού συμφωνητικού χορήγησης υποτροφίας στο πλαίσιο υλοποίησης του έργου AutoFair",
+                        "issue_date": "2023-03-23",
+                        "chunk_id": 126
+                    },
+                    {
+                        "document_id": "6ΦΚΡ469ΗΞΩ-Ι7Ζ",
+                        "ada": "6ΦΚΡ469ΗΞΩ-Ι7Ζ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Αποτελέσματα πρόσκλησης με κωδ. GD.353.ARCHI_Α-0323",
+                        "issue_date": "2023-06-02",
+                        "chunk_id": 994
+                    },
+                    {
+                        "document_id": "653Δ469ΗΞΩ-ΝΙΘ",
+                        "ada": "653Δ469ΗΞΩ-ΝΙΘ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Αποτελέσματα πρόσκλησης με κωδ. GD.353.ARCHI_Β-0323",
+                        "issue_date": "2023-06-27",
+                        "chunk_id": 1894
+                    }
+                ],
+                "metrics": {
+                    "rank": 1,
+                    "hit@1": 1,
+                    "hit@3": 1,
+                    "hit@5": 1,
+                    "rr": 1.0
+                }
+            },
+            {
+                "query": "Ποια απόφαση αφορά την πρόσκληση CEI BOOST 002.2023;",
+                "expected_adas": [
+                    "6Β3Λ469ΗΞΩ-Ξ1Ε"
+                ],
+                "expected_source_ids": [],
+                "ranking": [
+                    {
+                        "document_id": "6Β3Λ469ΗΞΩ-Ξ1Ε",
+                        "ada": "6Β3Λ469ΗΞΩ-Ξ1Ε",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Πρόσκληση CEI BOOST 002.2023 (ΔΣ 364)",
+                        "issue_date": "2023-06-29",
+                        "chunk_id": 1752
+                    },
+                    {
+                        "document_id": "ΡΚΚ9469ΗΞΩ-ΠΟ0",
+                        "ada": "ΡΚΚ9469ΗΞΩ-ΠΟ0",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Έγκριση δαπάνης μετακίνησης ID- 6458 στο πλαίσιο του έργου ERA4TB",
+                        "issue_date": "2023-03-27",
+                        "chunk_id": 912
+                    },
+                    {
+                        "document_id": "6ΤΨ3469ΗΞΩ-ΔΙΟ",
+                        "ada": "6ΤΨ3469ΗΞΩ-ΔΙΟ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "ΑΠΟΦΑΣΗ ΕΓΚΡΙΣΗΣ ΔΑΠΑΝΗΣ ΜΕΤΑΚΙΝΗΣΗΣ",
+                        "issue_date": "2023-03-10",
+                        "chunk_id": 1553
+                    },
+                    {
+                        "document_id": "6ΙΧΒ469ΗΞΩ-ΕΤΦ",
+                        "ada": "6ΙΧΒ469ΗΞΩ-ΕΤΦ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Πρόσκληση ENVISION II 001.2023 (ΔΣ 364)",
+                        "issue_date": "2023-06-29",
+                        "chunk_id": 1509
+                    },
+                    {
+                        "document_id": "6ΠΙΟ469ΗΞΩ-1ΦΛ",
+                        "ada": "6ΠΙΟ469ΗΞΩ-1ΦΛ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Δημοσίευση πρόσκλησης εκδήλωσης ενδιαφέροντος στο πλαίσιο του έργου ΑΡΧΙΜΗΔΗΣ",
+                        "issue_date": "2023-06-26",
+                        "chunk_id": 1998
+                    }
+                ],
+                "metrics": {
+                    "rank": 1,
+                    "hit@1": 1,
+                    "hit@3": 1,
+                    "hit@5": 1,
+                    "rr": 1.0
+                }
+            },
+            {
+                "query": "Βρες μου τη δημοσιευμένη πρόσκληση για το CEI BOOST.",
+                "expected_adas": [
+                    "6Β3Λ469ΗΞΩ-Ξ1Ε"
+                ],
+                "expected_source_ids": [],
+                "ranking": [
+                    {
+                        "document_id": "6Β3Λ469ΗΞΩ-Ξ1Ε",
+                        "ada": "6Β3Λ469ΗΞΩ-Ξ1Ε",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Πρόσκληση CEI BOOST 002.2023 (ΔΣ 364)",
+                        "issue_date": "2023-06-29",
+                        "chunk_id": 1752
+                    },
+                    {
+                        "document_id": "ΨΨ7Α469ΗΞΩ-Ι9Ο",
+                        "ada": "ΨΨ7Α469ΗΞΩ-Ι9Ο",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Πρόσκληση εκδήλωσης ενδιαφέροντος για συνεργάτη στο πλαίσιο υλοποίησης του έργου \"Οριζόντιο ΙΠΣΥ\"",
+                        "issue_date": "2023-06-29",
+                        "chunk_id": 1164
+                    },
+                    {
+                        "document_id": "6ΙΧΒ469ΗΞΩ-ΕΤΦ",
+                        "ada": "6ΙΧΒ469ΗΞΩ-ΕΤΦ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Πρόσκληση ENVISION II 001.2023 (ΔΣ 364)",
+                        "issue_date": "2023-06-29",
+                        "chunk_id": 1509
+                    },
+                    {
+                        "document_id": "9Ζ87469ΗΞΩ-ΕΩΟ",
+                        "ada": "9Ζ87469ΗΞΩ-ΕΩΟ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Πρόσκληση Εκδήλωσης Ενδιαφέροντος με κωδικό ILSP.293.ARIA-0421",
+                        "issue_date": "2021-04-22",
+                        "chunk_id": 2417
+                    }
+                ],
+                "metrics": {
+                    "rank": 1,
+                    "hit@1": 1,
+                    "hit@3": 1,
+                    "hit@5": 1,
+                    "rr": 1.0
+                }
+            },
+            {
+                "query": "Ποια απόφαση αφορά σύναψη συμφωνητικού χορήγησης υποτροφίας στο AutoFAIR;",
+                "expected_adas": [
+                    "6ΒΥ8469ΗΞΩ-Κ0Τ"
+                ],
+                "expected_source_ids": [],
+                "ranking": [
+                    {
+                        "document_id": "6ΒΥ8469ΗΞΩ-Κ0Τ",
+                        "ada": "6ΒΥ8469ΗΞΩ-Κ0Τ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Σύναψη ιδιωτικού συμφωνητικού χορήγησης υποτροφίας στο πλαίσιο υλοποίησης του έργου AutoFair",
+                        "issue_date": "2023-03-23",
+                        "chunk_id": 126
+                    },
+                    {
+                        "document_id": "9ΑΨΦ469ΗΞΩ-Κ75",
+                        "ada": "9ΑΨΦ469ΗΞΩ-Κ75",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Απόφαση τροποποίησης  ιδιωτικού συμφωνητικού συνεργασίας  στο πλαίσιο του έργου TAILTEST",
+                        "issue_date": "2023-04-06",
+                        "chunk_id": 2374
+                    },
+                    {
+                        "document_id": "6ΔΡΛ469ΗΞΩ-ΞΟΕ",
+                        "ada": "6ΔΡΛ469ΗΞΩ-ΞΟΕ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Προγραμματική Σύμβαση μεταξύ Ε.Κ. Αθηνά - ΜΟΔ ΑΕ για την Αναβάθμιση και αναδιαμόρφωση του ιδιόκτητου κτηρίου του Ερευνητικού Κέντρου Αθηνά στην Αθήνα (Μαρούσι)",
+                        "issue_date": "2023-01-30",
+                        "chunk_id": 683
+                    },
+                    {
+                        "document_id": "91ΞΚ469ΗΞΩ-Ι2Μ",
+                        "ada": "91ΞΚ469ΗΞΩ-Ι2Μ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Σύναψη συμφωνητικού χορήγησης υποτροφίας στο πλαίσιο υλοποίησης του έργου AutoFair",
+                        "issue_date": "2023-04-19",
+                        "chunk_id": 476
+                    },
+                    {
+                        "document_id": "6ΟΑΔ469ΗΞΩ-4Λ2",
+                        "ada": "6ΟΑΔ469ΗΞΩ-4Λ2",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Σύναψη σύμβασης έργου στο πλαίσιο υλοποίησης του έργου AutoFair",
+                        "issue_date": "2023-03-23",
+                        "chunk_id": 66
+                    }
+                ],
+                "metrics": {
+                    "rank": 1,
+                    "hit@1": 1,
+                    "hit@3": 1,
+                    "hit@5": 1,
+                    "rr": 1.0
+                }
+            },
+            {
+                "query": "Βρες μου τη σύμβαση υποτροφίας που υπογράφηκε στο πλαίσιο του AutoFAIR.",
+                "expected_adas": [
+                    "6ΒΥ8469ΗΞΩ-Κ0Τ"
+                ],
+                "expected_source_ids": [],
+                "ranking": [
+                    {
+                        "document_id": "6ΒΥ8469ΗΞΩ-Κ0Τ",
+                        "ada": "6ΒΥ8469ΗΞΩ-Κ0Τ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Σύναψη ιδιωτικού συμφωνητικού χορήγησης υποτροφίας στο πλαίσιο υλοποίησης του έργου AutoFair",
+                        "issue_date": "2023-03-23",
+                        "chunk_id": 126
+                    },
+                    {
+                        "document_id": "ΡΖΑΟ469ΗΞΩ-ΒΤΑ",
+                        "ada": "ΡΖΑΟ469ΗΞΩ-ΒΤΑ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Αποτελέσματα πρόσκλησης εκδήλωσης ενδιαφέροντος με κωδικό AutoFAIR_upotr_022023",
+                        "issue_date": "2023-03-23",
+                        "chunk_id": 133
+                    },
+                    {
+                        "document_id": "67ΖΙ469ΗΞΩ-1ΧΧ",
+                        "ada": "67ΖΙ469ΗΞΩ-1ΧΧ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Aπόφαση τροποποίησης σύμβασης μίσθωσης έργου στο πλαίσιο του έργου ΤRUSTEE",
+                        "issue_date": "2023-06-29",
+                        "chunk_id": 1351
+                    },
+                    {
+                        "document_id": "6ΔΡΛ469ΗΞΩ-ΞΟΕ",
+                        "ada": "6ΔΡΛ469ΗΞΩ-ΞΟΕ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Προγραμματική Σύμβαση μεταξύ Ε.Κ. Αθηνά - ΜΟΔ ΑΕ για την Αναβάθμιση και αναδιαμόρφωση του ιδιόκτητου κτηρίου του Ερευνητικού Κέντρου Αθηνά στην Αθήνα (Μαρούσι)",
+                        "issue_date": "2023-01-30",
+                        "chunk_id": 683
+                    }
+                ],
+                "metrics": {
+                    "rank": 1,
+                    "hit@1": 1,
+                    "hit@3": 1,
+                    "hit@5": 1,
+                    "rr": 1.0
+                }
+            },
+            {
+                "query": "Ποια απόφαση περιέχει τα αποτελέσματα της πρόσκλησης AutoFAIR_122022;",
+                "expected_adas": [
+                    "9ΖΝ0469ΗΞΩ-Ο7Μ"
+                ],
+                "expected_source_ids": [],
+                "ranking": [
+                    {
+                        "document_id": "6ΒΥ8469ΗΞΩ-Κ0Τ",
+                        "ada": "6ΒΥ8469ΗΞΩ-Κ0Τ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Σύναψη ιδιωτικού συμφωνητικού χορήγησης υποτροφίας στο πλαίσιο υλοποίησης του έργου AutoFair",
+                        "issue_date": "2023-03-23",
+                        "chunk_id": 126
+                    },
+                    {
+                        "document_id": "ΡΖΑΟ469ΗΞΩ-ΒΤΑ",
+                        "ada": "ΡΖΑΟ469ΗΞΩ-ΒΤΑ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Αποτελέσματα πρόσκλησης εκδήλωσης ενδιαφέροντος με κωδικό AutoFAIR_upotr_022023",
+                        "issue_date": "2023-03-23",
+                        "chunk_id": 133
+                    },
+                    {
+                        "document_id": "6ΘΗ3469ΗΞΩ-Α98",
+                        "ada": "6ΘΗ3469ΗΞΩ-Α98",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Αποτελέσματα πρόσκλησης εκδήλωσης ενδιαφέροντος για συνεργάτη με κωδικό AutoFAIR_November_2022",
+                        "issue_date": "2023-01-12",
+                        "chunk_id": 171
+                    },
+                    {
+                        "document_id": "9ΖΝ0469ΗΞΩ-Ο7Μ",
+                        "ada": "9ΖΝ0469ΗΞΩ-Ο7Μ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Αποτελέσματα πρόσκλησης εκδήλωσης ενδιαφέροντος με κωδικό AutoFAIR_122022",
+                        "issue_date": "2023-01-26",
+                        "chunk_id": 326
+                    }
+                ],
+                "metrics": {
+                    "rank": 4,
+                    "hit@1": 0,
+                    "hit@3": 0,
+                    "hit@5": 1,
+                    "rr": 0.25
+                }
+            },
+            {
+                "query": "Βρες μου ποια απόφαση δημοσίευσε τα αποτελέσματα του AutoFAIR τον Δεκέμβριο.",
+                "expected_adas": [
+                    "9ΖΝ0469ΗΞΩ-Ο7Μ"
+                ],
+                "expected_source_ids": [],
+                "ranking": [
+                    {
+                        "document_id": "ΡΖΑΟ469ΗΞΩ-ΒΤΑ",
+                        "ada": "ΡΖΑΟ469ΗΞΩ-ΒΤΑ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Αποτελέσματα πρόσκλησης εκδήλωσης ενδιαφέροντος με κωδικό AutoFAIR_upotr_022023",
+                        "issue_date": "2023-03-23",
+                        "chunk_id": 133
+                    },
+                    {
+                        "document_id": "6ΘΗ3469ΗΞΩ-Α98",
+                        "ada": "6ΘΗ3469ΗΞΩ-Α98",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Αποτελέσματα πρόσκλησης εκδήλωσης ενδιαφέροντος για συνεργάτη με κωδικό AutoFAIR_November_2022",
+                        "issue_date": "2023-01-12",
+                        "chunk_id": 171
+                    },
+                    {
+                        "document_id": "6ΒΥ8469ΗΞΩ-Κ0Τ",
+                        "ada": "6ΒΥ8469ΗΞΩ-Κ0Τ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Σύναψη ιδιωτικού συμφωνητικού χορήγησης υποτροφίας στο πλαίσιο υλοποίησης του έργου AutoFair",
+                        "issue_date": "2023-03-23",
+                        "chunk_id": 126
+                    },
+                    {
+                        "document_id": "6ΒΨΔ469ΗΞΩ-ΖΚΓ",
+                        "ada": "6ΒΨΔ469ΗΞΩ-ΖΚΓ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Αποτελέσματα πρόσκλησης με κωδ. ILSP.281.Transition_8-1220",
+                        "issue_date": "2021-01-28",
+                        "chunk_id": 2540
+                    }
+                ],
+                "metrics": {
+                    "rank": null,
+                    "hit@1": 0,
+                    "hit@3": 0,
+                    "hit@5": 0,
+                    "rr": 0.0
+                }
+            },
+            {
+                "query": "Ποια απόφαση αφορά σύμβαση εργασίας ορισμένου χρόνου για τα έργα Βοΐσκα, ΑΠΤΟΣ και ΑΠΟΗΧΟΙ;",
+                "expected_adas": [
+                    "ΨΕΤ0469ΗΞΩ-ΤΒΑ"
+                ],
+                "expected_source_ids": [],
+                "ranking": [
+                    {
+                        "document_id": "Ψ3Ζ1469ΗΞΩ-ΚΦΡ",
+                        "ada": "Ψ3Ζ1469ΗΞΩ-ΚΦΡ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "ΑΠΟΦΑΣΗ ΣΥΝΑΨΗ ΣΥΜΒΑΣΗΣ",
+                        "issue_date": "2023-06-29",
+                        "chunk_id": 1714
+                    },
+                    {
+                        "document_id": "ΩΖ8Π469ΗΞΩ-4ΔΚ",
+                        "ada": "ΩΖ8Π469ΗΞΩ-4ΔΚ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Σύναψη σύμβασης μίσθωσης έργου στο πλαίσιο υλοποίησης του έργου EXCEED",
+                        "issue_date": "2023-06-29",
+                        "chunk_id": 1589
+                    },
+                    {
+                        "document_id": "ΨΨ7Α469ΗΞΩ-Ι9Ο",
+                        "ada": "ΨΨ7Α469ΗΞΩ-Ι9Ο",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Πρόσκληση εκδήλωσης ενδιαφέροντος για συνεργάτη στο πλαίσιο υλοποίησης του έργου \"Οριζόντιο ΙΠΣΥ\"",
+                        "issue_date": "2023-06-29",
+                        "chunk_id": 1166
+                    },
+                    {
+                        "document_id": "ΨΝΜΟ469ΗΞΩ-ΦΓΟ",
+                        "ada": "ΨΝΜΟ469ΗΞΩ-ΦΓΟ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Κατανομή προϋπολογισμού, ανά κατηγορία δαπάνης, του έργου EXCEED",
+                        "issue_date": "2023-06-29",
+                        "chunk_id": 1700
+                    },
+                    {
+                        "document_id": "ΨΘΠΠ469ΗΞΩ-ΘΧΞ",
+                        "ada": "ΨΘΠΠ469ΗΞΩ-ΘΧΞ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Ανατροπή προϋπολογισμού του έργου ΛΔ ΙΕΛ Αθήνας για το έτος 2022",
+                        "issue_date": "2023-03-31",
+                        "chunk_id": 1200
+                    }
+                ],
+                "metrics": {
+                    "rank": null,
+                    "hit@1": 0,
+                    "hit@3": 0,
+                    "hit@5": 0,
+                    "rr": 0.0
+                }
+            },
+            {
+                "query": "Βρες μου την απόφαση έγκρισης δαπάνης για ηλεκτρονικό εξοπλισμό στο EOSCFuture.",
+                "expected_adas": [
+                    "ΡΒ14469ΗΞΩ-9ΩΣ"
+                ],
+                "expected_source_ids": [],
+                "ranking": [
+                    {
+                        "document_id": "6Υ33469ΗΞΩ-Α1Υ",
+                        "ada": "6Υ33469ΗΞΩ-Α1Υ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Έγκριση δαπάνης για προμήθεια υπηρεσιών JCE Pro στο πλαίσιο υλοποίησης του έργου OpenAire NEXUS",
+                        "issue_date": "2021-06-29",
+                        "chunk_id": 2706
+                    },
+                    {
+                        "document_id": "ΡΒ14469ΗΞΩ-9ΩΣ",
+                        "ada": "ΡΒ14469ΗΞΩ-9ΩΣ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Έγκριση δαπάνης για προμήθεια ηλεκτρονικού εξοπλισμού στο πλαίσιο υλοποίησης του έργου EOSCFuture",
+                        "issue_date": "2023-06-13",
+                        "chunk_id": 2368
+                    },
+                    {
+                        "document_id": "ΨΝΦΦ469ΗΞΩ-Α6Ω",
+                        "ada": "ΨΝΦΦ469ΗΞΩ-Α6Ω",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Σύναψη σύμβασης μίσθωσης έργου στο πλαίσιο υλοποίησης του έργου EOSC Future",
+                        "issue_date": "2023-03-24",
+                        "chunk_id": 77
+                    },
+                    {
+                        "document_id": "Ρ8ΝΞ469ΗΞΩ-ΧΓΞ",
+                        "ada": "Ρ8ΝΞ469ΗΞΩ-ΧΓΞ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Εντολή πληρωμής για την μετακίνηση της κας Ε. Παπαδοπούλου στο Γκέτεμποργκ (ID -6437) με σκοπό τη συμμετοχή της στο RDA Plenary 20 Meeting στο πλαίσιο του έργου OpenAire NEXUS",
+                        "issue_date": "2023-06-26",
+                        "chunk_id": 1959
+                    },
+                    {
+                        "document_id": "9Λ5Φ469ΗΞΩ-7ΦΦ",
+                        "ada": "9Λ5Φ469ΗΞΩ-7ΦΦ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Σύναψη συμβάσεων μίσθωσης έργου στο πλαίσιο υλοποίησης του έργου EOSC Future",
+                        "issue_date": "2023-06-29",
+                        "chunk_id": 281
+                    }
+                ],
+                "metrics": {
+                    "rank": 2,
+                    "hit@1": 0,
+                    "hit@3": 1,
+                    "hit@5": 1,
+                    "rr": 0.5
+                }
+            },
+            {
+                "query": "Ποια απόφαση αφορά εντολή πληρωμής για εξοπλισμό και αναλώσιμα στο INTRACOM 1 - ART;",
+                "expected_adas": [
+                    "6ΜΓ8469ΗΞΩ-6Τ6"
+                ],
+                "expected_source_ids": [],
+                "ranking": [
+                    {
+                        "document_id": "ΡΙΛΛ469ΗΞΩ-ΚΗΗ",
+                        "ada": "ΡΙΛΛ469ΗΞΩ-ΚΗΗ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Εντολή πληρωμής για την προμήθεια αναλώσιμων ειδών Η/Υ στο πλαίσιο του έργου Elixir CONVERGE",
+                        "issue_date": "2023-06-13",
+                        "chunk_id": 2148
+                    },
+                    {
+                        "document_id": "ΨΠΠ0469ΗΞΩ-ΤΔΚ",
+                        "ada": "ΨΠΠ0469ΗΞΩ-ΤΔΚ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Εντολή πληρωμής για την προμήθεια αναλώσιμων Η/Υ και γραφικής ύλης στο πλαίσιο υλοποίησης του έργου ΚΑΜΕ ΙΙ",
+                        "issue_date": "2023-06-26",
+                        "chunk_id": 1878
+                    },
+                    {
+                        "document_id": "Ψ11Σ469ΗΞΩ-ΗΒ2",
+                        "ada": "Ψ11Σ469ΗΞΩ-ΗΒ2",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Autepistasia ΜΥΘΟ",
+                        "issue_date": "2021-03-05",
+                        "chunk_id": 2503
+                    },
+                    {
+                        "document_id": "ΩΤΑΜ469ΗΞΩ-ΤΛ3",
+                        "ada": "ΩΤΑΜ469ΗΞΩ-ΤΛ3",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Ανάθεση προμήθειας ηλεκτρονικού εξοπλισμού και ειδικού λογισμικού στο πλαίσιο συνοπτικού διαγωνισμού για το έργο SMS-CBA",
+                        "issue_date": "2021-06-28",
+                        "chunk_id": 2625
+                    },
+                    {
+                        "document_id": "Ψ7ΩΟ469ΗΞΩ-0Γ8",
+                        "ada": "Ψ7ΩΟ469ΗΞΩ-0Γ8",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Έγκριση δαπάνης για την προμήθεια ηλεκτρονικού εξοπλισμού στο πλαίσιο του έργου ΤΕΝΕΔΟΣ",
+                        "issue_date": "2023-06-21",
+                        "chunk_id": 1240
+                    }
+                ],
+                "metrics": {
+                    "rank": null,
+                    "hit@1": 0,
+                    "hit@3": 0,
+                    "hit@5": 0,
+                    "rr": 0.0
+                }
+            },
+            {
+                "query": "Βρες μου την έγκριση μετακίνησης συνεργάτη στο πλαίσιο του OpenGPT-X/ARC.",
+                "expected_adas": [
+                    "6ΛΟΘ469ΗΞΩ-ΓΧ3"
+                ],
+                "expected_source_ids": [],
+                "ranking": [
+                    {
+                        "document_id": "923Β469ΗΞΩ-4ΘΨ",
+                        "ada": "923Β469ΗΞΩ-4ΘΨ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Έγκριση δαπάνης μετακίνησης με ID-6602 και σκοπό τη συμμετοχή στη 2η συνάντηση των εταίρων του έργου STELAR",
+                        "issue_date": "2023-05-10",
+                        "chunk_id": 590
+                    },
+                    {
+                        "document_id": "6ΧΗ1469ΗΞΩ-5ΑΘ",
+                        "ada": "6ΧΗ1469ΗΞΩ-5ΑΘ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Έγκριση δαπάνης μετακίνησης με ID-6737 και σκοπό τη συμμετοχή σε συνάντηση του έργου extremeXP",
+                        "issue_date": "2023-06-29",
+                        "chunk_id": 1473
+                    },
+                    {
+                        "document_id": "9Ε83469ΗΞΩ-1ΝΙ",
+                        "ada": "9Ε83469ΗΞΩ-1ΝΙ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Έγκριση δαπάνης μετακίνησης με ID-6437 και σκοπό τη συμμετοχή στο 20ο RDA Plenary στο πλαίσιο του έργου OpenAire NEXUS",
+                        "issue_date": "2023-03-15",
+                        "chunk_id": 2159
+                    },
+                    {
+                        "document_id": "ΨΨ3Τ469ΗΞΩ-31Π",
+                        "ada": "ΨΨ3Τ469ΗΞΩ-31Π",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Έγκριση δαπάνης μετακίνησης με ID-6736 και σκοπό τη συμμετοχή σε συνάντηση του έργου extremeXP",
+                        "issue_date": "2023-06-29",
+                        "chunk_id": 1479
+                    },
+                    {
+                        "document_id": "ΨΒ2Μ469ΗΞΩ-6Δ1",
+                        "ada": "ΨΒ2Μ469ΗΞΩ-6Δ1",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Έγκριση δαπάνης μετακίνησης με ID-6700 και σκοπό τη συμμετοχή στη συνάντηση του συνασπισμού εθνικών χορηγών έρευνας σε ΤΠΕ \"CHIST-ERA\" στο πλαίσιο του έργου OpenAire NEXUS",
+                        "issue_date": "2023-03-30",
+                        "chunk_id": 1020
+                    }
+                ],
+                "metrics": {
+                    "rank": null,
+                    "hit@1": 0,
+                    "hit@3": 0,
+                    "hit@5": 0,
+                    "rr": 0.0
+                }
+            },
+            {
+                "query": "Ποια απόφαση αφορά μετακίνηση δύο συνεργατών στο έργο EASIER;",
+                "expected_adas": [
+                    "69Ζ2469ΗΞΩ-ΜΗΖ"
+                ],
+                "expected_source_ids": [],
+                "ranking": [
+                    {
+                        "document_id": "923Β469ΗΞΩ-4ΘΨ",
+                        "ada": "923Β469ΗΞΩ-4ΘΨ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Έγκριση δαπάνης μετακίνησης με ID-6602 και σκοπό τη συμμετοχή στη 2η συνάντηση των εταίρων του έργου STELAR",
+                        "issue_date": "2023-05-10",
+                        "chunk_id": 589
+                    },
+                    {
+                        "document_id": "69Ζ2469ΗΞΩ-ΜΗΖ",
+                        "ada": "69Ζ2469ΗΞΩ-ΜΗΖ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Έγκριση μετακίνησης των συνεργατών με ID-6549 και ID-6550 στο πλαίσιο του έργου EASIER",
+                        "issue_date": "2023-04-28",
+                        "chunk_id": 1228
+                    },
+                    {
+                        "document_id": "6ΧΗ1469ΗΞΩ-5ΑΘ",
+                        "ada": "6ΧΗ1469ΗΞΩ-5ΑΘ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Έγκριση δαπάνης μετακίνησης με ID-6737 και σκοπό τη συμμετοχή σε συνάντηση του έργου extremeXP",
+                        "issue_date": "2023-06-29",
+                        "chunk_id": 1473
+                    },
+                    {
+                        "document_id": "Ψ640469ΗΞΩ-30Ο",
+                        "ada": "Ψ640469ΗΞΩ-30Ο",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Έγκριση μετακίνησης του επιστημονικού συνεργάτη με ID-6646 στο πλαίσιο του έργου BEHAVE",
+                        "issue_date": "2023-04-04",
+                        "chunk_id": 834
+                    }
+                ],
+                "metrics": {
+                    "rank": 2,
+                    "hit@1": 0,
+                    "hit@3": 1,
+                    "hit@5": 1,
+                    "rr": 0.5
+                }
+            },
+            {
+                "query": "Από πόσα τακτικά μέλη αποτελείται η ΕΗΔΕ του Ερευνητικού Κέντρου Αθηνά;",
+                "expected_adas": [],
+                "expected_source_ids": [
+                    "athena_ehde_regulation"
+                ],
+                "ranking": [
+                    {
+                        "document_id": "6ΔΡΛ469ΗΞΩ-ΞΟΕ",
+                        "ada": "6ΔΡΛ469ΗΞΩ-ΞΟΕ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Προγραμματική Σύμβαση μεταξύ Ε.Κ. Αθηνά - ΜΟΔ ΑΕ για την Αναβάθμιση και αναδιαμόρφωση του ιδιόκτητου κτηρίου του Ερευνητικού Κέντρου Αθηνά στην Αθήνα (Μαρούσι)",
+                        "issue_date": "2023-01-30",
+                        "chunk_id": 690
+                    },
+                    {
+                        "document_id": "9ΒΧΗ469ΗΞΩ-1ΗΝ",
+                        "ada": "9ΒΧΗ469ΗΞΩ-1ΗΝ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Εντολή Πληρωμής Δαπάνης Registration INDIN 2023 ENERMAN ΑΠ 10013",
+                        "issue_date": "2023-06-26",
+                        "chunk_id": 2023
+                    },
+                    {
+                        "document_id": "Ψ4ΙΥ469ΗΞΩ-ΞΧΔ",
+                        "ada": "Ψ4ΙΥ469ΗΞΩ-ΞΧΔ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Εντολή Πληρωμής Δαπάνης προμήθειας εξοπλισμού (laptop) 6G Bricks ΑΠ 11918",
+                        "issue_date": "2023-06-29",
+                        "chunk_id": 1547
+                    },
+                    {
+                        "document_id": "6Λ10469ΗΞΩ-12Β",
+                        "ada": "6Λ10469ΗΞΩ-12Β",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Εντολή πληρωμής Δαπάνης προμήθειας printer SECOPERA 14-09 ΑΠ 11691",
+                        "issue_date": "2023-06-26",
+                        "chunk_id": 1811
+                    }
+                ],
+                "metrics": {
+                    "rank": null,
+                    "hit@1": 0,
+                    "hit@3": 0,
+                    "hit@5": 0,
+                    "rr": 0.0
+                }
+            },
+            {
+                "query": "Πόσα από τα μέλη της ΕΗΔΕ πρέπει να είναι εκτός του ΕΚ Αθηνά;",
+                "expected_adas": [],
+                "expected_source_ids": [
+                    "athena_ehde_regulation"
+                ],
+                "ranking": [
+                    {
+                        "document_id": "6Λ10469ΗΞΩ-12Β",
+                        "ada": "6Λ10469ΗΞΩ-12Β",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Εντολή πληρωμής Δαπάνης προμήθειας printer SECOPERA 14-09 ΑΠ 11691",
+                        "issue_date": "2023-06-26",
+                        "chunk_id": 1811
+                    },
+                    {
+                        "document_id": "9ΒΧΗ469ΗΞΩ-1ΗΝ",
+                        "ada": "9ΒΧΗ469ΗΞΩ-1ΗΝ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Εντολή Πληρωμής Δαπάνης Registration INDIN 2023 ENERMAN ΑΠ 10013",
+                        "issue_date": "2023-06-26",
+                        "chunk_id": 2023
+                    },
+                    {
+                        "document_id": "Ψ4ΙΥ469ΗΞΩ-ΞΧΔ",
+                        "ada": "Ψ4ΙΥ469ΗΞΩ-ΞΧΔ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Εντολή Πληρωμής Δαπάνης προμήθειας εξοπλισμού (laptop) 6G Bricks ΑΠ 11918",
+                        "issue_date": "2023-06-29",
+                        "chunk_id": 1547
+                    },
+                    {
+                        "document_id": "9ΑΑΧ469ΗΞΩ-0ΒΡ",
+                        "ada": "9ΑΑΧ469ΗΞΩ-0ΒΡ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Εντολή πληρωμής courier ΤΠΥ 134",
+                        "issue_date": "2023-06-02",
+                        "chunk_id": 1188
+                    },
+                    {
+                        "document_id": "6Β3Λ469ΗΞΩ-Ξ1Ε",
+                        "ada": "6Β3Λ469ΗΞΩ-Ξ1Ε",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Πρόσκληση CEI BOOST 002.2023 (ΔΣ 364)",
+                        "issue_date": "2023-06-29",
+                        "chunk_id": 1751
+                    }
+                ],
+                "metrics": {
+                    "rank": null,
+                    "hit@1": 0,
+                    "hit@3": 0,
+                    "hit@5": 0,
+                    "rr": 0.0
+                }
+            },
+            {
+                "query": "Κάθε πότε συνεδριάζει κανονικά η ΕΗΔΕ;",
+                "expected_adas": [],
+                "expected_source_ids": [
+                    "athena_ehde_regulation"
+                ],
+                "ranking": [
+                    {
+                        "document_id": "ΨΨ7Α469ΗΞΩ-Ι9Ο",
+                        "ada": "ΨΨ7Α469ΗΞΩ-Ι9Ο",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Πρόσκληση εκδήλωσης ενδιαφέροντος για συνεργάτη στο πλαίσιο υλοποίησης του έργου \"Οριζόντιο ΙΠΣΥ\"",
+                        "issue_date": "2023-06-29",
+                        "chunk_id": 1177
+                    },
+                    {
+                        "document_id": "6Χ1Φ469ΗΞΩ-Φ9Η",
+                        "ada": "6Χ1Φ469ΗΞΩ-Φ9Η",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Έγκριση δαπάνης μετακίνησης με ID-6379 και σκοπό τη συμμετοχή στο συνέδριο EDBT 2023",
+                        "issue_date": "2023-02-23",
+                        "chunk_id": 529
+                    },
+                    {
+                        "document_id": "6ΠΙΟ469ΗΞΩ-1ΦΛ",
+                        "ada": "6ΠΙΟ469ΗΞΩ-1ΦΛ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Δημοσίευση πρόσκλησης εκδήλωσης ενδιαφέροντος στο πλαίσιο του έργου ΑΡΧΙΜΗΔΗΣ",
+                        "issue_date": "2023-06-26",
+                        "chunk_id": 1998
+                    },
+                    {
+                        "document_id": "6Β3Λ469ΗΞΩ-Ξ1Ε",
+                        "ada": "6Β3Λ469ΗΞΩ-Ξ1Ε",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Πρόσκληση CEI BOOST 002.2023 (ΔΣ 364)",
+                        "issue_date": "2023-06-29",
+                        "chunk_id": 1774
+                    }
+                ],
+                "metrics": {
+                    "rank": null,
+                    "hit@1": 0,
+                    "hit@3": 0,
+                    "hit@5": 0,
+                    "rr": 0.0
+                }
+            },
+            {
+                "query": "Πόσα μέλη πρέπει να είναι παρόντα για να υπάρχει απαρτία στην ΕΗΔΕ;",
+                "expected_adas": [],
+                "expected_source_ids": [
+                    "athena_ehde_regulation"
+                ],
+                "ranking": [
+                    {
+                        "document_id": "6Χ1Φ469ΗΞΩ-Φ9Η",
+                        "ada": "6Χ1Φ469ΗΞΩ-Φ9Η",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Έγκριση δαπάνης μετακίνησης με ID-6379 και σκοπό τη συμμετοχή στο συνέδριο EDBT 2023",
+                        "issue_date": "2023-02-23",
+                        "chunk_id": 529
+                    },
+                    {
+                        "document_id": "6ΦΚΡ469ΗΞΩ-Ι7Ζ",
+                        "ada": "6ΦΚΡ469ΗΞΩ-Ι7Ζ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Αποτελέσματα πρόσκλησης με κωδ. GD.353.ARCHI_Α-0323",
+                        "issue_date": "2023-06-02",
+                        "chunk_id": 996
+                    },
+                    {
+                        "document_id": "934Υ469ΗΞΩ-ΗΑΟ",
+                        "ada": "934Υ469ΗΞΩ-ΗΑΟ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Έγκριση δαπάνης μετακίνησης με ID-6498 και σκοπό τη συμμετοχή στη Γενική Συνέλευση του έργου 4CΗ",
+                        "issue_date": "2023-04-24",
+                        "chunk_id": 893
+                    },
+                    {
+                        "document_id": "6ΔΡΛ469ΗΞΩ-ΞΟΕ",
+                        "ada": "6ΔΡΛ469ΗΞΩ-ΞΟΕ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Προγραμματική Σύμβαση μεταξύ Ε.Κ. Αθηνά - ΜΟΔ ΑΕ για την Αναβάθμιση και αναδιαμόρφωση του ιδιόκτητου κτηρίου του Ερευνητικού Κέντρου Αθηνά στην Αθήνα (Μαρούσι)",
+                        "issue_date": "2023-01-30",
+                        "chunk_id": 704
+                    }
+                ],
+                "metrics": {
+                    "rank": null,
+                    "hit@1": 0,
+                    "hit@3": 0,
+                    "hit@5": 0,
+                    "rr": 0.0
+                }
+            },
+            {
+                "query": "Σε πόσες μέρες πρέπει να αποφασίσει η ΕΗΔΕ για μια αίτηση;",
+                "expected_adas": [],
+                "expected_source_ids": [
+                    "athena_ehde_regulation"
+                ],
+                "ranking": [
+                    {
+                        "document_id": "6ΦΚΡ469ΗΞΩ-Ι7Ζ",
+                        "ada": "6ΦΚΡ469ΗΞΩ-Ι7Ζ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Αποτελέσματα πρόσκλησης με κωδ. GD.353.ARCHI_Α-0323",
+                        "issue_date": "2023-06-02",
+                        "chunk_id": 996
+                    },
+                    {
+                        "document_id": "63Μ9469ΗΞΩ-ΤΟΛ",
+                        "ada": "63Μ9469ΗΞΩ-ΤΟΛ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Απόφαση Ολοκλήρωσης της υλοποίησης με ίδια μέσα του Υποέργου 3 «Δράσεις εξειδίκευσης Ερευνητικού Κέντρου Αθηνά για το Κέντρο ολοκληρωμένης ψηφιακής διαχείρισης πολιτισμικής κληρονομιάς» της Πράξης «Κέντρο ολοκληρωμένης ψηφιακής διαχείρισης πολιτισμικής κληρονομιάς»  με κωδικό ΟΠΣ (MIS) 5021534",
+                        "issue_date": "2023-06-01",
+                        "chunk_id": 383
+                    },
+                    {
+                        "document_id": "6ΠΙΟ469ΗΞΩ-1ΦΛ",
+                        "ada": "6ΠΙΟ469ΗΞΩ-1ΦΛ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Δημοσίευση πρόσκλησης εκδήλωσης ενδιαφέροντος στο πλαίσιο του έργου ΑΡΧΙΜΗΔΗΣ",
+                        "issue_date": "2023-06-26",
+                        "chunk_id": 1995
+                    },
+                    {
+                        "document_id": "9Υ9Ε469ΗΞΩ-ΘΘΕ",
+                        "ada": "9Υ9Ε469ΗΞΩ-ΘΘΕ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Αποτελέσματα πρόσκλησης με κωδ.ARSINOE_356_0423",
+                        "issue_date": "2023-06-29",
+                        "chunk_id": 1690
+                    },
+                    {
+                        "document_id": "6ΒΦΖ469ΗΞΩ-Α9Θ",
+                        "ada": "6ΒΦΖ469ΗΞΩ-Α9Θ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "ΑΠΟΤΕΛΕΣΜΑΤΑ ΠΡΟΣΚΛΗΣΗΣ COR-2023-01",
+                        "issue_date": "2023-06-29",
+                        "chunk_id": 1727
+                    }
+                ],
+                "metrics": {
+                    "rank": null,
+                    "hit@1": 0,
+                    "hit@3": 0,
+                    "hit@5": 0,
+                    "rr": 0.0
+                }
+            },
+            {
+                "query": "Πόσες μέρες έχω για να κάνω αίτηση σε δημόσια πρόσκληση του ΕΛΚΕ;",
+                "expected_adas": [],
+                "expected_source_ids": [
+                    "ekpa_funding_guide_2024"
+                ],
+                "ranking": [
+                    {
+                        "document_id": "6Β3Λ469ΗΞΩ-Ξ1Ε",
+                        "ada": "6Β3Λ469ΗΞΩ-Ξ1Ε",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Πρόσκληση CEI BOOST 002.2023 (ΔΣ 364)",
+                        "issue_date": "2023-06-29",
+                        "chunk_id": 1762
+                    },
+                    {
+                        "document_id": "6ΦΚΡ469ΗΞΩ-Ι7Ζ",
+                        "ada": "6ΦΚΡ469ΗΞΩ-Ι7Ζ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Αποτελέσματα πρόσκλησης με κωδ. GD.353.ARCHI_Α-0323",
+                        "issue_date": "2023-06-02",
+                        "chunk_id": 996
+                    },
+                    {
+                        "document_id": "9Υ9Ε469ΗΞΩ-ΘΘΕ",
+                        "ada": "9Υ9Ε469ΗΞΩ-ΘΘΕ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Αποτελέσματα πρόσκλησης με κωδ.ARSINOE_356_0423",
+                        "issue_date": "2023-06-29",
+                        "chunk_id": 1690
+                    },
+                    {
+                        "document_id": "6ΒΦΖ469ΗΞΩ-Α9Θ",
+                        "ada": "6ΒΦΖ469ΗΞΩ-Α9Θ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "ΑΠΟΤΕΛΕΣΜΑΤΑ ΠΡΟΣΚΛΗΣΗΣ COR-2023-01",
+                        "issue_date": "2023-06-29",
+                        "chunk_id": 1727
+                    },
+                    {
+                        "document_id": "6ΠΙΟ469ΗΞΩ-1ΦΛ",
+                        "ada": "6ΠΙΟ469ΗΞΩ-1ΦΛ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Δημοσίευση πρόσκλησης εκδήλωσης ενδιαφέροντος στο πλαίσιο του έργου ΑΡΧΙΜΗΔΗΣ",
+                        "issue_date": "2023-06-26",
+                        "chunk_id": 1995
+                    }
+                ],
+                "metrics": {
+                    "rank": null,
+                    "hit@1": 0,
+                    "hit@3": 0,
+                    "hit@5": 0,
+                    "rr": 0.0
+                }
+            },
+            {
+                "query": "Πόσες μέρες έχω για να κάνω ένσταση στα αποτελέσματα μιας πρόσκλησης του ΕΛΚΕ;",
+                "expected_adas": [],
+                "expected_source_ids": [
+                    "ekpa_funding_guide_2024"
+                ],
+                "ranking": [
+                    {
+                        "document_id": "63Μ9469ΗΞΩ-ΤΟΛ",
+                        "ada": "63Μ9469ΗΞΩ-ΤΟΛ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Απόφαση Ολοκλήρωσης της υλοποίησης με ίδια μέσα του Υποέργου 3 «Δράσεις εξειδίκευσης Ερευνητικού Κέντρου Αθηνά για το Κέντρο ολοκληρωμένης ψηφιακής διαχείρισης πολιτισμικής κληρονομιάς» της Πράξης «Κέντρο ολοκληρωμένης ψηφιακής διαχείρισης πολιτισμικής κληρονομιάς»  με κωδικό ΟΠΣ (MIS) 5021534",
+                        "issue_date": "2023-06-01",
+                        "chunk_id": 383
+                    },
+                    {
+                        "document_id": "6ΦΚΡ469ΗΞΩ-Ι7Ζ",
+                        "ada": "6ΦΚΡ469ΗΞΩ-Ι7Ζ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Αποτελέσματα πρόσκλησης με κωδ. GD.353.ARCHI_Α-0323",
+                        "issue_date": "2023-06-02",
+                        "chunk_id": 996
+                    },
+                    {
+                        "document_id": "6Β3Λ469ΗΞΩ-Ξ1Ε",
+                        "ada": "6Β3Λ469ΗΞΩ-Ξ1Ε",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Πρόσκληση CEI BOOST 002.2023 (ΔΣ 364)",
+                        "issue_date": "2023-06-29",
+                        "chunk_id": 1762
+                    },
+                    {
+                        "document_id": "9Υ9Ε469ΗΞΩ-ΘΘΕ",
+                        "ada": "9Υ9Ε469ΗΞΩ-ΘΘΕ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Αποτελέσματα πρόσκλησης με κωδ.ARSINOE_356_0423",
+                        "issue_date": "2023-06-29",
+                        "chunk_id": 1690
+                    },
+                    {
+                        "document_id": "6ΒΦΖ469ΗΞΩ-Α9Θ",
+                        "ada": "6ΒΦΖ469ΗΞΩ-Α9Θ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "ΑΠΟΤΕΛΕΣΜΑΤΑ ΠΡΟΣΚΛΗΣΗΣ COR-2023-01",
+                        "issue_date": "2023-06-29",
+                        "chunk_id": 1727
+                    }
+                ],
+                "metrics": {
+                    "rank": null,
+                    "hit@1": 0,
+                    "hit@3": 0,
+                    "hit@5": 0,
+                    "rr": 0.0
+                }
+            },
+            {
+                "query": "Πόσες ώρες θεωρούνται ένα έτος πλήρους απασχόλησης;",
+                "expected_adas": [],
+                "expected_source_ids": [
+                    "ekpa_funding_guide_2024"
+                ],
+                "ranking": [
+                    {
+                        "document_id": "68ΚΑ469ΗΞΩ-Θ7Ι",
+                        "ada": "68ΚΑ469ΗΞΩ-Θ7Ι",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Σύναψη συμβάσεων εργασίας ορισμένου χρόνου στο πλαίσιο υλοποίησης των ερευνητικών έργων του ΙΠΣΥ",
+                        "issue_date": "2023-04-19",
+                        "chunk_id": 794
+                    },
+                    {
+                        "document_id": "63ΨΧ469ΗΞΩ-Ο1Ε",
+                        "ada": "63ΨΧ469ΗΞΩ-Ο1Ε",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Τροποποίηση σύμβασης εργασίας ορισμένου χρόνου μερικής απασχόλησης στο πλαίσιο του έργου PREMIERE",
+                        "issue_date": "2023-06-16",
+                        "chunk_id": 1834
+                    },
+                    {
+                        "document_id": "Ψ11Σ469ΗΞΩ-ΗΒ2",
+                        "ada": "Ψ11Σ469ΗΞΩ-ΗΒ2",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Autepistasia ΜΥΘΟ",
+                        "issue_date": "2021-03-05",
+                        "chunk_id": 2468
+                    },
+                    {
+                        "document_id": "ΨΕΤ0469ΗΞΩ-ΤΒΑ",
+                        "ada": "ΨΕΤ0469ΗΞΩ-ΤΒΑ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Σύναψη σύμβασης εργασίας ορισμένου χρόνου στο πλαίσιο των έργων Βοΐσκα, ΑΠΤΟΣ και ΑΠΟΗΧΟΙ",
+                        "issue_date": "2023-04-21",
+                        "chunk_id": 2356
+                    },
+                    {
+                        "document_id": "ΡΥ8Ο469ΗΞΩ-163",
+                        "ada": "ΡΥ8Ο469ΗΞΩ-163",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Τροποποίηση συμβάσεων μίσθωσης έργου στο πλαίσιο υλοποίησης του έργου INODE",
+                        "issue_date": "2023-03-23",
+                        "chunk_id": 31
+                    }
+                ],
+                "metrics": {
+                    "rank": null,
+                    "hit@1": 0,
+                    "hit@3": 0,
+                    "hit@5": 0,
+                    "rr": 0.0
+                }
+            },
+            {
+                "query": "Μέχρι πόσες ώρες υπερωρία μπορώ να κάνω τον χρόνο σε έργα που χρηματοδοτούνται από ιδιωτικούς, διεθνείς ή ίδιους πόρους;",
+                "expected_adas": [],
+                "expected_source_ids": [
+                    "ekpa_funding_guide_2024"
+                ],
+                "ranking": [
+                    {
+                        "document_id": "9ΜΙ9469ΗΞΩ-Ν41",
+                        "ada": "9ΜΙ9469ΗΞΩ-Ν41",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Έγκριση δαπάνης για τα έξοδα φιλοξενίας και προβολής στο πλαίσιο του έργου VOICES",
+                        "issue_date": "2023-06-23",
+                        "chunk_id": 2085
+                    },
+                    {
+                        "document_id": "923Β469ΗΞΩ-4ΘΨ",
+                        "ada": "923Β469ΗΞΩ-4ΘΨ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Έγκριση δαπάνης μετακίνησης με ID-6602 και σκοπό τη συμμετοχή στη 2η συνάντηση των εταίρων του έργου STELAR",
+                        "issue_date": "2023-05-10",
+                        "chunk_id": 589
+                    },
+                    {
+                        "document_id": "ΨΒ2Μ469ΗΞΩ-6Δ1",
+                        "ada": "ΨΒ2Μ469ΗΞΩ-6Δ1",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Έγκριση δαπάνης μετακίνησης με ID-6700 και σκοπό τη συμμετοχή στη συνάντηση του συνασπισμού εθνικών χορηγών έρευνας σε ΤΠΕ \"CHIST-ERA\" στο πλαίσιο του έργου OpenAire NEXUS",
+                        "issue_date": "2023-03-30",
+                        "chunk_id": 1019
+                    },
+                    {
+                        "document_id": "ΡΘΖ7469ΗΞΩ-ΑΑΣ",
+                        "ada": "ΡΘΖ7469ΗΞΩ-ΑΑΣ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Έγκριση δαπάνης μετακίνησης με ID6288 και σκοπό τη συμμετοχή σε συνάντηση του έργου Οριζόντιο ΙΠΣΥ",
+                        "issue_date": "2023-01-19",
+                        "chunk_id": 540
+                    },
+                    {
+                        "document_id": "67ΧΒ469ΗΞΩ-24Ε",
+                        "ada": "67ΧΒ469ΗΞΩ-24Ε",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Έγκριση δαπάνης μετακίνησης με ID-6558 και σκοπό τη συμμετοχή σε συνάντηση του έργου STELAR",
+                        "issue_date": "2023-05-04",
+                        "chunk_id": 623
+                    }
+                ],
+                "metrics": {
+                    "rank": null,
+                    "hit@1": 0,
+                    "hit@3": 0,
+                    "hit@5": 0,
+                    "rr": 0.0
+                }
+            },
+            {
+                "query": "Μέχρι πόσες ώρες υπερωρία μπορώ να κάνω την ημέρα σε έργα που χρηματοδοτούνται από ιδιωτικούς, διεθνείς ή ίδιους πόρους;",
+                "expected_adas": [],
+                "expected_source_ids": [
+                    "ekpa_funding_guide_2024"
+                ],
+                "ranking": [
+                    {
+                        "document_id": "9ΜΙ9469ΗΞΩ-Ν41",
+                        "ada": "9ΜΙ9469ΗΞΩ-Ν41",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Έγκριση δαπάνης για τα έξοδα φιλοξενίας και προβολής στο πλαίσιο του έργου VOICES",
+                        "issue_date": "2023-06-23",
+                        "chunk_id": 2085
+                    },
+                    {
+                        "document_id": "923Β469ΗΞΩ-4ΘΨ",
+                        "ada": "923Β469ΗΞΩ-4ΘΨ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Έγκριση δαπάνης μετακίνησης με ID-6602 και σκοπό τη συμμετοχή στη 2η συνάντηση των εταίρων του έργου STELAR",
+                        "issue_date": "2023-05-10",
+                        "chunk_id": 589
+                    },
+                    {
+                        "document_id": "Ψ11Σ469ΗΞΩ-ΗΒ2",
+                        "ada": "Ψ11Σ469ΗΞΩ-ΗΒ2",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Autepistasia ΜΥΘΟ",
+                        "issue_date": "2021-03-05",
+                        "chunk_id": 2503
+                    },
+                    {
+                        "document_id": "Ψ5Η6469ΗΞΩ-ΧΝΩ",
+                        "ada": "Ψ5Η6469ΗΞΩ-ΧΝΩ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Έγκριση Δαπάνης παροχής γεύματος εργασίας (έξοδα φιλοξενίας) - SUSTAINABLE - ΑΠ 12171",
+                        "issue_date": "2023-06-23",
+                        "chunk_id": 1442
+                    },
+                    {
+                        "document_id": "ΡΘΖ7469ΗΞΩ-ΑΑΣ",
+                        "ada": "ΡΘΖ7469ΗΞΩ-ΑΑΣ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Έγκριση δαπάνης μετακίνησης με ID6288 και σκοπό τη συμμετοχή σε συνάντηση του έργου Οριζόντιο ΙΠΣΥ",
+                        "issue_date": "2023-01-19",
+                        "chunk_id": 540
+                    }
+                ],
+                "metrics": {
+                    "rank": null,
+                    "hit@1": 0,
+                    "hit@3": 0,
+                    "hit@5": 0,
+                    "rr": 0.0
+                }
+            }
+        ]
+    },
+    "bge": {
+        "retriever": "bge",
+        "hit@1": 0.88,
+        "hit@3": 0.96,
+        "hit@5": 0.96,
+        "mrr": 0.9133333333333334,
+        "queries": [
+            {
+                "query": "Ποια απόφαση δημοσίευσε πρόσκληση για συνεργάτη στο Οριζόντιο ΙΠΣΥ;",
+                "expected_adas": [
+                    "ΨΨ7Α469ΗΞΩ-Ι9Ο"
+                ],
+                "expected_source_ids": [],
+                "ranking": [
+                    {
+                        "document_id": "ΨΨ7Α469ΗΞΩ-Ι9Ο",
+                        "ada": "ΨΨ7Α469ΗΞΩ-Ι9Ο",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Πρόσκληση εκδήλωσης ενδιαφέροντος για συνεργάτη στο πλαίσιο υλοποίησης του έργου \"Οριζόντιο ΙΠΣΥ\"",
+                        "issue_date": "2023-06-29",
+                        "chunk_id": 1203
+                    },
+                    {
+                        "document_id": "Ρ49Θ469ΗΞΩ-31Α",
+                        "ada": "Ρ49Θ469ΗΞΩ-31Α",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Έγκριση δαπάνης για την μετακίνηση με ID-6523 και σκοπό τη συμμετοχή σε συνάντηση του έργου ΟΡΙΖΟΝΤΙΟ ΙΠΣΥ",
+                        "issue_date": "2023-04-24",
+                        "chunk_id": 1341
+                    },
+                    {
+                        "document_id": "ΡΘΖ7469ΗΞΩ-ΑΑΣ",
+                        "ada": "ΡΘΖ7469ΗΞΩ-ΑΑΣ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Έγκριση δαπάνης μετακίνησης με ID6288 και σκοπό τη συμμετοχή σε συνάντηση του έργου Οριζόντιο ΙΠΣΥ",
+                        "issue_date": "2023-01-19",
+                        "chunk_id": 543
+                    }
+                ],
+                "metrics": {
+                    "rank": 1,
+                    "hit@1": 1,
+                    "hit@3": 1,
+                    "hit@5": 1,
+                    "rr": 1.0
+                }
+            },
+            {
+                "query": "Βρες μου την πρόσκληση για νέο συνεργάτη στο Οριζόντιο έργο ΙΠΣΥ.",
+                "expected_adas": [
+                    "ΨΨ7Α469ΗΞΩ-Ι9Ο"
+                ],
+                "expected_source_ids": [],
+                "ranking": [
+                    {
+                        "document_id": "ΨΨ7Α469ΗΞΩ-Ι9Ο",
+                        "ada": "ΨΨ7Α469ΗΞΩ-Ι9Ο",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Πρόσκληση εκδήλωσης ενδιαφέροντος για συνεργάτη στο πλαίσιο υλοποίησης του έργου \"Οριζόντιο ΙΠΣΥ\"",
+                        "issue_date": "2023-06-29",
+                        "chunk_id": 1203
+                    },
+                    {
+                        "document_id": "6Θ5Β469ΗΞΩ-ΣΧΛ",
+                        "ada": "6Θ5Β469ΗΞΩ-ΣΧΛ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Σύναψη συμβάσεων μίσθωσης έργου στο πλαίσιο υλοποίησης του έργου ΟΡΙΖΟΝΤΙΟ ΙΠΣΥ",
+                        "issue_date": "2023-04-19",
+                        "chunk_id": 803
+                    },
+                    {
+                        "document_id": "Ρ49Θ469ΗΞΩ-31Α",
+                        "ada": "Ρ49Θ469ΗΞΩ-31Α",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Έγκριση δαπάνης για την μετακίνηση με ID-6523 και σκοπό τη συμμετοχή σε συνάντηση του έργου ΟΡΙΖΟΝΤΙΟ ΙΠΣΥ",
+                        "issue_date": "2023-04-24",
+                        "chunk_id": 1341
+                    },
+                    {
+                        "document_id": "ΡΘΖ7469ΗΞΩ-ΑΑΣ",
+                        "ada": "ΡΘΖ7469ΗΞΩ-ΑΑΣ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Έγκριση δαπάνης μετακίνησης με ID6288 και σκοπό τη συμμετοχή σε συνάντηση του έργου Οριζόντιο ΙΠΣΥ",
+                        "issue_date": "2023-01-19",
+                        "chunk_id": 543
+                    }
+                ],
+                "metrics": {
+                    "rank": 1,
+                    "hit@1": 1,
+                    "hit@3": 1,
+                    "hit@5": 1,
+                    "rr": 1.0
+                }
+            },
+            {
+                "query": "Ποια απόφαση αφορά τα αποτελέσματα της πρόσκλησης του έργου ΠΕΡΙΠΛΟΥΣ;",
+                "expected_adas": [
+                    "ΡΕΒΜ469ΗΞΩ-7Φ1"
+                ],
+                "expected_source_ids": [],
+                "ranking": [
+                    {
+                        "document_id": "ΡΠΘΖ469ΗΞΩ-Μ1Ι",
+                        "ada": "ΡΠΘΖ469ΗΞΩ-Μ1Ι",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Την τροποποίηση της κατανομής του προϋπολογισμού, ανά κατηγορία δαπάνης, για τα οικ. έτη 2021-2022-2023 του έργου ΠΕΡΙΠΛΟΥΣ",
+                        "issue_date": "2021-01-28",
+                        "chunk_id": 2699
+                    },
+                    {
+                        "document_id": "Ω8ΙΚ469ΗΞΩ-ΡΓ2",
+                        "ada": "Ω8ΙΚ469ΗΞΩ-ΡΓ2",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Ανάρτηση αποτελεσμάτων της πρόσκλησης εκδήλωσης ενδιαφέροντος με κωδικό ILSP.356.PER-08.ΧΑΝ.0423 στο πλαίσιο του έργου ΠΕΡΙΠΛΟΥΣ",
+                        "issue_date": "2023-06-29",
+                        "chunk_id": 1660
+                    },
+                    {
+                        "document_id": "ΡΕΒΜ469ΗΞΩ-7Φ1",
+                        "ada": "ΡΕΒΜ469ΗΞΩ-7Φ1",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Ανάρτηση αποτελεσμάτων της πρόσκλησης εκδήλωσης ενδιαφέροντος με κωδικό ILSP.356.PER-07.ΧΑΝ.0423 στο πλαίσιο του έργου ΠΕΡΙΠΛΟΥΣ",
+                        "issue_date": "2023-06-29",
+                        "chunk_id": 1692
+                    },
+                    {
+                        "document_id": "Ψ1ΥΞ469ΗΞΩ-ΞΒΚ",
+                        "ada": "Ψ1ΥΞ469ΗΞΩ-ΞΒΚ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Αποτελέσματα πρόσκλησης εκδήλωσης για συνεργάτη με κωδικό EVENFLOW_012023",
+                        "issue_date": "2023-02-09",
+                        "chunk_id": 189
+                    },
+                    {
+                        "document_id": "ΡΛΝΘ469ΗΞΩ-5ΩΝ",
+                        "ada": "ΡΛΝΘ469ΗΞΩ-5ΩΝ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Έγκριση δαπάνης εις βάρος του προϋπολογισμού του έργου ΠΕΡΙΠΛΟΥΣ για την αγορά ενσύρματων ακουστικών.",
+                        "issue_date": "2021-06-25",
+                        "chunk_id": 2786
+                    }
+                ],
+                "metrics": {
+                    "rank": 3,
+                    "hit@1": 0,
+                    "hit@3": 1,
+                    "hit@5": 1,
+                    "rr": 0.3333333333333333
+                }
+            },
+            {
+                "query": "Βρες μου τα αποτελέσματα της πρόσκλησης ILSP.356.PER-07.ΧΑΝ.0423.",
+                "expected_adas": [
+                    "ΡΕΒΜ469ΗΞΩ-7Φ1"
+                ],
+                "expected_source_ids": [],
+                "ranking": [
+                    {
+                        "document_id": "9Ζ87469ΗΞΩ-ΕΩΟ",
+                        "ada": "9Ζ87469ΗΞΩ-ΕΩΟ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Πρόσκληση Εκδήλωσης Ενδιαφέροντος με κωδικό ILSP.293.ARIA-0421",
+                        "issue_date": "2021-04-22",
+                        "chunk_id": 2465
+                    },
+                    {
+                        "document_id": "ΡΕΒΜ469ΗΞΩ-7Φ1",
+                        "ada": "ΡΕΒΜ469ΗΞΩ-7Φ1",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Ανάρτηση αποτελεσμάτων της πρόσκλησης εκδήλωσης ενδιαφέροντος με κωδικό ILSP.356.PER-07.ΧΑΝ.0423 στο πλαίσιο του έργου ΠΕΡΙΠΛΟΥΣ",
+                        "issue_date": "2023-06-29",
+                        "chunk_id": 1687
+                    },
+                    {
+                        "document_id": "Ω8ΙΚ469ΗΞΩ-ΡΓ2",
+                        "ada": "Ω8ΙΚ469ΗΞΩ-ΡΓ2",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Ανάρτηση αποτελεσμάτων της πρόσκλησης εκδήλωσης ενδιαφέροντος με κωδικό ILSP.356.PER-08.ΧΑΝ.0423 στο πλαίσιο του έργου ΠΕΡΙΠΛΟΥΣ",
+                        "issue_date": "2023-06-29",
+                        "chunk_id": 1655
+                    },
+                    {
+                        "document_id": "9Υ9Ε469ΗΞΩ-ΘΘΕ",
+                        "ada": "9Υ9Ε469ΗΞΩ-ΘΘΕ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Αποτελέσματα πρόσκλησης με κωδ.ARSINOE_356_0423",
+                        "issue_date": "2023-06-29",
+                        "chunk_id": 1731
+                    }
+                ],
+                "metrics": {
+                    "rank": 2,
+                    "hit@1": 0,
+                    "hit@3": 1,
+                    "hit@5": 1,
+                    "rr": 0.5
+                }
+            },
+            {
+                "query": "Ποια απόφαση αφορά την πρόσκληση CEI BOOST 002.2023;",
+                "expected_adas": [
+                    "6Β3Λ469ΗΞΩ-Ξ1Ε"
+                ],
+                "expected_source_ids": [],
+                "ranking": [
+                    {
+                        "document_id": "6Β3Λ469ΗΞΩ-Ξ1Ε",
+                        "ada": "6Β3Λ469ΗΞΩ-Ξ1Ε",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Πρόσκληση CEI BOOST 002.2023 (ΔΣ 364)",
+                        "issue_date": "2023-06-29",
+                        "chunk_id": 1795
+                    }
+                ],
+                "metrics": {
+                    "rank": 1,
+                    "hit@1": 1,
+                    "hit@3": 1,
+                    "hit@5": 1,
+                    "rr": 1.0
+                }
+            },
+            {
+                "query": "Βρες μου τη δημοσιευμένη πρόσκληση για το CEI BOOST.",
+                "expected_adas": [
+                    "6Β3Λ469ΗΞΩ-Ξ1Ε"
+                ],
+                "expected_source_ids": [],
+                "ranking": [
+                    {
+                        "document_id": "6Β3Λ469ΗΞΩ-Ξ1Ε",
+                        "ada": "6Β3Λ469ΗΞΩ-Ξ1Ε",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Πρόσκληση CEI BOOST 002.2023 (ΔΣ 364)",
+                        "issue_date": "2023-06-29",
+                        "chunk_id": 1805
+                    }
+                ],
+                "metrics": {
+                    "rank": 1,
+                    "hit@1": 1,
+                    "hit@3": 1,
+                    "hit@5": 1,
+                    "rr": 1.0
+                }
+            },
+            {
+                "query": "Ποια απόφαση αφορά σύναψη συμφωνητικού χορήγησης υποτροφίας στο AutoFAIR;",
+                "expected_adas": [
+                    "6ΒΥ8469ΗΞΩ-Κ0Τ"
+                ],
+                "expected_source_ids": [],
+                "ranking": [
+                    {
+                        "document_id": "6ΒΥ8469ΗΞΩ-Κ0Τ",
+                        "ada": "6ΒΥ8469ΗΞΩ-Κ0Τ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Σύναψη ιδιωτικού συμφωνητικού χορήγησης υποτροφίας στο πλαίσιο υλοποίησης του έργου AutoFair",
+                        "issue_date": "2023-03-23",
+                        "chunk_id": 127
+                    },
+                    {
+                        "document_id": "91ΞΚ469ΗΞΩ-Ι2Μ",
+                        "ada": "91ΞΚ469ΗΞΩ-Ι2Μ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Σύναψη συμφωνητικού χορήγησης υποτροφίας στο πλαίσιο υλοποίησης του έργου AutoFair",
+                        "issue_date": "2023-04-19",
+                        "chunk_id": 478
+                    },
+                    {
+                        "document_id": "ΡΖΑΟ469ΗΞΩ-ΒΤΑ",
+                        "ada": "ΡΖΑΟ469ΗΞΩ-ΒΤΑ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Αποτελέσματα πρόσκλησης εκδήλωσης ενδιαφέροντος με κωδικό AutoFAIR_upotr_022023",
+                        "issue_date": "2023-03-23",
+                        "chunk_id": 133
+                    }
+                ],
+                "metrics": {
+                    "rank": 1,
+                    "hit@1": 1,
+                    "hit@3": 1,
+                    "hit@5": 1,
+                    "rr": 1.0
+                }
+            },
+            {
+                "query": "Βρες μου τη σύμβαση υποτροφίας που υπογράφηκε στο πλαίσιο του AutoFAIR.",
+                "expected_adas": [
+                    "6ΒΥ8469ΗΞΩ-Κ0Τ"
+                ],
+                "expected_source_ids": [],
+                "ranking": [
+                    {
+                        "document_id": "6ΒΥ8469ΗΞΩ-Κ0Τ",
+                        "ada": "6ΒΥ8469ΗΞΩ-Κ0Τ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Σύναψη ιδιωτικού συμφωνητικού χορήγησης υποτροφίας στο πλαίσιο υλοποίησης του έργου AutoFair",
+                        "issue_date": "2023-03-23",
+                        "chunk_id": 127
+                    },
+                    {
+                        "document_id": "91ΞΚ469ΗΞΩ-Ι2Μ",
+                        "ada": "91ΞΚ469ΗΞΩ-Ι2Μ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Σύναψη συμφωνητικού χορήγησης υποτροφίας στο πλαίσιο υλοποίησης του έργου AutoFair",
+                        "issue_date": "2023-04-19",
+                        "chunk_id": 478
+                    },
+                    {
+                        "document_id": "ΡΖΑΟ469ΗΞΩ-ΒΤΑ",
+                        "ada": "ΡΖΑΟ469ΗΞΩ-ΒΤΑ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Αποτελέσματα πρόσκλησης εκδήλωσης ενδιαφέροντος με κωδικό AutoFAIR_upotr_022023",
+                        "issue_date": "2023-03-23",
+                        "chunk_id": 133
+                    }
+                ],
+                "metrics": {
+                    "rank": 1,
+                    "hit@1": 1,
+                    "hit@3": 1,
+                    "hit@5": 1,
+                    "rr": 1.0
+                }
+            },
+            {
+                "query": "Ποια απόφαση περιέχει τα αποτελέσματα της πρόσκλησης AutoFAIR_122022;",
+                "expected_adas": [
+                    "9ΖΝ0469ΗΞΩ-Ο7Μ"
+                ],
+                "expected_source_ids": [],
+                "ranking": [
+                    {
+                        "document_id": "9ΖΝ0469ΗΞΩ-Ο7Μ",
+                        "ada": "9ΖΝ0469ΗΞΩ-Ο7Μ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Αποτελέσματα πρόσκλησης εκδήλωσης ενδιαφέροντος με κωδικό AutoFAIR_122022",
+                        "issue_date": "2023-01-26",
+                        "chunk_id": 326
+                    },
+                    {
+                        "document_id": "6ΘΗ3469ΗΞΩ-Α98",
+                        "ada": "6ΘΗ3469ΗΞΩ-Α98",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Αποτελέσματα πρόσκλησης εκδήλωσης ενδιαφέροντος για συνεργάτη με κωδικό AutoFAIR_November_2022",
+                        "issue_date": "2023-01-12",
+                        "chunk_id": 171
+                    },
+                    {
+                        "document_id": "ΡΖΑΟ469ΗΞΩ-ΒΤΑ",
+                        "ada": "ΡΖΑΟ469ΗΞΩ-ΒΤΑ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Αποτελέσματα πρόσκλησης εκδήλωσης ενδιαφέροντος με κωδικό AutoFAIR_upotr_022023",
+                        "issue_date": "2023-03-23",
+                        "chunk_id": 133
+                    },
+                    {
+                        "document_id": "6Ν3Ω469ΗΞΩ-ΜΗΙ",
+                        "ada": "6Ν3Ω469ΗΞΩ-ΜΗΙ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Σύναψη σύμβασης μίσθωσης έργου στο πλαίσιο υλοποίησης του έργου AutoFair",
+                        "issue_date": "2023-01-26",
+                        "chunk_id": 320
+                    },
+                    {
+                        "document_id": "ΩΝΥΨ469ΗΞΩ-ΗΦΕ",
+                        "ada": "ΩΝΥΨ469ΗΞΩ-ΗΦΕ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Σύναψη σύμβασης μίσθωσης έργου στο πλαίσιο υλοποίησης του έργου AutoFair",
+                        "issue_date": "2023-01-12",
+                        "chunk_id": 165
+                    }
+                ],
+                "metrics": {
+                    "rank": 1,
+                    "hit@1": 1,
+                    "hit@3": 1,
+                    "hit@5": 1,
+                    "rr": 1.0
+                }
+            },
+            {
+                "query": "Βρες μου ποια απόφαση δημοσίευσε τα αποτελέσματα του AutoFAIR τον Δεκέμβριο.",
+                "expected_adas": [
+                    "9ΖΝ0469ΗΞΩ-Ο7Μ"
+                ],
+                "expected_source_ids": [],
+                "ranking": [
+                    {
+                        "document_id": "ΡΖΑΟ469ΗΞΩ-ΒΤΑ",
+                        "ada": "ΡΖΑΟ469ΗΞΩ-ΒΤΑ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Αποτελέσματα πρόσκλησης εκδήλωσης ενδιαφέροντος με κωδικό AutoFAIR_upotr_022023",
+                        "issue_date": "2023-03-23",
+                        "chunk_id": 133
+                    },
+                    {
+                        "document_id": "6ΘΗ3469ΗΞΩ-Α98",
+                        "ada": "6ΘΗ3469ΗΞΩ-Α98",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Αποτελέσματα πρόσκλησης εκδήλωσης ενδιαφέροντος για συνεργάτη με κωδικό AutoFAIR_November_2022",
+                        "issue_date": "2023-01-12",
+                        "chunk_id": 171
+                    },
+                    {
+                        "document_id": "ΩΝΥΨ469ΗΞΩ-ΗΦΕ",
+                        "ada": "ΩΝΥΨ469ΗΞΩ-ΗΦΕ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Σύναψη σύμβασης μίσθωσης έργου στο πλαίσιο υλοποίησης του έργου AutoFair",
+                        "issue_date": "2023-01-12",
+                        "chunk_id": 165
+                    },
+                    {
+                        "document_id": "6Ν3Ω469ΗΞΩ-ΜΗΙ",
+                        "ada": "6Ν3Ω469ΗΞΩ-ΜΗΙ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Σύναψη σύμβασης μίσθωσης έργου στο πλαίσιο υλοποίησης του έργου AutoFair",
+                        "issue_date": "2023-01-26",
+                        "chunk_id": 320
+                    },
+                    {
+                        "document_id": "92ΡΟ469ΗΞΩ-ΑΜΚ",
+                        "ada": "92ΡΟ469ΗΞΩ-ΑΜΚ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Σύναψη σύμβασης μίσθωσης έργου στο πλαίσιο υλοποίησης του έργου AutoFair",
+                        "issue_date": "2023-04-19",
+                        "chunk_id": 788
+                    }
+                ],
+                "metrics": {
+                    "rank": null,
+                    "hit@1": 0,
+                    "hit@3": 0,
+                    "hit@5": 0,
+                    "rr": 0.0
+                }
+            },
+            {
+                "query": "Ποια απόφαση αφορά σύμβαση εργασίας ορισμένου χρόνου για τα έργα Βοΐσκα, ΑΠΤΟΣ και ΑΠΟΗΧΟΙ;",
+                "expected_adas": [
+                    "ΨΕΤ0469ΗΞΩ-ΤΒΑ"
+                ],
+                "expected_source_ids": [],
+                "ranking": [
+                    {
+                        "document_id": "ΨΕΤ0469ΗΞΩ-ΤΒΑ",
+                        "ada": "ΨΕΤ0469ΗΞΩ-ΤΒΑ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Σύναψη σύμβασης εργασίας ορισμένου χρόνου στο πλαίσιο των έργων Βοΐσκα, ΑΠΤΟΣ και ΑΠΟΗΧΟΙ",
+                        "issue_date": "2023-04-21",
+                        "chunk_id": 2405
+                    },
+                    {
+                        "document_id": "Ψ3Ζ1469ΗΞΩ-ΚΦΡ",
+                        "ada": "Ψ3Ζ1469ΗΞΩ-ΚΦΡ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "ΑΠΟΦΑΣΗ ΣΥΝΑΨΗ ΣΥΜΒΑΣΗΣ",
+                        "issue_date": "2023-06-29",
+                        "chunk_id": 1757
+                    },
+                    {
+                        "document_id": "68ΚΑ469ΗΞΩ-Θ7Ι",
+                        "ada": "68ΚΑ469ΗΞΩ-Θ7Ι",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Σύναψη συμβάσεων εργασίας ορισμένου χρόνου στο πλαίσιο υλοποίησης των ερευνητικών έργων του ΙΠΣΥ",
+                        "issue_date": "2023-04-19",
+                        "chunk_id": 796
+                    }
+                ],
+                "metrics": {
+                    "rank": 1,
+                    "hit@1": 1,
+                    "hit@3": 1,
+                    "hit@5": 1,
+                    "rr": 1.0
+                }
+            },
+            {
+                "query": "Βρες μου την απόφαση έγκρισης δαπάνης για ηλεκτρονικό εξοπλισμό στο EOSCFuture.",
+                "expected_adas": [
+                    "ΡΒ14469ΗΞΩ-9ΩΣ"
+                ],
+                "expected_source_ids": [],
+                "ranking": [
+                    {
+                        "document_id": "ΡΒ14469ΗΞΩ-9ΩΣ",
+                        "ada": "ΡΒ14469ΗΞΩ-9ΩΣ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Έγκριση δαπάνης για προμήθεια ηλεκτρονικού εξοπλισμού στο πλαίσιο υλοποίησης του έργου EOSCFuture",
+                        "issue_date": "2023-06-13",
+                        "chunk_id": 2412
+                    },
+                    {
+                        "document_id": "6ΥΩ1469ΗΞΩ-Ψ0Ω",
+                        "ada": "6ΥΩ1469ΗΞΩ-Ψ0Ω",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Έγκριση δαπάνης για την ενοικίαση εξοπλισμού και την εγκατάσταση/απεγκατάσταση του στο πλαίσιο του έργου VOICES",
+                        "issue_date": "2023-06-23",
+                        "chunk_id": 2113
+                    },
+                    {
+                        "document_id": "6ΛΛ4469ΗΞΩ-ΕΟΘ",
+                        "ada": "6ΛΛ4469ΗΞΩ-ΕΟΘ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Έγκριση δαπάνης για την προμήθεια περιφερειακών ειδών ΗΥ για κάλυψη των αναγκών των διοικητικών τμημάτων της Γενικής Διεύθυνσης στα πλαίσια του έργου ¨ΔΡΑΣΕΙΣ ΣΤΗΡΙΞΗΣ ΓΕΝΙΚΗΣ ΔΙΕΥΘΥΝΣΗΣ\"",
+                        "issue_date": "2023-05-22",
+                        "chunk_id": 1468
+                    },
+                    {
+                        "document_id": "9ΛΖΔ469ΗΞΩ-Ο1Χ",
+                        "ada": "9ΛΖΔ469ΗΞΩ-Ο1Χ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Έγκριση πληρωμής της δαπάνης προμήθειας περιφερειακών ειδών ΗΥ για κάλυψη των αναγκών των διοικητικών τμημάτων της Γενικής Διεύθυνσης στο πλαίσιο του έργου \"ΔΡΑΣΕΙΣ ΣΤΗΡΙΞΗΣ ΓΕΝΙΚΗΣ ΔΙΕΥΘΥΝΣΗΣ\"",
+                        "issue_date": "2023-06-06",
+                        "chunk_id": 1418
+                    }
+                ],
+                "metrics": {
+                    "rank": 1,
+                    "hit@1": 1,
+                    "hit@3": 1,
+                    "hit@5": 1,
+                    "rr": 1.0
+                }
+            },
+            {
+                "query": "Ποια απόφαση αφορά εντολή πληρωμής για εξοπλισμό και αναλώσιμα στο INTRACOM 1 - ART;",
+                "expected_adas": [
+                    "6ΜΓ8469ΗΞΩ-6Τ6"
+                ],
+                "expected_source_ids": [],
+                "ranking": [
+                    {
+                        "document_id": "6ΜΓ8469ΗΞΩ-6Τ6",
+                        "ada": "6ΜΓ8469ΗΞΩ-6Τ6",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Εντολή πληρωμής για την προμήθεια εξοπλισμού και αναλώσιμων στο πλαίσιο του έργου INTRACOM 1 - ART",
+                        "issue_date": "2023-06-13",
+                        "chunk_id": 2181
+                    },
+                    {
+                        "document_id": "9ΒΓΔ469ΗΞΩ-1ΛΝ",
+                        "ada": "9ΒΓΔ469ΗΞΩ-1ΛΝ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Εντολή πληρωμής δαπάνης εκτύπωσης πόστερ ερευνητικών δραστηριοτήτων ΙΡΟ  στο πλαίσιο του έργου EU BabyRobot+",
+                        "issue_date": "2023-06-29",
+                        "chunk_id": 1775
+                    },
+                    {
+                        "document_id": "ΨΟΨΑ469ΗΞΩ-Κ0Η",
+                        "ada": "ΨΟΨΑ469ΗΞΩ-Κ0Η",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Εντολή πληρωμής για υπηρεσίες ταχυμεταφορών στο πλαίσιο υλοποίησης του έργου LAZARUS",
+                        "issue_date": "2023-06-27",
+                        "chunk_id": 1911
+                    },
+                    {
+                        "document_id": "6Λ10469ΗΞΩ-12Β",
+                        "ada": "6Λ10469ΗΞΩ-12Β",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Εντολή πληρωμής Δαπάνης προμήθειας printer SECOPERA 14-09 ΑΠ 11691",
+                        "issue_date": "2023-06-26",
+                        "chunk_id": 1855
+                    }
+                ],
+                "metrics": {
+                    "rank": 1,
+                    "hit@1": 1,
+                    "hit@3": 1,
+                    "hit@5": 1,
+                    "rr": 1.0
+                }
+            },
+            {
+                "query": "Βρες μου την έγκριση μετακίνησης συνεργάτη στο πλαίσιο του OpenGPT-X/ARC.",
+                "expected_adas": [
+                    "6ΛΟΘ469ΗΞΩ-ΓΧ3"
+                ],
+                "expected_source_ids": [],
+                "ranking": [
+                    {
+                        "document_id": "6ΛΟΘ469ΗΞΩ-ΓΧ3",
+                        "ada": "6ΛΟΘ469ΗΞΩ-ΓΧ3",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Έγκριση μετακίνησης του συνεργάτη με ID-6687 στο πλαίσιο του έργου OpenGPT-X/ARC",
+                        "issue_date": "2023-06-02",
+                        "chunk_id": 1052
+                    },
+                    {
+                        "document_id": "9ΕΛΖ469ΗΞΩ-20Ζ",
+                        "ada": "9ΕΛΖ469ΗΞΩ-20Ζ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Έγκριση δαπάνης για την μετακίνηση του επιστημονικού συνεργάτη με ID-6729 στο πλαίσιο του έργου i-VCG",
+                        "issue_date": "2023-06-22",
+                        "chunk_id": 2229
+                    },
+                    {
+                        "document_id": "69ΜΒ469ΗΞΩ-ΩΛΨ",
+                        "ada": "69ΜΒ469ΗΞΩ-ΩΛΨ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Έγκριση δαπάνης για την μετακίνηση ενός συνεργάτη με ID-6613 στο πλαίσιο του έργου PREMIERE",
+                        "issue_date": "2023-05-10",
+                        "chunk_id": 555
+                    },
+                    {
+                        "document_id": "ΨΒ2Μ469ΗΞΩ-6Δ1",
+                        "ada": "ΨΒ2Μ469ΗΞΩ-6Δ1",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Έγκριση δαπάνης μετακίνησης με ID-6700 και σκοπό τη συμμετοχή στη συνάντηση του συνασπισμού εθνικών χορηγών έρευνας σε ΤΠΕ \"CHIST-ERA\" στο πλαίσιο του έργου OpenAire NEXUS",
+                        "issue_date": "2023-03-30",
+                        "chunk_id": 1058
+                    }
+                ],
+                "metrics": {
+                    "rank": 1,
+                    "hit@1": 1,
+                    "hit@3": 1,
+                    "hit@5": 1,
+                    "rr": 1.0
+                }
+            },
+            {
+                "query": "Ποια απόφαση αφορά μετακίνηση δύο συνεργατών στο έργο EASIER;",
+                "expected_adas": [
+                    "69Ζ2469ΗΞΩ-ΜΗΖ"
+                ],
+                "expected_source_ids": [],
+                "ranking": [
+                    {
+                        "document_id": "69Ζ2469ΗΞΩ-ΜΗΖ",
+                        "ada": "69Ζ2469ΗΞΩ-ΜΗΖ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Έγκριση μετακίνησης των συνεργατών με ID-6549 και ID-6550 στο πλαίσιο του έργου EASIER",
+                        "issue_date": "2023-04-28",
+                        "chunk_id": 1262
+                    },
+                    {
+                        "document_id": "6Θ1Ε469ΗΞΩ-Δ50",
+                        "ada": "6Θ1Ε469ΗΞΩ-Δ50",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Έγκριση δαπάνης μετακίνησης ID-6705 στο πλαίσιο του έργου ARSINOE",
+                        "issue_date": "2023-06-14",
+                        "chunk_id": 1026
+                    },
+                    {
+                        "document_id": "Ψ640469ΗΞΩ-30Ο",
+                        "ada": "Ψ640469ΗΞΩ-30Ο",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Έγκριση μετακίνησης του επιστημονικού συνεργάτη με ID-6646 στο πλαίσιο του έργου BEHAVE",
+                        "issue_date": "2023-04-04",
+                        "chunk_id": 838
+                    },
+                    {
+                        "document_id": "6ΣΓΔ469ΗΞΩ-ΓΥ7",
+                        "ada": "6ΣΓΔ469ΗΞΩ-ΓΥ7",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Έγκριση δαπάνης μετακίνησης id-6731 στο πλαίσιο του έργου ARSINOE",
+                        "issue_date": "2023-06-23",
+                        "chunk_id": 2138
+                    },
+                    {
+                        "document_id": "ΨΘ8Μ469ΗΞΩ-Σ1Ο",
+                        "ada": "ΨΘ8Μ469ΗΞΩ-Σ1Ο",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Έγκριση δαπάνης μετακίνησης ID- 6733",
+                        "issue_date": "2023-06-23",
+                        "chunk_id": 2174
+                    }
+                ],
+                "metrics": {
+                    "rank": 1,
+                    "hit@1": 1,
+                    "hit@3": 1,
+                    "hit@5": 1,
+                    "rr": 1.0
+                }
+            },
+            {
+                "query": "Από πόσα τακτικά μέλη αποτελείται η ΕΗΔΕ του Ερευνητικού Κέντρου Αθηνά;",
+                "expected_adas": [],
+                "expected_source_ids": [
+                    "athena_ehde_regulation"
+                ],
+                "ranking": [
+                    {
+                        "document_id": "athena_ehde_regulation",
+                        "ada": null,
+                        "source_id": "athena_ehde_regulation",
+                        "source": "external_pdf",
+                        "subject": "Κανονισμός Αρχών και Λειτουργίας της Επιτροπής Ηθικής και Δεοντολογίας της Έρευνας",
+                        "issue_date": null,
+                        "chunk_id": 2856
+                    }
+                ],
+                "metrics": {
+                    "rank": 1,
+                    "hit@1": 1,
+                    "hit@3": 1,
+                    "hit@5": 1,
+                    "rr": 1.0
+                }
+            },
+            {
+                "query": "Πόσα από τα μέλη της ΕΗΔΕ πρέπει να είναι εκτός του ΕΚ Αθηνά;",
+                "expected_adas": [],
+                "expected_source_ids": [
+                    "athena_ehde_regulation"
+                ],
+                "ranking": [
+                    {
+                        "document_id": "athena_ehde_regulation",
+                        "ada": null,
+                        "source_id": "athena_ehde_regulation",
+                        "source": "external_pdf",
+                        "subject": "Κανονισμός Αρχών και Λειτουργίας της Επιτροπής Ηθικής και Δεοντολογίας της Έρευνας",
+                        "issue_date": null,
+                        "chunk_id": 2856
+                    }
+                ],
+                "metrics": {
+                    "rank": 1,
+                    "hit@1": 1,
+                    "hit@3": 1,
+                    "hit@5": 1,
+                    "rr": 1.0
+                }
+            },
+            {
+                "query": "Κάθε πότε συνεδριάζει κανονικά η ΕΗΔΕ;",
+                "expected_adas": [],
+                "expected_source_ids": [
+                    "athena_ehde_regulation"
+                ],
+                "ranking": [
+                    {
+                        "document_id": "athena_ehde_regulation",
+                        "ada": null,
+                        "source_id": "athena_ehde_regulation",
+                        "source": "external_pdf",
+                        "subject": "Κανονισμός Αρχών και Λειτουργίας της Επιτροπής Ηθικής και Δεοντολογίας της Έρευνας",
+                        "issue_date": null,
+                        "chunk_id": 2866
+                    }
+                ],
+                "metrics": {
+                    "rank": 1,
+                    "hit@1": 1,
+                    "hit@3": 1,
+                    "hit@5": 1,
+                    "rr": 1.0
+                }
+            },
+            {
+                "query": "Πόσα μέλη πρέπει να είναι παρόντα για να υπάρχει απαρτία στην ΕΗΔΕ;",
+                "expected_adas": [],
+                "expected_source_ids": [
+                    "athena_ehde_regulation"
+                ],
+                "ranking": [
+                    {
+                        "document_id": "athena_ehde_regulation",
+                        "ada": null,
+                        "source_id": "athena_ehde_regulation",
+                        "source": "external_pdf",
+                        "subject": "Κανονισμός Αρχών και Λειτουργίας της Επιτροπής Ηθικής και Δεοντολογίας της Έρευνας",
+                        "issue_date": null,
+                        "chunk_id": 2856
+                    }
+                ],
+                "metrics": {
+                    "rank": 1,
+                    "hit@1": 1,
+                    "hit@3": 1,
+                    "hit@5": 1,
+                    "rr": 1.0
+                }
+            },
+            {
+                "query": "Σε πόσες μέρες πρέπει να αποφασίσει η ΕΗΔΕ για μια αίτηση;",
+                "expected_adas": [],
+                "expected_source_ids": [
+                    "athena_ehde_regulation"
+                ],
+                "ranking": [
+                    {
+                        "document_id": "athena_ehde_regulation",
+                        "ada": null,
+                        "source_id": "athena_ehde_regulation",
+                        "source": "external_pdf",
+                        "subject": "Κανονισμός Αρχών και Λειτουργίας της Επιτροπής Ηθικής και Δεοντολογίας της Έρευνας",
+                        "issue_date": null,
+                        "chunk_id": 2865
+                    },
+                    {
+                        "document_id": "6ΙΧΒ469ΗΞΩ-ΕΤΦ",
+                        "ada": "6ΙΧΒ469ΗΞΩ-ΕΤΦ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Πρόσκληση ENVISION II 001.2023 (ΔΣ 364)",
+                        "issue_date": "2023-06-29",
+                        "chunk_id": 1569
+                    }
+                ],
+                "metrics": {
+                    "rank": 1,
+                    "hit@1": 1,
+                    "hit@3": 1,
+                    "hit@5": 1,
+                    "rr": 1.0
+                }
+            },
+            {
+                "query": "Πόσες μέρες έχω για να κάνω αίτηση σε δημόσια πρόσκληση του ΕΛΚΕ;",
+                "expected_adas": [],
+                "expected_source_ids": [
+                    "ekpa_funding_guide_2024"
+                ],
+                "ranking": [
+                    {
+                        "document_id": "ekpa_funding_guide_2024",
+                        "ada": null,
+                        "source_id": "ekpa_funding_guide_2024",
+                        "source": "external_pdf",
+                        "subject": "Οδηγός Χρηματοδότησης και Διαχείρισης - Νοέμβριος 2024",
+                        "issue_date": null,
+                        "chunk_id": 2995
+                    },
+                    {
+                        "document_id": "Ω8ΙΚ469ΗΞΩ-ΡΓ2",
+                        "ada": "Ω8ΙΚ469ΗΞΩ-ΡΓ2",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Ανάρτηση αποτελεσμάτων της πρόσκλησης εκδήλωσης ενδιαφέροντος με κωδικό ILSP.356.PER-08.ΧΑΝ.0423 στο πλαίσιο του έργου ΠΕΡΙΠΛΟΥΣ",
+                        "issue_date": "2023-06-29",
+                        "chunk_id": 1663
+                    }
+                ],
+                "metrics": {
+                    "rank": 1,
+                    "hit@1": 1,
+                    "hit@3": 1,
+                    "hit@5": 1,
+                    "rr": 1.0
+                }
+            },
+            {
+                "query": "Πόσες μέρες έχω για να κάνω ένσταση στα αποτελέσματα μιας πρόσκλησης του ΕΛΚΕ;",
+                "expected_adas": [],
+                "expected_source_ids": [
+                    "ekpa_funding_guide_2024"
+                ],
+                "ranking": [
+                    {
+                        "document_id": "ekpa_funding_guide_2024",
+                        "ada": null,
+                        "source_id": "ekpa_funding_guide_2024",
+                        "source": "external_pdf",
+                        "subject": "Οδηγός Χρηματοδότησης και Διαχείρισης - Νοέμβριος 2024",
+                        "issue_date": null,
+                        "chunk_id": 2981
+                    },
+                    {
+                        "document_id": "Ω8ΙΚ469ΗΞΩ-ΡΓ2",
+                        "ada": "Ω8ΙΚ469ΗΞΩ-ΡΓ2",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Ανάρτηση αποτελεσμάτων της πρόσκλησης εκδήλωσης ενδιαφέροντος με κωδικό ILSP.356.PER-08.ΧΑΝ.0423 στο πλαίσιο του έργου ΠΕΡΙΠΛΟΥΣ",
+                        "issue_date": "2023-06-29",
+                        "chunk_id": 1663
+                    },
+                    {
+                        "document_id": "ΡΕΒΜ469ΗΞΩ-7Φ1",
+                        "ada": "ΡΕΒΜ469ΗΞΩ-7Φ1",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Ανάρτηση αποτελεσμάτων της πρόσκλησης εκδήλωσης ενδιαφέροντος με κωδικό ILSP.356.PER-07.ΧΑΝ.0423 στο πλαίσιο του έργου ΠΕΡΙΠΛΟΥΣ",
+                        "issue_date": "2023-06-29",
+                        "chunk_id": 1694
+                    },
+                    {
+                        "document_id": "Ε06Ρ469ΗΞΩ-Μ4Ν",
+                        "ada": "Ε06Ρ469ΗΞΩ-Μ4Ν",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Αποτελέσματα πρόσκλησης εκδήλωσης ενδιαφέροντος για συνεργάτες με κωδικό BIOINDUSTRY_042023",
+                        "issue_date": "2023-06-29",
+                        "chunk_id": 275
+                    },
+                    {
+                        "document_id": "ΕΨ28469ΗΞΩ-ΡΦΧ",
+                        "ada": "ΕΨ28469ΗΞΩ-ΡΦΧ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Αποτελέσματα πρόσκλησης εκδήλωσης ενδιαφέροντος για συνεργάτη με κωδικό EOSC FUTURE_042023",
+                        "issue_date": "2023-06-29",
+                        "chunk_id": 289
+                    }
+                ],
+                "metrics": {
+                    "rank": 1,
+                    "hit@1": 1,
+                    "hit@3": 1,
+                    "hit@5": 1,
+                    "rr": 1.0
+                }
+            },
+            {
+                "query": "Πόσες ώρες θεωρούνται ένα έτος πλήρους απασχόλησης;",
+                "expected_adas": [],
+                "expected_source_ids": [
+                    "ekpa_funding_guide_2024"
+                ],
+                "ranking": [
+                    {
+                        "document_id": "ekpa_funding_guide_2024",
+                        "ada": null,
+                        "source_id": "ekpa_funding_guide_2024",
+                        "source": "external_pdf",
+                        "subject": "Οδηγός Χρηματοδότησης και Διαχείρισης - Νοέμβριος 2024",
+                        "issue_date": null,
+                        "chunk_id": 3019
+                    },
+                    {
+                        "document_id": "63Μ9469ΗΞΩ-ΤΟΛ",
+                        "ada": "63Μ9469ΗΞΩ-ΤΟΛ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Απόφαση Ολοκλήρωσης της υλοποίησης με ίδια μέσα του Υποέργου 3 «Δράσεις εξειδίκευσης Ερευνητικού Κέντρου Αθηνά για το Κέντρο ολοκληρωμένης ψηφιακής διαχείρισης πολιτισμικής κληρονομιάς» της Πράξης «Κέντρο ολοκληρωμένης ψηφιακής διαχείρισης πολιτισμικής κληρονομιάς»  με κωδικό ΟΠΣ (MIS) 5021534",
+                        "issue_date": "2023-06-01",
+                        "chunk_id": 391
+                    }
+                ],
+                "metrics": {
+                    "rank": 1,
+                    "hit@1": 1,
+                    "hit@3": 1,
+                    "hit@5": 1,
+                    "rr": 1.0
+                }
+            },
+            {
+                "query": "Μέχρι πόσες ώρες υπερωρία μπορώ να κάνω τον χρόνο σε έργα που χρηματοδοτούνται από ιδιωτικούς, διεθνείς ή ίδιους πόρους;",
+                "expected_adas": [],
+                "expected_source_ids": [
+                    "ekpa_funding_guide_2024"
+                ],
+                "ranking": [
+                    {
+                        "document_id": "ekpa_funding_guide_2024",
+                        "ada": null,
+                        "source_id": "ekpa_funding_guide_2024",
+                        "source": "external_pdf",
+                        "subject": "Οδηγός Χρηματοδότησης και Διαχείρισης - Νοέμβριος 2024",
+                        "issue_date": null,
+                        "chunk_id": 3022
+                    }
+                ],
+                "metrics": {
+                    "rank": 1,
+                    "hit@1": 1,
+                    "hit@3": 1,
+                    "hit@5": 1,
+                    "rr": 1.0
+                }
+            },
+            {
+                "query": "Μέχρι πόσες ώρες υπερωρία μπορώ να κάνω την ημέρα σε έργα που χρηματοδοτούνται από ιδιωτικούς, διεθνείς ή ίδιους πόρους;",
+                "expected_adas": [],
+                "expected_source_ids": [
+                    "ekpa_funding_guide_2024"
+                ],
+                "ranking": [
+                    {
+                        "document_id": "ekpa_funding_guide_2024",
+                        "ada": null,
+                        "source_id": "ekpa_funding_guide_2024",
+                        "source": "external_pdf",
+                        "subject": "Οδηγός Χρηματοδότησης και Διαχείρισης - Νοέμβριος 2024",
+                        "issue_date": null,
+                        "chunk_id": 3022
+                    }
+                ],
+                "metrics": {
+                    "rank": 1,
+                    "hit@1": 1,
+                    "hit@3": 1,
+                    "hit@5": 1,
+                    "rr": 1.0
+                }
+            }
+        ]
+    },
+    "ensemble": {
+        "retriever": "ensemble",
+        "hit@1": 0.84,
+        "hit@3": 0.96,
+        "hit@5": 0.96,
+        "mrr": 0.8933333333333334,
+        "queries": [
+            {
+                "query": "Ποια απόφαση δημοσίευσε πρόσκληση για συνεργάτη στο Οριζόντιο ΙΠΣΥ;",
+                "expected_adas": [
+                    "ΨΨ7Α469ΗΞΩ-Ι9Ο"
+                ],
+                "expected_source_ids": [],
+                "ranking": [
+                    {
+                        "document_id": "ΨΨ7Α469ΗΞΩ-Ι9Ο",
+                        "ada": "ΨΨ7Α469ΗΞΩ-Ι9Ο",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Πρόσκληση εκδήλωσης ενδιαφέροντος για συνεργάτη στο πλαίσιο υλοποίησης του έργου \"Οριζόντιο ΙΠΣΥ\"",
+                        "issue_date": "2023-06-29",
+                        "chunk_id": 1203
+                    },
+                    {
+                        "document_id": "Ρ49Θ469ΗΞΩ-31Α",
+                        "ada": "Ρ49Θ469ΗΞΩ-31Α",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Έγκριση δαπάνης για την μετακίνηση με ID-6523 και σκοπό τη συμμετοχή σε συνάντηση του έργου ΟΡΙΖΟΝΤΙΟ ΙΠΣΥ",
+                        "issue_date": "2023-04-24",
+                        "chunk_id": 1341
+                    },
+                    {
+                        "document_id": "ΡΘΖ7469ΗΞΩ-ΑΑΣ",
+                        "ada": "ΡΘΖ7469ΗΞΩ-ΑΑΣ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Έγκριση δαπάνης μετακίνησης με ID6288 και σκοπό τη συμμετοχή σε συνάντηση του έργου Οριζόντιο ΙΠΣΥ",
+                        "issue_date": "2023-01-19",
+                        "chunk_id": 543
+                    },
+                    {
+                        "document_id": "ΡΗΝΓ469ΗΞΩ-ΝΡΑ",
+                        "ada": "ΡΗΝΓ469ΗΞΩ-ΝΡΑ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Αποτελέσματα πρόσκλησης εκδήλωσης ενδιαφέροντος για συνεργάτη με κωδικό HBP_112022",
+                        "issue_date": "2023-01-26",
+                        "chunk_id": 158
+                    },
+                    {
+                        "document_id": "9Ζ87469ΗΞΩ-ΕΩΟ",
+                        "ada": "9Ζ87469ΗΞΩ-ΕΩΟ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Πρόσκληση Εκδήλωσης Ενδιαφέροντος με κωδικό ILSP.293.ARIA-0421",
+                        "issue_date": "2021-04-22",
+                        "chunk_id": 2427
+                    }
+                ],
+                "metrics": {
+                    "rank": 1,
+                    "hit@1": 1,
+                    "hit@3": 1,
+                    "hit@5": 1,
+                    "rr": 1.0
+                }
+            },
+            {
+                "query": "Βρες μου την πρόσκληση για νέο συνεργάτη στο Οριζόντιο έργο ΙΠΣΥ.",
+                "expected_adas": [
+                    "ΨΨ7Α469ΗΞΩ-Ι9Ο"
+                ],
+                "expected_source_ids": [],
+                "ranking": [
+                    {
+                        "document_id": "ΨΨ7Α469ΗΞΩ-Ι9Ο",
+                        "ada": "ΨΨ7Α469ΗΞΩ-Ι9Ο",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Πρόσκληση εκδήλωσης ενδιαφέροντος για συνεργάτη στο πλαίσιο υλοποίησης του έργου \"Οριζόντιο ΙΠΣΥ\"",
+                        "issue_date": "2023-06-29",
+                        "chunk_id": 1203
+                    },
+                    {
+                        "document_id": "6Θ5Β469ΗΞΩ-ΣΧΛ",
+                        "ada": "6Θ5Β469ΗΞΩ-ΣΧΛ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Σύναψη συμβάσεων μίσθωσης έργου στο πλαίσιο υλοποίησης του έργου ΟΡΙΖΟΝΤΙΟ ΙΠΣΥ",
+                        "issue_date": "2023-04-19",
+                        "chunk_id": 803
+                    },
+                    {
+                        "document_id": "Ρ49Θ469ΗΞΩ-31Α",
+                        "ada": "Ρ49Θ469ΗΞΩ-31Α",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Έγκριση δαπάνης για την μετακίνηση με ID-6523 και σκοπό τη συμμετοχή σε συνάντηση του έργου ΟΡΙΖΟΝΤΙΟ ΙΠΣΥ",
+                        "issue_date": "2023-04-24",
+                        "chunk_id": 1341
+                    },
+                    {
+                        "document_id": "ΡΘΖ7469ΗΞΩ-ΑΑΣ",
+                        "ada": "ΡΘΖ7469ΗΞΩ-ΑΑΣ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Έγκριση δαπάνης μετακίνησης με ID6288 και σκοπό τη συμμετοχή σε συνάντηση του έργου Οριζόντιο ΙΠΣΥ",
+                        "issue_date": "2023-01-19",
+                        "chunk_id": 543
+                    },
+                    {
+                        "document_id": "6ΠΙΟ469ΗΞΩ-1ΦΛ",
+                        "ada": "6ΠΙΟ469ΗΞΩ-1ΦΛ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Δημοσίευση πρόσκλησης εκδήλωσης ενδιαφέροντος στο πλαίσιο του έργου ΑΡΧΙΜΗΔΗΣ",
+                        "issue_date": "2023-06-26",
+                        "chunk_id": 1989
+                    }
+                ],
+                "metrics": {
+                    "rank": 1,
+                    "hit@1": 1,
+                    "hit@3": 1,
+                    "hit@5": 1,
+                    "rr": 1.0
+                }
+            },
+            {
+                "query": "Ποια απόφαση αφορά τα αποτελέσματα της πρόσκλησης του έργου ΠΕΡΙΠΛΟΥΣ;",
+                "expected_adas": [
+                    "ΡΕΒΜ469ΗΞΩ-7Φ1"
+                ],
+                "expected_source_ids": [],
+                "ranking": [
+                    {
+                        "document_id": "ΡΠΘΖ469ΗΞΩ-Μ1Ι",
+                        "ada": "ΡΠΘΖ469ΗΞΩ-Μ1Ι",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Την τροποποίηση της κατανομής του προϋπολογισμού, ανά κατηγορία δαπάνης, για τα οικ. έτη 2021-2022-2023 του έργου ΠΕΡΙΠΛΟΥΣ",
+                        "issue_date": "2021-01-28",
+                        "chunk_id": 2699
+                    },
+                    {
+                        "document_id": "Ω8ΙΚ469ΗΞΩ-ΡΓ2",
+                        "ada": "Ω8ΙΚ469ΗΞΩ-ΡΓ2",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Ανάρτηση αποτελεσμάτων της πρόσκλησης εκδήλωσης ενδιαφέροντος με κωδικό ILSP.356.PER-08.ΧΑΝ.0423 στο πλαίσιο του έργου ΠΕΡΙΠΛΟΥΣ",
+                        "issue_date": "2023-06-29",
+                        "chunk_id": 1660
+                    },
+                    {
+                        "document_id": "ΡΕΒΜ469ΗΞΩ-7Φ1",
+                        "ada": "ΡΕΒΜ469ΗΞΩ-7Φ1",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Ανάρτηση αποτελεσμάτων της πρόσκλησης εκδήλωσης ενδιαφέροντος με κωδικό ILSP.356.PER-07.ΧΑΝ.0423 στο πλαίσιο του έργου ΠΕΡΙΠΛΟΥΣ",
+                        "issue_date": "2023-06-29",
+                        "chunk_id": 1692
+                    },
+                    {
+                        "document_id": "Ψ1ΥΞ469ΗΞΩ-ΞΒΚ",
+                        "ada": "Ψ1ΥΞ469ΗΞΩ-ΞΒΚ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Αποτελέσματα πρόσκλησης εκδήλωσης για συνεργάτη με κωδικό EVENFLOW_012023",
+                        "issue_date": "2023-02-09",
+                        "chunk_id": 189
+                    },
+                    {
+                        "document_id": "ΡΛΝΘ469ΗΞΩ-5ΩΝ",
+                        "ada": "ΡΛΝΘ469ΗΞΩ-5ΩΝ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Έγκριση δαπάνης εις βάρος του προϋπολογισμού του έργου ΠΕΡΙΠΛΟΥΣ για την αγορά ενσύρματων ακουστικών.",
+                        "issue_date": "2021-06-25",
+                        "chunk_id": 2786
+                    }
+                ],
+                "metrics": {
+                    "rank": 3,
+                    "hit@1": 0,
+                    "hit@3": 1,
+                    "hit@5": 1,
+                    "rr": 0.3333333333333333
+                }
+            },
+            {
+                "query": "Βρες μου τα αποτελέσματα της πρόσκλησης ILSP.356.PER-07.ΧΑΝ.0423.",
+                "expected_adas": [
+                    "ΡΕΒΜ469ΗΞΩ-7Φ1"
+                ],
+                "expected_source_ids": [],
+                "ranking": [
+                    {
+                        "document_id": "9Ζ87469ΗΞΩ-ΕΩΟ",
+                        "ada": "9Ζ87469ΗΞΩ-ΕΩΟ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Πρόσκληση Εκδήλωσης Ενδιαφέροντος με κωδικό ILSP.293.ARIA-0421",
+                        "issue_date": "2021-04-22",
+                        "chunk_id": 2465
+                    },
+                    {
+                        "document_id": "ΡΕΒΜ469ΗΞΩ-7Φ1",
+                        "ada": "ΡΕΒΜ469ΗΞΩ-7Φ1",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Ανάρτηση αποτελεσμάτων της πρόσκλησης εκδήλωσης ενδιαφέροντος με κωδικό ILSP.356.PER-07.ΧΑΝ.0423 στο πλαίσιο του έργου ΠΕΡΙΠΛΟΥΣ",
+                        "issue_date": "2023-06-29",
+                        "chunk_id": 1687
+                    },
+                    {
+                        "document_id": "Ω8ΙΚ469ΗΞΩ-ΡΓ2",
+                        "ada": "Ω8ΙΚ469ΗΞΩ-ΡΓ2",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Ανάρτηση αποτελεσμάτων της πρόσκλησης εκδήλωσης ενδιαφέροντος με κωδικό ILSP.356.PER-08.ΧΑΝ.0423 στο πλαίσιο του έργου ΠΕΡΙΠΛΟΥΣ",
+                        "issue_date": "2023-06-29",
+                        "chunk_id": 1655
+                    },
+                    {
+                        "document_id": "9Υ9Ε469ΗΞΩ-ΘΘΕ",
+                        "ada": "9Υ9Ε469ΗΞΩ-ΘΘΕ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Αποτελέσματα πρόσκλησης με κωδ.ARSINOE_356_0423",
+                        "issue_date": "2023-06-29",
+                        "chunk_id": 1731
+                    },
+                    {
+                        "document_id": "6ΒΥ8469ΗΞΩ-Κ0Τ",
+                        "ada": "6ΒΥ8469ΗΞΩ-Κ0Τ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Σύναψη ιδιωτικού συμφωνητικού χορήγησης υποτροφίας στο πλαίσιο υλοποίησης του έργου AutoFair",
+                        "issue_date": "2023-03-23",
+                        "chunk_id": 126
+                    }
+                ],
+                "metrics": {
+                    "rank": 2,
+                    "hit@1": 0,
+                    "hit@3": 1,
+                    "hit@5": 1,
+                    "rr": 0.5
+                }
+            },
+            {
+                "query": "Ποια απόφαση αφορά την πρόσκληση CEI BOOST 002.2023;",
+                "expected_adas": [
+                    "6Β3Λ469ΗΞΩ-Ξ1Ε"
+                ],
+                "expected_source_ids": [],
+                "ranking": [
+                    {
+                        "document_id": "6Β3Λ469ΗΞΩ-Ξ1Ε",
+                        "ada": "6Β3Λ469ΗΞΩ-Ξ1Ε",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Πρόσκληση CEI BOOST 002.2023 (ΔΣ 364)",
+                        "issue_date": "2023-06-29",
+                        "chunk_id": 1795
+                    },
+                    {
+                        "document_id": "ΡΚΚ9469ΗΞΩ-ΠΟ0",
+                        "ada": "ΡΚΚ9469ΗΞΩ-ΠΟ0",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Έγκριση δαπάνης μετακίνησης ID- 6458 στο πλαίσιο του έργου ERA4TB",
+                        "issue_date": "2023-03-27",
+                        "chunk_id": 912
+                    },
+                    {
+                        "document_id": "6ΤΨ3469ΗΞΩ-ΔΙΟ",
+                        "ada": "6ΤΨ3469ΗΞΩ-ΔΙΟ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "ΑΠΟΦΑΣΗ ΕΓΚΡΙΣΗΣ ΔΑΠΑΝΗΣ ΜΕΤΑΚΙΝΗΣΗΣ",
+                        "issue_date": "2023-03-10",
+                        "chunk_id": 1553
+                    },
+                    {
+                        "document_id": "6ΙΧΒ469ΗΞΩ-ΕΤΦ",
+                        "ada": "6ΙΧΒ469ΗΞΩ-ΕΤΦ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Πρόσκληση ENVISION II 001.2023 (ΔΣ 364)",
+                        "issue_date": "2023-06-29",
+                        "chunk_id": 1509
+                    },
+                    {
+                        "document_id": "6ΠΙΟ469ΗΞΩ-1ΦΛ",
+                        "ada": "6ΠΙΟ469ΗΞΩ-1ΦΛ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Δημοσίευση πρόσκλησης εκδήλωσης ενδιαφέροντος στο πλαίσιο του έργου ΑΡΧΙΜΗΔΗΣ",
+                        "issue_date": "2023-06-26",
+                        "chunk_id": 1998
+                    }
+                ],
+                "metrics": {
+                    "rank": 1,
+                    "hit@1": 1,
+                    "hit@3": 1,
+                    "hit@5": 1,
+                    "rr": 1.0
+                }
+            },
+            {
+                "query": "Βρες μου τη δημοσιευμένη πρόσκληση για το CEI BOOST.",
+                "expected_adas": [
+                    "6Β3Λ469ΗΞΩ-Ξ1Ε"
+                ],
+                "expected_source_ids": [],
+                "ranking": [
+                    {
+                        "document_id": "6Β3Λ469ΗΞΩ-Ξ1Ε",
+                        "ada": "6Β3Λ469ΗΞΩ-Ξ1Ε",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Πρόσκληση CEI BOOST 002.2023 (ΔΣ 364)",
+                        "issue_date": "2023-06-29",
+                        "chunk_id": 1805
+                    },
+                    {
+                        "document_id": "ΨΨ7Α469ΗΞΩ-Ι9Ο",
+                        "ada": "ΨΨ7Α469ΗΞΩ-Ι9Ο",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Πρόσκληση εκδήλωσης ενδιαφέροντος για συνεργάτη στο πλαίσιο υλοποίησης του έργου \"Οριζόντιο ΙΠΣΥ\"",
+                        "issue_date": "2023-06-29",
+                        "chunk_id": 1164
+                    },
+                    {
+                        "document_id": "6ΙΧΒ469ΗΞΩ-ΕΤΦ",
+                        "ada": "6ΙΧΒ469ΗΞΩ-ΕΤΦ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Πρόσκληση ENVISION II 001.2023 (ΔΣ 364)",
+                        "issue_date": "2023-06-29",
+                        "chunk_id": 1509
+                    },
+                    {
+                        "document_id": "9Ζ87469ΗΞΩ-ΕΩΟ",
+                        "ada": "9Ζ87469ΗΞΩ-ΕΩΟ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Πρόσκληση Εκδήλωσης Ενδιαφέροντος με κωδικό ILSP.293.ARIA-0421",
+                        "issue_date": "2021-04-22",
+                        "chunk_id": 2417
+                    }
+                ],
+                "metrics": {
+                    "rank": 1,
+                    "hit@1": 1,
+                    "hit@3": 1,
+                    "hit@5": 1,
+                    "rr": 1.0
+                }
+            },
+            {
+                "query": "Ποια απόφαση αφορά σύναψη συμφωνητικού χορήγησης υποτροφίας στο AutoFAIR;",
+                "expected_adas": [
+                    "6ΒΥ8469ΗΞΩ-Κ0Τ"
+                ],
+                "expected_source_ids": [],
+                "ranking": [
+                    {
+                        "document_id": "6ΒΥ8469ΗΞΩ-Κ0Τ",
+                        "ada": "6ΒΥ8469ΗΞΩ-Κ0Τ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Σύναψη ιδιωτικού συμφωνητικού χορήγησης υποτροφίας στο πλαίσιο υλοποίησης του έργου AutoFair",
+                        "issue_date": "2023-03-23",
+                        "chunk_id": 127
+                    },
+                    {
+                        "document_id": "91ΞΚ469ΗΞΩ-Ι2Μ",
+                        "ada": "91ΞΚ469ΗΞΩ-Ι2Μ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Σύναψη συμφωνητικού χορήγησης υποτροφίας στο πλαίσιο υλοποίησης του έργου AutoFair",
+                        "issue_date": "2023-04-19",
+                        "chunk_id": 478
+                    },
+                    {
+                        "document_id": "ΡΖΑΟ469ΗΞΩ-ΒΤΑ",
+                        "ada": "ΡΖΑΟ469ΗΞΩ-ΒΤΑ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Αποτελέσματα πρόσκλησης εκδήλωσης ενδιαφέροντος με κωδικό AutoFAIR_upotr_022023",
+                        "issue_date": "2023-03-23",
+                        "chunk_id": 133
+                    },
+                    {
+                        "document_id": "9ΑΨΦ469ΗΞΩ-Κ75",
+                        "ada": "9ΑΨΦ469ΗΞΩ-Κ75",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Απόφαση τροποποίησης  ιδιωτικού συμφωνητικού συνεργασίας  στο πλαίσιο του έργου TAILTEST",
+                        "issue_date": "2023-04-06",
+                        "chunk_id": 2374
+                    },
+                    {
+                        "document_id": "6ΔΡΛ469ΗΞΩ-ΞΟΕ",
+                        "ada": "6ΔΡΛ469ΗΞΩ-ΞΟΕ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Προγραμματική Σύμβαση μεταξύ Ε.Κ. Αθηνά - ΜΟΔ ΑΕ για την Αναβάθμιση και αναδιαμόρφωση του ιδιόκτητου κτηρίου του Ερευνητικού Κέντρου Αθηνά στην Αθήνα (Μαρούσι)",
+                        "issue_date": "2023-01-30",
+                        "chunk_id": 683
+                    }
+                ],
+                "metrics": {
+                    "rank": 1,
+                    "hit@1": 1,
+                    "hit@3": 1,
+                    "hit@5": 1,
+                    "rr": 1.0
+                }
+            },
+            {
+                "query": "Βρες μου τη σύμβαση υποτροφίας που υπογράφηκε στο πλαίσιο του AutoFAIR.",
+                "expected_adas": [
+                    "6ΒΥ8469ΗΞΩ-Κ0Τ"
+                ],
+                "expected_source_ids": [],
+                "ranking": [
+                    {
+                        "document_id": "ΡΖΑΟ469ΗΞΩ-ΒΤΑ",
+                        "ada": "ΡΖΑΟ469ΗΞΩ-ΒΤΑ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Αποτελέσματα πρόσκλησης εκδήλωσης ενδιαφέροντος με κωδικό AutoFAIR_upotr_022023",
+                        "issue_date": "2023-03-23",
+                        "chunk_id": 133
+                    },
+                    {
+                        "document_id": "6ΒΥ8469ΗΞΩ-Κ0Τ",
+                        "ada": "6ΒΥ8469ΗΞΩ-Κ0Τ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Σύναψη ιδιωτικού συμφωνητικού χορήγησης υποτροφίας στο πλαίσιο υλοποίησης του έργου AutoFair",
+                        "issue_date": "2023-03-23",
+                        "chunk_id": 127
+                    },
+                    {
+                        "document_id": "91ΞΚ469ΗΞΩ-Ι2Μ",
+                        "ada": "91ΞΚ469ΗΞΩ-Ι2Μ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Σύναψη συμφωνητικού χορήγησης υποτροφίας στο πλαίσιο υλοποίησης του έργου AutoFair",
+                        "issue_date": "2023-04-19",
+                        "chunk_id": 478
+                    },
+                    {
+                        "document_id": "67ΖΙ469ΗΞΩ-1ΧΧ",
+                        "ada": "67ΖΙ469ΗΞΩ-1ΧΧ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Aπόφαση τροποποίησης σύμβασης μίσθωσης έργου στο πλαίσιο του έργου ΤRUSTEE",
+                        "issue_date": "2023-06-29",
+                        "chunk_id": 1351
+                    },
+                    {
+                        "document_id": "6ΔΡΛ469ΗΞΩ-ΞΟΕ",
+                        "ada": "6ΔΡΛ469ΗΞΩ-ΞΟΕ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Προγραμματική Σύμβαση μεταξύ Ε.Κ. Αθηνά - ΜΟΔ ΑΕ για την Αναβάθμιση και αναδιαμόρφωση του ιδιόκτητου κτηρίου του Ερευνητικού Κέντρου Αθηνά στην Αθήνα (Μαρούσι)",
+                        "issue_date": "2023-01-30",
+                        "chunk_id": 683
+                    }
+                ],
+                "metrics": {
+                    "rank": 2,
+                    "hit@1": 0,
+                    "hit@3": 1,
+                    "hit@5": 1,
+                    "rr": 0.5
+                }
+            },
+            {
+                "query": "Ποια απόφαση περιέχει τα αποτελέσματα της πρόσκλησης AutoFAIR_122022;",
+                "expected_adas": [
+                    "9ΖΝ0469ΗΞΩ-Ο7Μ"
+                ],
+                "expected_source_ids": [],
+                "ranking": [
+                    {
+                        "document_id": "9ΖΝ0469ΗΞΩ-Ο7Μ",
+                        "ada": "9ΖΝ0469ΗΞΩ-Ο7Μ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Αποτελέσματα πρόσκλησης εκδήλωσης ενδιαφέροντος με κωδικό AutoFAIR_122022",
+                        "issue_date": "2023-01-26",
+                        "chunk_id": 326
+                    },
+                    {
+                        "document_id": "6ΘΗ3469ΗΞΩ-Α98",
+                        "ada": "6ΘΗ3469ΗΞΩ-Α98",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Αποτελέσματα πρόσκλησης εκδήλωσης ενδιαφέροντος για συνεργάτη με κωδικό AutoFAIR_November_2022",
+                        "issue_date": "2023-01-12",
+                        "chunk_id": 171
+                    },
+                    {
+                        "document_id": "ΡΖΑΟ469ΗΞΩ-ΒΤΑ",
+                        "ada": "ΡΖΑΟ469ΗΞΩ-ΒΤΑ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Αποτελέσματα πρόσκλησης εκδήλωσης ενδιαφέροντος με κωδικό AutoFAIR_upotr_022023",
+                        "issue_date": "2023-03-23",
+                        "chunk_id": 133
+                    },
+                    {
+                        "document_id": "6Ν3Ω469ΗΞΩ-ΜΗΙ",
+                        "ada": "6Ν3Ω469ΗΞΩ-ΜΗΙ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Σύναψη σύμβασης μίσθωσης έργου στο πλαίσιο υλοποίησης του έργου AutoFair",
+                        "issue_date": "2023-01-26",
+                        "chunk_id": 320
+                    },
+                    {
+                        "document_id": "ΩΝΥΨ469ΗΞΩ-ΗΦΕ",
+                        "ada": "ΩΝΥΨ469ΗΞΩ-ΗΦΕ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Σύναψη σύμβασης μίσθωσης έργου στο πλαίσιο υλοποίησης του έργου AutoFair",
+                        "issue_date": "2023-01-12",
+                        "chunk_id": 165
+                    }
+                ],
+                "metrics": {
+                    "rank": 1,
+                    "hit@1": 1,
+                    "hit@3": 1,
+                    "hit@5": 1,
+                    "rr": 1.0
+                }
+            },
+            {
+                "query": "Βρες μου ποια απόφαση δημοσίευσε τα αποτελέσματα του AutoFAIR τον Δεκέμβριο.",
+                "expected_adas": [
+                    "9ΖΝ0469ΗΞΩ-Ο7Μ"
+                ],
+                "expected_source_ids": [],
+                "ranking": [
+                    {
+                        "document_id": "ΡΖΑΟ469ΗΞΩ-ΒΤΑ",
+                        "ada": "ΡΖΑΟ469ΗΞΩ-ΒΤΑ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Αποτελέσματα πρόσκλησης εκδήλωσης ενδιαφέροντος με κωδικό AutoFAIR_upotr_022023",
+                        "issue_date": "2023-03-23",
+                        "chunk_id": 133
+                    },
+                    {
+                        "document_id": "6ΘΗ3469ΗΞΩ-Α98",
+                        "ada": "6ΘΗ3469ΗΞΩ-Α98",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Αποτελέσματα πρόσκλησης εκδήλωσης ενδιαφέροντος για συνεργάτη με κωδικό AutoFAIR_November_2022",
+                        "issue_date": "2023-01-12",
+                        "chunk_id": 171
+                    },
+                    {
+                        "document_id": "ΩΝΥΨ469ΗΞΩ-ΗΦΕ",
+                        "ada": "ΩΝΥΨ469ΗΞΩ-ΗΦΕ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Σύναψη σύμβασης μίσθωσης έργου στο πλαίσιο υλοποίησης του έργου AutoFair",
+                        "issue_date": "2023-01-12",
+                        "chunk_id": 165
+                    },
+                    {
+                        "document_id": "6Ν3Ω469ΗΞΩ-ΜΗΙ",
+                        "ada": "6Ν3Ω469ΗΞΩ-ΜΗΙ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Σύναψη σύμβασης μίσθωσης έργου στο πλαίσιο υλοποίησης του έργου AutoFair",
+                        "issue_date": "2023-01-26",
+                        "chunk_id": 320
+                    },
+                    {
+                        "document_id": "92ΡΟ469ΗΞΩ-ΑΜΚ",
+                        "ada": "92ΡΟ469ΗΞΩ-ΑΜΚ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Σύναψη σύμβασης μίσθωσης έργου στο πλαίσιο υλοποίησης του έργου AutoFair",
+                        "issue_date": "2023-04-19",
+                        "chunk_id": 788
+                    }
+                ],
+                "metrics": {
+                    "rank": null,
+                    "hit@1": 0,
+                    "hit@3": 0,
+                    "hit@5": 0,
+                    "rr": 0.0
+                }
+            },
+            {
+                "query": "Ποια απόφαση αφορά σύμβαση εργασίας ορισμένου χρόνου για τα έργα Βοΐσκα, ΑΠΤΟΣ και ΑΠΟΗΧΟΙ;",
+                "expected_adas": [
+                    "ΨΕΤ0469ΗΞΩ-ΤΒΑ"
+                ],
+                "expected_source_ids": [],
+                "ranking": [
+                    {
+                        "document_id": "ΨΕΤ0469ΗΞΩ-ΤΒΑ",
+                        "ada": "ΨΕΤ0469ΗΞΩ-ΤΒΑ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Σύναψη σύμβασης εργασίας ορισμένου χρόνου στο πλαίσιο των έργων Βοΐσκα, ΑΠΤΟΣ και ΑΠΟΗΧΟΙ",
+                        "issue_date": "2023-04-21",
+                        "chunk_id": 2405
+                    },
+                    {
+                        "document_id": "Ψ3Ζ1469ΗΞΩ-ΚΦΡ",
+                        "ada": "Ψ3Ζ1469ΗΞΩ-ΚΦΡ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "ΑΠΟΦΑΣΗ ΣΥΝΑΨΗ ΣΥΜΒΑΣΗΣ",
+                        "issue_date": "2023-06-29",
+                        "chunk_id": 1757
+                    },
+                    {
+                        "document_id": "68ΚΑ469ΗΞΩ-Θ7Ι",
+                        "ada": "68ΚΑ469ΗΞΩ-Θ7Ι",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Σύναψη συμβάσεων εργασίας ορισμένου χρόνου στο πλαίσιο υλοποίησης των ερευνητικών έργων του ΙΠΣΥ",
+                        "issue_date": "2023-04-19",
+                        "chunk_id": 796
+                    },
+                    {
+                        "document_id": "ΩΖ8Π469ΗΞΩ-4ΔΚ",
+                        "ada": "ΩΖ8Π469ΗΞΩ-4ΔΚ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Σύναψη σύμβασης μίσθωσης έργου στο πλαίσιο υλοποίησης του έργου EXCEED",
+                        "issue_date": "2023-06-29",
+                        "chunk_id": 1589
+                    },
+                    {
+                        "document_id": "ΨΨ7Α469ΗΞΩ-Ι9Ο",
+                        "ada": "ΨΨ7Α469ΗΞΩ-Ι9Ο",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Πρόσκληση εκδήλωσης ενδιαφέροντος για συνεργάτη στο πλαίσιο υλοποίησης του έργου \"Οριζόντιο ΙΠΣΥ\"",
+                        "issue_date": "2023-06-29",
+                        "chunk_id": 1166
+                    }
+                ],
+                "metrics": {
+                    "rank": 1,
+                    "hit@1": 1,
+                    "hit@3": 1,
+                    "hit@5": 1,
+                    "rr": 1.0
+                }
+            },
+            {
+                "query": "Βρες μου την απόφαση έγκρισης δαπάνης για ηλεκτρονικό εξοπλισμό στο EOSCFuture.",
+                "expected_adas": [
+                    "ΡΒ14469ΗΞΩ-9ΩΣ"
+                ],
+                "expected_source_ids": [],
+                "ranking": [
+                    {
+                        "document_id": "ΡΒ14469ΗΞΩ-9ΩΣ",
+                        "ada": "ΡΒ14469ΗΞΩ-9ΩΣ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Έγκριση δαπάνης για προμήθεια ηλεκτρονικού εξοπλισμού στο πλαίσιο υλοποίησης του έργου EOSCFuture",
+                        "issue_date": "2023-06-13",
+                        "chunk_id": 2412
+                    },
+                    {
+                        "document_id": "6ΥΩ1469ΗΞΩ-Ψ0Ω",
+                        "ada": "6ΥΩ1469ΗΞΩ-Ψ0Ω",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Έγκριση δαπάνης για την ενοικίαση εξοπλισμού και την εγκατάσταση/απεγκατάσταση του στο πλαίσιο του έργου VOICES",
+                        "issue_date": "2023-06-23",
+                        "chunk_id": 2113
+                    },
+                    {
+                        "document_id": "6ΛΛ4469ΗΞΩ-ΕΟΘ",
+                        "ada": "6ΛΛ4469ΗΞΩ-ΕΟΘ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Έγκριση δαπάνης για την προμήθεια περιφερειακών ειδών ΗΥ για κάλυψη των αναγκών των διοικητικών τμημάτων της Γενικής Διεύθυνσης στα πλαίσια του έργου ¨ΔΡΑΣΕΙΣ ΣΤΗΡΙΞΗΣ ΓΕΝΙΚΗΣ ΔΙΕΥΘΥΝΣΗΣ\"",
+                        "issue_date": "2023-05-22",
+                        "chunk_id": 1468
+                    },
+                    {
+                        "document_id": "9ΛΖΔ469ΗΞΩ-Ο1Χ",
+                        "ada": "9ΛΖΔ469ΗΞΩ-Ο1Χ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Έγκριση πληρωμής της δαπάνης προμήθειας περιφερειακών ειδών ΗΥ για κάλυψη των αναγκών των διοικητικών τμημάτων της Γενικής Διεύθυνσης στο πλαίσιο του έργου \"ΔΡΑΣΕΙΣ ΣΤΗΡΙΞΗΣ ΓΕΝΙΚΗΣ ΔΙΕΥΘΥΝΣΗΣ\"",
+                        "issue_date": "2023-06-06",
+                        "chunk_id": 1418
+                    },
+                    {
+                        "document_id": "6Υ33469ΗΞΩ-Α1Υ",
+                        "ada": "6Υ33469ΗΞΩ-Α1Υ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Έγκριση δαπάνης για προμήθεια υπηρεσιών JCE Pro στο πλαίσιο υλοποίησης του έργου OpenAire NEXUS",
+                        "issue_date": "2021-06-29",
+                        "chunk_id": 2706
+                    }
+                ],
+                "metrics": {
+                    "rank": 1,
+                    "hit@1": 1,
+                    "hit@3": 1,
+                    "hit@5": 1,
+                    "rr": 1.0
+                }
+            },
+            {
+                "query": "Ποια απόφαση αφορά εντολή πληρωμής για εξοπλισμό και αναλώσιμα στο INTRACOM 1 - ART;",
+                "expected_adas": [
+                    "6ΜΓ8469ΗΞΩ-6Τ6"
+                ],
+                "expected_source_ids": [],
+                "ranking": [
+                    {
+                        "document_id": "6ΜΓ8469ΗΞΩ-6Τ6",
+                        "ada": "6ΜΓ8469ΗΞΩ-6Τ6",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Εντολή πληρωμής για την προμήθεια εξοπλισμού και αναλώσιμων στο πλαίσιο του έργου INTRACOM 1 - ART",
+                        "issue_date": "2023-06-13",
+                        "chunk_id": 2181
+                    },
+                    {
+                        "document_id": "9ΒΓΔ469ΗΞΩ-1ΛΝ",
+                        "ada": "9ΒΓΔ469ΗΞΩ-1ΛΝ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Εντολή πληρωμής δαπάνης εκτύπωσης πόστερ ερευνητικών δραστηριοτήτων ΙΡΟ  στο πλαίσιο του έργου EU BabyRobot+",
+                        "issue_date": "2023-06-29",
+                        "chunk_id": 1775
+                    },
+                    {
+                        "document_id": "ΨΟΨΑ469ΗΞΩ-Κ0Η",
+                        "ada": "ΨΟΨΑ469ΗΞΩ-Κ0Η",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Εντολή πληρωμής για υπηρεσίες ταχυμεταφορών στο πλαίσιο υλοποίησης του έργου LAZARUS",
+                        "issue_date": "2023-06-27",
+                        "chunk_id": 1911
+                    },
+                    {
+                        "document_id": "6Λ10469ΗΞΩ-12Β",
+                        "ada": "6Λ10469ΗΞΩ-12Β",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Εντολή πληρωμής Δαπάνης προμήθειας printer SECOPERA 14-09 ΑΠ 11691",
+                        "issue_date": "2023-06-26",
+                        "chunk_id": 1855
+                    },
+                    {
+                        "document_id": "ΡΙΛΛ469ΗΞΩ-ΚΗΗ",
+                        "ada": "ΡΙΛΛ469ΗΞΩ-ΚΗΗ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Εντολή πληρωμής για την προμήθεια αναλώσιμων ειδών Η/Υ στο πλαίσιο του έργου Elixir CONVERGE",
+                        "issue_date": "2023-06-13",
+                        "chunk_id": 2148
+                    }
+                ],
+                "metrics": {
+                    "rank": 1,
+                    "hit@1": 1,
+                    "hit@3": 1,
+                    "hit@5": 1,
+                    "rr": 1.0
+                }
+            },
+            {
+                "query": "Βρες μου την έγκριση μετακίνησης συνεργάτη στο πλαίσιο του OpenGPT-X/ARC.",
+                "expected_adas": [
+                    "6ΛΟΘ469ΗΞΩ-ΓΧ3"
+                ],
+                "expected_source_ids": [],
+                "ranking": [
+                    {
+                        "document_id": "6ΛΟΘ469ΗΞΩ-ΓΧ3",
+                        "ada": "6ΛΟΘ469ΗΞΩ-ΓΧ3",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Έγκριση μετακίνησης του συνεργάτη με ID-6687 στο πλαίσιο του έργου OpenGPT-X/ARC",
+                        "issue_date": "2023-06-02",
+                        "chunk_id": 1052
+                    },
+                    {
+                        "document_id": "9ΕΛΖ469ΗΞΩ-20Ζ",
+                        "ada": "9ΕΛΖ469ΗΞΩ-20Ζ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Έγκριση δαπάνης για την μετακίνηση του επιστημονικού συνεργάτη με ID-6729 στο πλαίσιο του έργου i-VCG",
+                        "issue_date": "2023-06-22",
+                        "chunk_id": 2229
+                    },
+                    {
+                        "document_id": "69ΜΒ469ΗΞΩ-ΩΛΨ",
+                        "ada": "69ΜΒ469ΗΞΩ-ΩΛΨ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Έγκριση δαπάνης για την μετακίνηση ενός συνεργάτη με ID-6613 στο πλαίσιο του έργου PREMIERE",
+                        "issue_date": "2023-05-10",
+                        "chunk_id": 555
+                    },
+                    {
+                        "document_id": "ΨΒ2Μ469ΗΞΩ-6Δ1",
+                        "ada": "ΨΒ2Μ469ΗΞΩ-6Δ1",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Έγκριση δαπάνης μετακίνησης με ID-6700 και σκοπό τη συμμετοχή στη συνάντηση του συνασπισμού εθνικών χορηγών έρευνας σε ΤΠΕ \"CHIST-ERA\" στο πλαίσιο του έργου OpenAire NEXUS",
+                        "issue_date": "2023-03-30",
+                        "chunk_id": 1058
+                    },
+                    {
+                        "document_id": "923Β469ΗΞΩ-4ΘΨ",
+                        "ada": "923Β469ΗΞΩ-4ΘΨ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Έγκριση δαπάνης μετακίνησης με ID-6602 και σκοπό τη συμμετοχή στη 2η συνάντηση των εταίρων του έργου STELAR",
+                        "issue_date": "2023-05-10",
+                        "chunk_id": 590
+                    }
+                ],
+                "metrics": {
+                    "rank": 1,
+                    "hit@1": 1,
+                    "hit@3": 1,
+                    "hit@5": 1,
+                    "rr": 1.0
+                }
+            },
+            {
+                "query": "Ποια απόφαση αφορά μετακίνηση δύο συνεργατών στο έργο EASIER;",
+                "expected_adas": [
+                    "69Ζ2469ΗΞΩ-ΜΗΖ"
+                ],
+                "expected_source_ids": [],
+                "ranking": [
+                    {
+                        "document_id": "69Ζ2469ΗΞΩ-ΜΗΖ",
+                        "ada": "69Ζ2469ΗΞΩ-ΜΗΖ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Έγκριση μετακίνησης των συνεργατών με ID-6549 και ID-6550 στο πλαίσιο του έργου EASIER",
+                        "issue_date": "2023-04-28",
+                        "chunk_id": 1262
+                    },
+                    {
+                        "document_id": "6Θ1Ε469ΗΞΩ-Δ50",
+                        "ada": "6Θ1Ε469ΗΞΩ-Δ50",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Έγκριση δαπάνης μετακίνησης ID-6705 στο πλαίσιο του έργου ARSINOE",
+                        "issue_date": "2023-06-14",
+                        "chunk_id": 1026
+                    },
+                    {
+                        "document_id": "Ψ640469ΗΞΩ-30Ο",
+                        "ada": "Ψ640469ΗΞΩ-30Ο",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Έγκριση μετακίνησης του επιστημονικού συνεργάτη με ID-6646 στο πλαίσιο του έργου BEHAVE",
+                        "issue_date": "2023-04-04",
+                        "chunk_id": 838
+                    },
+                    {
+                        "document_id": "6ΣΓΔ469ΗΞΩ-ΓΥ7",
+                        "ada": "6ΣΓΔ469ΗΞΩ-ΓΥ7",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Έγκριση δαπάνης μετακίνησης id-6731 στο πλαίσιο του έργου ARSINOE",
+                        "issue_date": "2023-06-23",
+                        "chunk_id": 2138
+                    },
+                    {
+                        "document_id": "ΨΘ8Μ469ΗΞΩ-Σ1Ο",
+                        "ada": "ΨΘ8Μ469ΗΞΩ-Σ1Ο",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Έγκριση δαπάνης μετακίνησης ID- 6733",
+                        "issue_date": "2023-06-23",
+                        "chunk_id": 2174
+                    }
+                ],
+                "metrics": {
+                    "rank": 1,
+                    "hit@1": 1,
+                    "hit@3": 1,
+                    "hit@5": 1,
+                    "rr": 1.0
+                }
+            },
+            {
+                "query": "Από πόσα τακτικά μέλη αποτελείται η ΕΗΔΕ του Ερευνητικού Κέντρου Αθηνά;",
+                "expected_adas": [],
+                "expected_source_ids": [
+                    "athena_ehde_regulation"
+                ],
+                "ranking": [
+                    {
+                        "document_id": "athena_ehde_regulation",
+                        "ada": null,
+                        "source_id": "athena_ehde_regulation",
+                        "source": "external_pdf",
+                        "subject": "Κανονισμός Αρχών και Λειτουργίας της Επιτροπής Ηθικής και Δεοντολογίας της Έρευνας",
+                        "issue_date": null,
+                        "chunk_id": 2856
+                    },
+                    {
+                        "document_id": "6ΔΡΛ469ΗΞΩ-ΞΟΕ",
+                        "ada": "6ΔΡΛ469ΗΞΩ-ΞΟΕ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Προγραμματική Σύμβαση μεταξύ Ε.Κ. Αθηνά - ΜΟΔ ΑΕ για την Αναβάθμιση και αναδιαμόρφωση του ιδιόκτητου κτηρίου του Ερευνητικού Κέντρου Αθηνά στην Αθήνα (Μαρούσι)",
+                        "issue_date": "2023-01-30",
+                        "chunk_id": 690
+                    },
+                    {
+                        "document_id": "9ΒΧΗ469ΗΞΩ-1ΗΝ",
+                        "ada": "9ΒΧΗ469ΗΞΩ-1ΗΝ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Εντολή Πληρωμής Δαπάνης Registration INDIN 2023 ENERMAN ΑΠ 10013",
+                        "issue_date": "2023-06-26",
+                        "chunk_id": 2023
+                    },
+                    {
+                        "document_id": "Ψ4ΙΥ469ΗΞΩ-ΞΧΔ",
+                        "ada": "Ψ4ΙΥ469ΗΞΩ-ΞΧΔ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Εντολή Πληρωμής Δαπάνης προμήθειας εξοπλισμού (laptop) 6G Bricks ΑΠ 11918",
+                        "issue_date": "2023-06-29",
+                        "chunk_id": 1547
+                    },
+                    {
+                        "document_id": "6Λ10469ΗΞΩ-12Β",
+                        "ada": "6Λ10469ΗΞΩ-12Β",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Εντολή πληρωμής Δαπάνης προμήθειας printer SECOPERA 14-09 ΑΠ 11691",
+                        "issue_date": "2023-06-26",
+                        "chunk_id": 1811
+                    }
+                ],
+                "metrics": {
+                    "rank": 1,
+                    "hit@1": 1,
+                    "hit@3": 1,
+                    "hit@5": 1,
+                    "rr": 1.0
+                }
+            },
+            {
+                "query": "Πόσα από τα μέλη της ΕΗΔΕ πρέπει να είναι εκτός του ΕΚ Αθηνά;",
+                "expected_adas": [],
+                "expected_source_ids": [
+                    "athena_ehde_regulation"
+                ],
+                "ranking": [
+                    {
+                        "document_id": "athena_ehde_regulation",
+                        "ada": null,
+                        "source_id": "athena_ehde_regulation",
+                        "source": "external_pdf",
+                        "subject": "Κανονισμός Αρχών και Λειτουργίας της Επιτροπής Ηθικής και Δεοντολογίας της Έρευνας",
+                        "issue_date": null,
+                        "chunk_id": 2856
+                    },
+                    {
+                        "document_id": "6Λ10469ΗΞΩ-12Β",
+                        "ada": "6Λ10469ΗΞΩ-12Β",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Εντολή πληρωμής Δαπάνης προμήθειας printer SECOPERA 14-09 ΑΠ 11691",
+                        "issue_date": "2023-06-26",
+                        "chunk_id": 1811
+                    },
+                    {
+                        "document_id": "9ΒΧΗ469ΗΞΩ-1ΗΝ",
+                        "ada": "9ΒΧΗ469ΗΞΩ-1ΗΝ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Εντολή Πληρωμής Δαπάνης Registration INDIN 2023 ENERMAN ΑΠ 10013",
+                        "issue_date": "2023-06-26",
+                        "chunk_id": 2023
+                    },
+                    {
+                        "document_id": "Ψ4ΙΥ469ΗΞΩ-ΞΧΔ",
+                        "ada": "Ψ4ΙΥ469ΗΞΩ-ΞΧΔ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Εντολή Πληρωμής Δαπάνης προμήθειας εξοπλισμού (laptop) 6G Bricks ΑΠ 11918",
+                        "issue_date": "2023-06-29",
+                        "chunk_id": 1547
+                    },
+                    {
+                        "document_id": "9ΑΑΧ469ΗΞΩ-0ΒΡ",
+                        "ada": "9ΑΑΧ469ΗΞΩ-0ΒΡ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Εντολή πληρωμής courier ΤΠΥ 134",
+                        "issue_date": "2023-06-02",
+                        "chunk_id": 1188
+                    }
+                ],
+                "metrics": {
+                    "rank": 1,
+                    "hit@1": 1,
+                    "hit@3": 1,
+                    "hit@5": 1,
+                    "rr": 1.0
+                }
+            },
+            {
+                "query": "Κάθε πότε συνεδριάζει κανονικά η ΕΗΔΕ;",
+                "expected_adas": [],
+                "expected_source_ids": [
+                    "athena_ehde_regulation"
+                ],
+                "ranking": [
+                    {
+                        "document_id": "athena_ehde_regulation",
+                        "ada": null,
+                        "source_id": "athena_ehde_regulation",
+                        "source": "external_pdf",
+                        "subject": "Κανονισμός Αρχών και Λειτουργίας της Επιτροπής Ηθικής και Δεοντολογίας της Έρευνας",
+                        "issue_date": null,
+                        "chunk_id": 2866
+                    },
+                    {
+                        "document_id": "ΨΨ7Α469ΗΞΩ-Ι9Ο",
+                        "ada": "ΨΨ7Α469ΗΞΩ-Ι9Ο",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Πρόσκληση εκδήλωσης ενδιαφέροντος για συνεργάτη στο πλαίσιο υλοποίησης του έργου \"Οριζόντιο ΙΠΣΥ\"",
+                        "issue_date": "2023-06-29",
+                        "chunk_id": 1177
+                    },
+                    {
+                        "document_id": "6Χ1Φ469ΗΞΩ-Φ9Η",
+                        "ada": "6Χ1Φ469ΗΞΩ-Φ9Η",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Έγκριση δαπάνης μετακίνησης με ID-6379 και σκοπό τη συμμετοχή στο συνέδριο EDBT 2023",
+                        "issue_date": "2023-02-23",
+                        "chunk_id": 529
+                    },
+                    {
+                        "document_id": "6ΠΙΟ469ΗΞΩ-1ΦΛ",
+                        "ada": "6ΠΙΟ469ΗΞΩ-1ΦΛ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Δημοσίευση πρόσκλησης εκδήλωσης ενδιαφέροντος στο πλαίσιο του έργου ΑΡΧΙΜΗΔΗΣ",
+                        "issue_date": "2023-06-26",
+                        "chunk_id": 1998
+                    },
+                    {
+                        "document_id": "6Β3Λ469ΗΞΩ-Ξ1Ε",
+                        "ada": "6Β3Λ469ΗΞΩ-Ξ1Ε",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Πρόσκληση CEI BOOST 002.2023 (ΔΣ 364)",
+                        "issue_date": "2023-06-29",
+                        "chunk_id": 1774
+                    }
+                ],
+                "metrics": {
+                    "rank": 1,
+                    "hit@1": 1,
+                    "hit@3": 1,
+                    "hit@5": 1,
+                    "rr": 1.0
+                }
+            },
+            {
+                "query": "Πόσα μέλη πρέπει να είναι παρόντα για να υπάρχει απαρτία στην ΕΗΔΕ;",
+                "expected_adas": [],
+                "expected_source_ids": [
+                    "athena_ehde_regulation"
+                ],
+                "ranking": [
+                    {
+                        "document_id": "athena_ehde_regulation",
+                        "ada": null,
+                        "source_id": "athena_ehde_regulation",
+                        "source": "external_pdf",
+                        "subject": "Κανονισμός Αρχών και Λειτουργίας της Επιτροπής Ηθικής και Δεοντολογίας της Έρευνας",
+                        "issue_date": null,
+                        "chunk_id": 2856
+                    },
+                    {
+                        "document_id": "6Χ1Φ469ΗΞΩ-Φ9Η",
+                        "ada": "6Χ1Φ469ΗΞΩ-Φ9Η",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Έγκριση δαπάνης μετακίνησης με ID-6379 και σκοπό τη συμμετοχή στο συνέδριο EDBT 2023",
+                        "issue_date": "2023-02-23",
+                        "chunk_id": 529
+                    },
+                    {
+                        "document_id": "6ΦΚΡ469ΗΞΩ-Ι7Ζ",
+                        "ada": "6ΦΚΡ469ΗΞΩ-Ι7Ζ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Αποτελέσματα πρόσκλησης με κωδ. GD.353.ARCHI_Α-0323",
+                        "issue_date": "2023-06-02",
+                        "chunk_id": 996
+                    },
+                    {
+                        "document_id": "934Υ469ΗΞΩ-ΗΑΟ",
+                        "ada": "934Υ469ΗΞΩ-ΗΑΟ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Έγκριση δαπάνης μετακίνησης με ID-6498 και σκοπό τη συμμετοχή στη Γενική Συνέλευση του έργου 4CΗ",
+                        "issue_date": "2023-04-24",
+                        "chunk_id": 893
+                    },
+                    {
+                        "document_id": "6ΔΡΛ469ΗΞΩ-ΞΟΕ",
+                        "ada": "6ΔΡΛ469ΗΞΩ-ΞΟΕ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Προγραμματική Σύμβαση μεταξύ Ε.Κ. Αθηνά - ΜΟΔ ΑΕ για την Αναβάθμιση και αναδιαμόρφωση του ιδιόκτητου κτηρίου του Ερευνητικού Κέντρου Αθηνά στην Αθήνα (Μαρούσι)",
+                        "issue_date": "2023-01-30",
+                        "chunk_id": 704
+                    }
+                ],
+                "metrics": {
+                    "rank": 1,
+                    "hit@1": 1,
+                    "hit@3": 1,
+                    "hit@5": 1,
+                    "rr": 1.0
+                }
+            },
+            {
+                "query": "Σε πόσες μέρες πρέπει να αποφασίσει η ΕΗΔΕ για μια αίτηση;",
+                "expected_adas": [],
+                "expected_source_ids": [
+                    "athena_ehde_regulation"
+                ],
+                "ranking": [
+                    {
+                        "document_id": "athena_ehde_regulation",
+                        "ada": null,
+                        "source_id": "athena_ehde_regulation",
+                        "source": "external_pdf",
+                        "subject": "Κανονισμός Αρχών και Λειτουργίας της Επιτροπής Ηθικής και Δεοντολογίας της Έρευνας",
+                        "issue_date": null,
+                        "chunk_id": 2865
+                    },
+                    {
+                        "document_id": "6ΙΧΒ469ΗΞΩ-ΕΤΦ",
+                        "ada": "6ΙΧΒ469ΗΞΩ-ΕΤΦ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Πρόσκληση ENVISION II 001.2023 (ΔΣ 364)",
+                        "issue_date": "2023-06-29",
+                        "chunk_id": 1569
+                    },
+                    {
+                        "document_id": "6ΦΚΡ469ΗΞΩ-Ι7Ζ",
+                        "ada": "6ΦΚΡ469ΗΞΩ-Ι7Ζ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Αποτελέσματα πρόσκλησης με κωδ. GD.353.ARCHI_Α-0323",
+                        "issue_date": "2023-06-02",
+                        "chunk_id": 996
+                    },
+                    {
+                        "document_id": "63Μ9469ΗΞΩ-ΤΟΛ",
+                        "ada": "63Μ9469ΗΞΩ-ΤΟΛ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Απόφαση Ολοκλήρωσης της υλοποίησης με ίδια μέσα του Υποέργου 3 «Δράσεις εξειδίκευσης Ερευνητικού Κέντρου Αθηνά για το Κέντρο ολοκληρωμένης ψηφιακής διαχείρισης πολιτισμικής κληρονομιάς» της Πράξης «Κέντρο ολοκληρωμένης ψηφιακής διαχείρισης πολιτισμικής κληρονομιάς»  με κωδικό ΟΠΣ (MIS) 5021534",
+                        "issue_date": "2023-06-01",
+                        "chunk_id": 383
+                    },
+                    {
+                        "document_id": "6ΠΙΟ469ΗΞΩ-1ΦΛ",
+                        "ada": "6ΠΙΟ469ΗΞΩ-1ΦΛ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Δημοσίευση πρόσκλησης εκδήλωσης ενδιαφέροντος στο πλαίσιο του έργου ΑΡΧΙΜΗΔΗΣ",
+                        "issue_date": "2023-06-26",
+                        "chunk_id": 1995
+                    }
+                ],
+                "metrics": {
+                    "rank": 1,
+                    "hit@1": 1,
+                    "hit@3": 1,
+                    "hit@5": 1,
+                    "rr": 1.0
+                }
+            },
+            {
+                "query": "Πόσες μέρες έχω για να κάνω αίτηση σε δημόσια πρόσκληση του ΕΛΚΕ;",
+                "expected_adas": [],
+                "expected_source_ids": [
+                    "ekpa_funding_guide_2024"
+                ],
+                "ranking": [
+                    {
+                        "document_id": "ekpa_funding_guide_2024",
+                        "ada": null,
+                        "source_id": "ekpa_funding_guide_2024",
+                        "source": "external_pdf",
+                        "subject": "Οδηγός Χρηματοδότησης και Διαχείρισης - Νοέμβριος 2024",
+                        "issue_date": null,
+                        "chunk_id": 2995
+                    },
+                    {
+                        "document_id": "Ω8ΙΚ469ΗΞΩ-ΡΓ2",
+                        "ada": "Ω8ΙΚ469ΗΞΩ-ΡΓ2",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Ανάρτηση αποτελεσμάτων της πρόσκλησης εκδήλωσης ενδιαφέροντος με κωδικό ILSP.356.PER-08.ΧΑΝ.0423 στο πλαίσιο του έργου ΠΕΡΙΠΛΟΥΣ",
+                        "issue_date": "2023-06-29",
+                        "chunk_id": 1663
+                    },
+                    {
+                        "document_id": "6Β3Λ469ΗΞΩ-Ξ1Ε",
+                        "ada": "6Β3Λ469ΗΞΩ-Ξ1Ε",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Πρόσκληση CEI BOOST 002.2023 (ΔΣ 364)",
+                        "issue_date": "2023-06-29",
+                        "chunk_id": 1762
+                    },
+                    {
+                        "document_id": "6ΦΚΡ469ΗΞΩ-Ι7Ζ",
+                        "ada": "6ΦΚΡ469ΗΞΩ-Ι7Ζ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Αποτελέσματα πρόσκλησης με κωδ. GD.353.ARCHI_Α-0323",
+                        "issue_date": "2023-06-02",
+                        "chunk_id": 996
+                    },
+                    {
+                        "document_id": "9Υ9Ε469ΗΞΩ-ΘΘΕ",
+                        "ada": "9Υ9Ε469ΗΞΩ-ΘΘΕ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Αποτελέσματα πρόσκλησης με κωδ.ARSINOE_356_0423",
+                        "issue_date": "2023-06-29",
+                        "chunk_id": 1690
+                    }
+                ],
+                "metrics": {
+                    "rank": 1,
+                    "hit@1": 1,
+                    "hit@3": 1,
+                    "hit@5": 1,
+                    "rr": 1.0
+                }
+            },
+            {
+                "query": "Πόσες μέρες έχω για να κάνω ένσταση στα αποτελέσματα μιας πρόσκλησης του ΕΛΚΕ;",
+                "expected_adas": [],
+                "expected_source_ids": [
+                    "ekpa_funding_guide_2024"
+                ],
+                "ranking": [
+                    {
+                        "document_id": "ekpa_funding_guide_2024",
+                        "ada": null,
+                        "source_id": "ekpa_funding_guide_2024",
+                        "source": "external_pdf",
+                        "subject": "Οδηγός Χρηματοδότησης και Διαχείρισης - Νοέμβριος 2024",
+                        "issue_date": null,
+                        "chunk_id": 2981
+                    },
+                    {
+                        "document_id": "Ω8ΙΚ469ΗΞΩ-ΡΓ2",
+                        "ada": "Ω8ΙΚ469ΗΞΩ-ΡΓ2",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Ανάρτηση αποτελεσμάτων της πρόσκλησης εκδήλωσης ενδιαφέροντος με κωδικό ILSP.356.PER-08.ΧΑΝ.0423 στο πλαίσιο του έργου ΠΕΡΙΠΛΟΥΣ",
+                        "issue_date": "2023-06-29",
+                        "chunk_id": 1663
+                    },
+                    {
+                        "document_id": "ΡΕΒΜ469ΗΞΩ-7Φ1",
+                        "ada": "ΡΕΒΜ469ΗΞΩ-7Φ1",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Ανάρτηση αποτελεσμάτων της πρόσκλησης εκδήλωσης ενδιαφέροντος με κωδικό ILSP.356.PER-07.ΧΑΝ.0423 στο πλαίσιο του έργου ΠΕΡΙΠΛΟΥΣ",
+                        "issue_date": "2023-06-29",
+                        "chunk_id": 1694
+                    },
+                    {
+                        "document_id": "Ε06Ρ469ΗΞΩ-Μ4Ν",
+                        "ada": "Ε06Ρ469ΗΞΩ-Μ4Ν",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Αποτελέσματα πρόσκλησης εκδήλωσης ενδιαφέροντος για συνεργάτες με κωδικό BIOINDUSTRY_042023",
+                        "issue_date": "2023-06-29",
+                        "chunk_id": 275
+                    },
+                    {
+                        "document_id": "ΕΨ28469ΗΞΩ-ΡΦΧ",
+                        "ada": "ΕΨ28469ΗΞΩ-ΡΦΧ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Αποτελέσματα πρόσκλησης εκδήλωσης ενδιαφέροντος για συνεργάτη με κωδικό EOSC FUTURE_042023",
+                        "issue_date": "2023-06-29",
+                        "chunk_id": 289
+                    }
+                ],
+                "metrics": {
+                    "rank": 1,
+                    "hit@1": 1,
+                    "hit@3": 1,
+                    "hit@5": 1,
+                    "rr": 1.0
+                }
+            },
+            {
+                "query": "Πόσες ώρες θεωρούνται ένα έτος πλήρους απασχόλησης;",
+                "expected_adas": [],
+                "expected_source_ids": [
+                    "ekpa_funding_guide_2024"
+                ],
+                "ranking": [
+                    {
+                        "document_id": "ekpa_funding_guide_2024",
+                        "ada": null,
+                        "source_id": "ekpa_funding_guide_2024",
+                        "source": "external_pdf",
+                        "subject": "Οδηγός Χρηματοδότησης και Διαχείρισης - Νοέμβριος 2024",
+                        "issue_date": null,
+                        "chunk_id": 3019
+                    },
+                    {
+                        "document_id": "63Μ9469ΗΞΩ-ΤΟΛ",
+                        "ada": "63Μ9469ΗΞΩ-ΤΟΛ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Απόφαση Ολοκλήρωσης της υλοποίησης με ίδια μέσα του Υποέργου 3 «Δράσεις εξειδίκευσης Ερευνητικού Κέντρου Αθηνά για το Κέντρο ολοκληρωμένης ψηφιακής διαχείρισης πολιτισμικής κληρονομιάς» της Πράξης «Κέντρο ολοκληρωμένης ψηφιακής διαχείρισης πολιτισμικής κληρονομιάς»  με κωδικό ΟΠΣ (MIS) 5021534",
+                        "issue_date": "2023-06-01",
+                        "chunk_id": 391
+                    },
+                    {
+                        "document_id": "68ΚΑ469ΗΞΩ-Θ7Ι",
+                        "ada": "68ΚΑ469ΗΞΩ-Θ7Ι",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Σύναψη συμβάσεων εργασίας ορισμένου χρόνου στο πλαίσιο υλοποίησης των ερευνητικών έργων του ΙΠΣΥ",
+                        "issue_date": "2023-04-19",
+                        "chunk_id": 794
+                    },
+                    {
+                        "document_id": "63ΨΧ469ΗΞΩ-Ο1Ε",
+                        "ada": "63ΨΧ469ΗΞΩ-Ο1Ε",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Τροποποίηση σύμβασης εργασίας ορισμένου χρόνου μερικής απασχόλησης στο πλαίσιο του έργου PREMIERE",
+                        "issue_date": "2023-06-16",
+                        "chunk_id": 1834
+                    },
+                    {
+                        "document_id": "Ψ11Σ469ΗΞΩ-ΗΒ2",
+                        "ada": "Ψ11Σ469ΗΞΩ-ΗΒ2",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Autepistasia ΜΥΘΟ",
+                        "issue_date": "2021-03-05",
+                        "chunk_id": 2468
+                    }
+                ],
+                "metrics": {
+                    "rank": 1,
+                    "hit@1": 1,
+                    "hit@3": 1,
+                    "hit@5": 1,
+                    "rr": 1.0
+                }
+            },
+            {
+                "query": "Μέχρι πόσες ώρες υπερωρία μπορώ να κάνω τον χρόνο σε έργα που χρηματοδοτούνται από ιδιωτικούς, διεθνείς ή ίδιους πόρους;",
+                "expected_adas": [],
+                "expected_source_ids": [
+                    "ekpa_funding_guide_2024"
+                ],
+                "ranking": [
+                    {
+                        "document_id": "ekpa_funding_guide_2024",
+                        "ada": null,
+                        "source_id": "ekpa_funding_guide_2024",
+                        "source": "external_pdf",
+                        "subject": "Οδηγός Χρηματοδότησης και Διαχείρισης - Νοέμβριος 2024",
+                        "issue_date": null,
+                        "chunk_id": 3022
+                    },
+                    {
+                        "document_id": "9ΜΙ9469ΗΞΩ-Ν41",
+                        "ada": "9ΜΙ9469ΗΞΩ-Ν41",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Έγκριση δαπάνης για τα έξοδα φιλοξενίας και προβολής στο πλαίσιο του έργου VOICES",
+                        "issue_date": "2023-06-23",
+                        "chunk_id": 2085
+                    },
+                    {
+                        "document_id": "923Β469ΗΞΩ-4ΘΨ",
+                        "ada": "923Β469ΗΞΩ-4ΘΨ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Έγκριση δαπάνης μετακίνησης με ID-6602 και σκοπό τη συμμετοχή στη 2η συνάντηση των εταίρων του έργου STELAR",
+                        "issue_date": "2023-05-10",
+                        "chunk_id": 589
+                    },
+                    {
+                        "document_id": "ΨΒ2Μ469ΗΞΩ-6Δ1",
+                        "ada": "ΨΒ2Μ469ΗΞΩ-6Δ1",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Έγκριση δαπάνης μετακίνησης με ID-6700 και σκοπό τη συμμετοχή στη συνάντηση του συνασπισμού εθνικών χορηγών έρευνας σε ΤΠΕ \"CHIST-ERA\" στο πλαίσιο του έργου OpenAire NEXUS",
+                        "issue_date": "2023-03-30",
+                        "chunk_id": 1019
+                    },
+                    {
+                        "document_id": "ΡΘΖ7469ΗΞΩ-ΑΑΣ",
+                        "ada": "ΡΘΖ7469ΗΞΩ-ΑΑΣ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Έγκριση δαπάνης μετακίνησης με ID6288 και σκοπό τη συμμετοχή σε συνάντηση του έργου Οριζόντιο ΙΠΣΥ",
+                        "issue_date": "2023-01-19",
+                        "chunk_id": 540
+                    }
+                ],
+                "metrics": {
+                    "rank": 1,
+                    "hit@1": 1,
+                    "hit@3": 1,
+                    "hit@5": 1,
+                    "rr": 1.0
+                }
+            },
+            {
+                "query": "Μέχρι πόσες ώρες υπερωρία μπορώ να κάνω την ημέρα σε έργα που χρηματοδοτούνται από ιδιωτικούς, διεθνείς ή ίδιους πόρους;",
+                "expected_adas": [],
+                "expected_source_ids": [
+                    "ekpa_funding_guide_2024"
+                ],
+                "ranking": [
+                    {
+                        "document_id": "ekpa_funding_guide_2024",
+                        "ada": null,
+                        "source_id": "ekpa_funding_guide_2024",
+                        "source": "external_pdf",
+                        "subject": "Οδηγός Χρηματοδότησης και Διαχείρισης - Νοέμβριος 2024",
+                        "issue_date": null,
+                        "chunk_id": 3022
+                    },
+                    {
+                        "document_id": "9ΜΙ9469ΗΞΩ-Ν41",
+                        "ada": "9ΜΙ9469ΗΞΩ-Ν41",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Έγκριση δαπάνης για τα έξοδα φιλοξενίας και προβολής στο πλαίσιο του έργου VOICES",
+                        "issue_date": "2023-06-23",
+                        "chunk_id": 2085
+                    },
+                    {
+                        "document_id": "923Β469ΗΞΩ-4ΘΨ",
+                        "ada": "923Β469ΗΞΩ-4ΘΨ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Έγκριση δαπάνης μετακίνησης με ID-6602 και σκοπό τη συμμετοχή στη 2η συνάντηση των εταίρων του έργου STELAR",
+                        "issue_date": "2023-05-10",
+                        "chunk_id": 589
+                    },
+                    {
+                        "document_id": "Ψ11Σ469ΗΞΩ-ΗΒ2",
+                        "ada": "Ψ11Σ469ΗΞΩ-ΗΒ2",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Autepistasia ΜΥΘΟ",
+                        "issue_date": "2021-03-05",
+                        "chunk_id": 2503
+                    },
+                    {
+                        "document_id": "Ψ5Η6469ΗΞΩ-ΧΝΩ",
+                        "ada": "Ψ5Η6469ΗΞΩ-ΧΝΩ",
+                        "source_id": null,
+                        "source": "diavgeia",
+                        "subject": "Έγκριση Δαπάνης παροχής γεύματος εργασίας (έξοδα φιλοξενίας) - SUSTAINABLE - ΑΠ 12171",
+                        "issue_date": "2023-06-23",
+                        "chunk_id": 1442
+                    }
+                ],
+                "metrics": {
+                    "rank": 1,
+                    "hit@1": 1,
+                    "hit@3": 1,
+                    "hit@5": 1,
+                    "rr": 1.0
+                }
+            }
+        ]
+    }
+}

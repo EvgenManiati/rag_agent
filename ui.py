@@ -3,6 +3,7 @@ import streamlit as st
 from agent import build_agent
 from model import load_llm
 from retriever import load_retriever
+from pathlib import Path
 
 # Βασικές ρυθμίσεις σελίδας
 
@@ -434,9 +435,7 @@ with st.sidebar:
     model_options = {
         "Krikri — Hugging Face": "krikri",
         "Llama 3.2 - Ollama": "llama",
-        "GPT-OSS 20B — OpenRouter" : "gptoss20b",
-        "GPT-OSS 120B — OpenRouter": "gptoss120b",
-        "Gemini 2.5 Flash Lite — OpenRouter": "gemini_flash_lite",
+        "Qwen3 14B — OpenRouter": "qwen",
         "GPT-4.1 Mini — OpenRouter": "gpt41_mini",
         "Gemini 2.5 Flash — OpenRouter": "gemini_flash",
         "Claude Haiku — OpenRouter": "claude_haiku",
@@ -477,6 +476,22 @@ with st.sidebar:
     )
 
 
+    if st.button(
+        "Αλλαγή Google λογαριασμού",
+        use_container_width=True,
+    ):
+        Path("token.json").unlink(missing_ok=True)
+
+        st.cache_resource.clear()
+
+        st.session_state.agent = None
+
+        st.success(
+            "Ο προηγούμενος λογαριασμός αποσυνδέθηκε.\n"
+            "Πάτησε ξανά «Φόρτωση agent»."
+        )
+
+        st.rerun()
 # Καθαρισμός ιστορικού
 
 

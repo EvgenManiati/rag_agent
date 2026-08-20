@@ -8,6 +8,7 @@ from googleapiclient.discovery import Resource, build
 from googleapiclient.http import MediaIoBaseDownload
 from langchain_core.documents import Document
 from pypdf import PdfReader
+from google.auth.exceptions import RefreshError
 
 
 # Read-only δικαίωμα πρόσβασης στο Google Drive.
@@ -20,13 +21,12 @@ FOLDER_MIME_TYPE = "application/vnd.google-apps.folder"
 def authenticate_google_drive(
     credentials_file: str = "credentials.json",
     token_file: str = "token.json",
-) -> Resource:
+):
     """
     Συνδέεται στο Google Drive μέσω OAuth.
 
-    Το credentials.json περιγράφει την εφαρμογή.
-    Το token.json αποθηκεύει την έγκριση του χρήστη και
-    δημιουργείται αυτόματα μετά το πρώτο επιτυχημένο login.
+    Αν το υπάρχον token έχει λήξει ή έχει ανακληθεί,
+    διαγράφεται αυτόματα και ξεκινά νέο login.
     """
 
     credentials_path = Path(credentials_file)
@@ -40,25 +40,54 @@ def authenticate_google_drive(
 
     creds = None
 
-    # Χρησιμοποιούμε υπάρχον token, αν υπάρχει.
+    # Δοκιμή φόρτωσης του αποθηκευμένου token.
     if token_path.exists():
-        creds = Credentials.from_authorized_user_file(
-            str(token_path),
+        try:
+            creds = Credentials.from_authorized_user_file(
+                str(token_path),
+                SCOPES,
+            )
+        except Exception:
+            # Αν το token αρχείο είναι κατεστραμμένο,
+            # το διαγράφουμε και ξεκινάμε νέο login.
+            token_path.unlink(missing_ok=True)
+            creds = None
+
+    # Έλεγχος και ανανέωση token.
+    if creds and not creds.valid:
+        if creds.expired and creds.refresh_token:
+            try:
+                creds.refresh(Request())
+
+            except RefreshError:
+                print(
+                    "Το Google token έληξε ή ανακλήθηκε. "
+                    "Θα πραγματοποιηθεί νέα σύνδεση."
+                )
+
+                token_path.unlink(missing_ok=True)
+                creds = None
+        else:
+            token_path.unlink(missing_ok=True)
+            creds = None
+
+    # Αν δεν υπάρχει έγκυρο token, ανοίγει νέο login.
+    if not creds or not creds.valid:
+        flow = InstalledAppFlow.from_client_secrets_file(
+            str(credentials_path),
             SCOPES,
         )
 
-    # Αν το token λείπει ή δεν είναι έγκυρο,
-    # γίνεται refresh ή ανοίγει νέο OAuth login.
-    if not creds or not creds.valid:
-        if creds and creds.expired and creds.refresh_token:
-            creds.refresh(Request())
-        else:
-            flow = InstalledAppFlow.from_client_secrets_file(
-                str(credentials_path),
-                SCOPES,
-            )
-
-            creds = flow.run_local_server(port=0)
+        creds = flow.run_local_server(
+            port=0,
+            open_browser=True,
+            access_type="offline",
+            prompt="select_account consent",
+            success_message=(
+                "Η σύνδεση ολοκληρώθηκε. "
+                "Μπορείς να επιστρέψεις στην εφαρμογή."
+            ),
+        )
 
         token_path.write_text(
             creds.to_json(),

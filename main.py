@@ -1,7 +1,3 @@
-#from model import load_ollama_model, load_model, load_openrouter_model
-#from retriever import load_retriever
-#from agent import build_agent
-
 from model import load_llm, list_available_models
 from retriever import load_retriever
 from agent import build_agent
@@ -12,24 +8,20 @@ if __name__ == "__main__":
     print("Διάλεξε μοντέλο:")
     print("1. Krikri")
     print("2. Llama 3.2 3B")
-    print("3. GPT-OSS 20B")
-    print("4. GPT-OSS 120B")
-    print("5. Gemini 2.5 Flash Lite")
-    print("6. GPT-4.1 Mini")
-    print("7. Gemini 2.5 Flash")
-    print("8. Claude Haiku 4.5")
+    print("3. Qwen3 14B")
+    print("4. GPT-4.1 Mini")
+    print("5. Gemini 2.5 Flash")
+    print("6. Claude Haiku 4.5")
 
     choice = input("Επιλογή [Enter = Llama]: ").strip()
 
     model_map = {
         "1": "krikri",
         "2": "llama",
-        "3": "gptoss20b",
-        "4": "gptoss120b",
-        "5": "gemini_flash_lite",
-        "6": "gpt41_mini",
-        "7": "gemini_flash",
-        "8": "claude_haiku",
+        "3": "qwen",
+        "4": "gpt41_mini",
+        "5": "gemini_flash",
+        "6": "claude_haiku",
 }
 
     model_key = model_map.get(choice, "llama")
@@ -44,15 +36,17 @@ if __name__ == "__main__":
     print("3. Ensemble MiniLM and BGE-M3")
     
 
-    choice = input("Επιλογή [Enter = BGE]: ").strip() #Krikri has been set as the default model 
-    if choice == "1":
-        retriever_mode = "minilm"
-    elif choice == "2":
-        retriever_mode = "bge"
-    elif choice == "3":
-        retriever_mode = "ensemble"
-    else:
-        retriever_mode = "bge"
+    choice = input("Επιλογή [Enter = BGE]: ").strip() 
+    retriever_map = {
+        "1": "minilm",
+        "2": "bge",
+        "3": "ensemble",
+    }
+
+    retriever_mode = retriever_map.get(
+        choice,
+        "bge",
+    )
         
    
 
@@ -69,10 +63,11 @@ if __name__ == "__main__":
             break
 
         result = app.invoke({
-            "question":   user_input,
-            "context":    "",
-            "answer":     "",
-            "iterations": 0
+            "question": user_input,
+            "context": "",
+            "answer": "",
+            "iterations": 0,
+            "sources": [],
         })
         print(f"Απάντηση: {result['answer']}\n")
 
