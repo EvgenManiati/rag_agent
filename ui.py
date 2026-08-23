@@ -4,6 +4,7 @@ from agent import build_agent
 from model import load_llm
 from retriever import load_retriever
 from pathlib import Path
+from google_drive_loader import authenticate_google_drive
 
 # Βασικές ρυθμίσεις σελίδας
 
@@ -447,16 +448,17 @@ with st.sidebar:
         index=0,
     )
 
+                                
     retriever_options = {
+        "Προτεινόμενο: BGE-M3": "bge",
         "MiniLM": "minilm",
-        "BGE-M3": "bge",
         "Ensemble": "ensemble",
     }
 
     selected_retriever_label = st.selectbox(
         "Retriever",
         options=list(retriever_options.keys()),
-        index=1,
+        index=0,
     )
 
     show_context = st.checkbox(
@@ -476,11 +478,25 @@ with st.sidebar:
     )
 
 
-    if st.button(
-        "Αλλαγή Google λογαριασμού",
-        use_container_width=True,
-    ):
-        Path("token.json").unlink(missing_ok=True)
+    if st.button("Φόρτωση Google λογαριασμού"):
+        st.write("DEBUG 1: button clicked")
+        print("DEBUG 1: button clicked")
+
+        try:
+            st.write("DEBUG 2: πριν το Google loader")
+            print("DEBUG 2: πριν το Google loader")
+
+            result = authenticate_google_drive()
+
+            st.write("DEBUG 3: μετά το Google loader")
+            print("DEBUG 3: μετά το Google loader")
+
+            st.write("Result:", result)
+
+        except Exception as e:
+            st.error(f"Google error: {e}")
+            print("GOOGLE ERROR:", repr(e))
+            Path("token.json").unlink(missing_ok=True)
 
         st.cache_resource.clear()
 

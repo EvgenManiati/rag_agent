@@ -37,3 +37,7 @@ data/diavgeia/metadata.jsonl
 data/diavgeia/quality_report.jsonl
 data/diavgeia/repaired_documents.jsonl
 data/diavgeia/suspicious_documents.jsonl
+
+data/external_documents/
+
+qwen_error.txt

@@ -1,5 +1,6 @@
 import csv
 import json
+import traceback
 
 from collections import defaultdict
 from pathlib import Path
@@ -25,7 +26,13 @@ from evaluation.rag_eval_dataset import (
     EVAL_DATASET,
 )
 
+import sys
 
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8")
+
+if hasattr(sys.stderr, "reconfigure"):
+    sys.stderr.reconfigure(encoding="utf-8")
 
 # CONFIGURATION
 
@@ -848,14 +855,10 @@ if __name__ == "__main__":
                 all_scores[experiment_name] = result
 
 
-            except Exception as error:
-
-                print(
-                    f"\nΑπέτυχε το πείραμα "
-                    f"{experiment_name}"
-                )
-
-                print(error)
+            except Exception as e:
+                print(f"\nΑποτυχία το πείραμα {experiment_name}")
+                print(f"{type(e).__name__}: {e}")
+                traceback.print_exc()
 
 
                 all_scores[experiment_name] = {

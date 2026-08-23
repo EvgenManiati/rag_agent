@@ -7,7 +7,14 @@ llama,bge,scholarship,0.0,,1.0,3.0
 llama,bge,contract,0.0,0.0,0.5,1.0
 llama,bge,recruitment,0.0,0.0,1.0,3.0
 llama,bge,research_ethics,0.2,0.4,1.0,1.0
-qwen,bge,overall,,,,
+qwen,bge,overall,0.10526315789473684,0.8461538461538461,0.9473684210526315,1.6111111111111112
+qwen,bge,procurement,0.0,1.0,1.0,1.4
+qwen,bge,travel,0.0,1.0,1.0,2.0
+qwen,bge,contract_modification,0.0,,1.0,1.0
+qwen,bge,scholarship,0.0,,1.0,3.0
+qwen,bge,contract,0.5,0.5,0.5,1.0
+qwen,bge,recruitment,0.5,0.5,1.0,3.0
+qwen,bge,research_ethics,0.0,1.0,1.0,1.0
 gpt41_mini,bge,overall,0.05263157894736842,0.8461538461538461,0.9473684210526315,1.6111111111111112
 gpt41_mini,bge,procurement,0.0,1.0,1.0,1.4
 gpt41_mini,bge,travel,0.0,1.0,1.0,2.0

@@ -13,13 +13,14 @@ from dataclasses import dataclass
 
 
 load_dotenv()
-@dataclass
 
+@dataclass
 class ModelLoader:
     name: str
     provider: str
     model_id : str
     max_new_tokens: int
+    no_think: bool = False
 
 models = {
     "krikri": ModelLoader(
@@ -40,6 +41,7 @@ models = {
         provider="openrouter",
         model_id="qwen/qwen3-14b",
         max_new_tokens=500,
+        no_think=True,
     ),
 
     "gpt41_mini": ModelLoader(
@@ -68,11 +70,12 @@ class OpenRouterLLM:
     def __init__(
         self,
         model_name: str,
-        max_new_tokens: int = 1000,
+        max_new_tokens: int = 1000, 
+        no_think: bool = False
     ):
         self.model_id = model_name
         self.max_new_tokens = max_new_tokens
-
+        self.no_think = no_think
         self.api_key = os.getenv("OPENROUTER_API_KEY")
 
         if not self.api_key:
@@ -93,33 +96,39 @@ class OpenRouterLLM:
         )
 
     def invoke(self, prompt: str):
-        client = self._create_client()
+        for attempt in range(2):
+            client = self._create_client()
 
-        try:
-            response = client.chat.completions.create(
-                model=self.model_id,
-                messages=[
-                    {
-                        "role": "user",
-                        "content": prompt,
-                    }
-                ],
-                temperature=0,
-                max_tokens=self.max_new_tokens,
-            )
+            try:
+                final_prompt = f"{prompt}\n\n/no_think" if self.no_think else prompt
 
-            content = response.choices[0].message.content
-
-            if not content:
-                raise RuntimeError(
-                    f"Το {self.model_id} δεν επέστρεψε απάντηση."
+                response = client.chat.completions.create(
+                    model=self.model_id,
+                    messages=[
+                        {
+                            "role": "user",
+                            "content": final_prompt,
+                        }
+                    ],
+                    temperature=0,
+                    max_tokens=self.max_new_tokens,
                 )
 
-            return content
+                content = response.choices[0].message.content
 
-        finally:
-            client.close()
-    
+                if content and content.strip():
+                    return content.strip()
+
+                if attempt == 0:
+                    print(f"Κενή απάντηση από {self.model_id}. Επανάληψη...")
+
+            finally:
+                client.close()
+
+        raise RuntimeError(
+            f"Το {self.model_id} δεν επέστρεψε απάντηση μετά από 2 προσπάθειες."
+        )
+        
 def load_hf_model(config: ModelLoader):
     
     tokenizer = AutoTokenizer.from_pretrained(config.model_id)
@@ -159,7 +168,8 @@ def load_openrouter_model(config: ModelLoader):
 
     return OpenRouterLLM(
         model_name=config.model_id,
-        max_new_tokens=config.max_new_tokens
+        max_new_tokens=config.max_new_tokens,
+        no_think = config.no_think
     )
 
 def load_llm(model_key: str = "llama"):

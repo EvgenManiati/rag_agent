@@ -402,18 +402,16 @@ UNANSWERABLE_TEST_CASES = [
         "answerable": False,
     },
 
-    {
-        "question": (
-            "Πώς πληρώνονται οι υπερωρίες;"
-        ),
-        "expected_answer": (
-            "Δεν βρέθηκε σαφής απάντηση στις "
-            "διαθέσιμες πληροφορίες."
-        ),
-        "expected_adas": [],
-        "category": "employment",
-        "answerable": False,
-    },
+{
+    "question": "Τι επίδομα τηλεργασίας δικαιούται ένας εργαζόμενος;",
+    "expected_answer": ("Δεν υπάρχει σχετική "
+                "πληροφορία στα διαθέσιμα έγγραφα."
+                ),
+    "expected_adas": [],
+    "expected_source_ids": [],
+    "category": "employment",
+    "answerable": False,
+},
 
     {
         "question": (

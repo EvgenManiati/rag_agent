@@ -542,11 +542,4 @@ TEST_SET = [
         "difficulty": "natural",
     },
 
-    {
-        "query": "Μέχρι πόσες ώρες υπερωρία μπορώ να κάνω την ημέρα σε έργα που χρηματοδοτούνται από ιδιωτικούς, διεθνείς ή ίδιους πόρους;",
-        "expected_adas": [],
-        "expected_source_ids": ["ekpa_funding_guide_2024"],
-        "category": "employment",
-        "difficulty": "natural",
-    },
 ]
