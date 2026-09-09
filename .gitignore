@@ -38,3 +38,10 @@ data/diavgeia/suspicious_documents.jsonl
 data/external_documents/
 
 qwen_error.txt
+
+# Local debugging / testing utilities
+check_unanswerable.py
+check_llama_number_errors.py
+test_drive_loader.py
+test_drive_retriever.py
+installed_packages.txt
