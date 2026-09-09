@@ -306,18 +306,13 @@ def main():
 
             "source_id": source_id,
 
-            "subject": (
-                document_info["title"]),
+            #"subject": (document_info["title"]),
 
             "document_title": (document_info["title"]),
 
             "organization": (document_info["organization"]),
 
             "source": "external_pdf",
-
-            "document_url": None,
-
-            "issue_date": None,
 
             "organization_id": None,
 

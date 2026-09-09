@@ -24,9 +24,7 @@ MODELS_TO_TEST = [
     "claude_haiku",
 ]
 
-RETRIEVERS_TO_TEST = [
-    "bge",
-]
+RETRIEVERS_TO_TEST = ["drive_ensemble"]
 
 SOURCE_TOP_K = 5
 
@@ -35,10 +33,12 @@ SOURCE_TOP_K = 5
 
 RESULTS_DIR = Path("data/evaluation_results")
 
-JSON_RESULTS_FILE = RESULTS_DIR / "custom_eval_results.json"
-CSV_RESULTS_FILE = RESULTS_DIR / "custom_eval_results.csv"
-DETAILED_CSV_FILE = RESULTS_DIR / "custom_eval_detailed_results.csv"
+JSON_RESULTS_FILE = RESULTS_DIR / "custom_eval_drive_ensemble_results.json"
+CSV_RESULTS_FILE = RESULTS_DIR / "custom_eval_drive_ensemble_results.csv"
+DETAILED_CSV_FILE = RESULTS_DIR / "custom_eval_drive_ensemble_detailed_results.csv"
 
+
+SOURCE_ID_TO_FILE_NAME = {"athena_ehde_regulation": "kanonismos_ehde_athina.pdf", "ekpa_funding_guide_2024": "odigos_xrimatodotisis_ekpa_2024.pdf"}
 
 # TEXT NORMALIZATION
 
@@ -105,14 +105,15 @@ def calculate_number_accuracy(answer, expected_answer):
 def get_document_identifier(document):
     ada = str(document.metadata.get("ada") or "").strip()
     source_id = str(document.metadata.get("source_id") or "").strip()
+    file_name = str(document.metadata.get("file_name") or "").strip()
 
-    return ada or source_id
+    return ada or source_id or file_name
 
 
 # SOURCE ACCURACY + SOURCE RANK
 
 
-def evaluate_source(retriever, question, expected_adas, expected_source_ids):
+def evaluate_source(retriever, question, expected_adas, expected_source_ids, expected_file_names):
     """
     Returns:
         source_accuracy:
@@ -127,7 +128,12 @@ def evaluate_source(retriever, question, expected_adas, expected_source_ids):
             Unique document identifiers in retrieval order.
     """
 
-    expected_ids = set(expected_adas) | set(expected_source_ids)
+    expected_ids = set(expected_adas) | set(expected_source_ids) | set(expected_file_names)
+
+    for source_id in expected_source_ids:
+        mapped_file = SOURCE_ID_TO_FILE_NAME.get(source_id)
+        if mapped_file:
+            expected_ids.add(mapped_file)
 
     if not expected_ids:
         return None, None, []
@@ -212,6 +218,7 @@ def run_model_evaluation(model_key, retriever_mode):
         expected_answer = item["expected_answer"]
         expected_adas = item.get("expected_adas", [])
         expected_source_ids = item.get("expected_source_ids", [])
+        expected_file_names = item.get("expected_file_names", [])
         category = item["category"]
 
         
@@ -238,6 +245,7 @@ def run_model_evaluation(model_key, retriever_mode):
             question,
             expected_adas,
             expected_source_ids,
+            expected_file_names
         )
 
         overall_scores["answer_exactness"].append(answer_exactness)
@@ -266,6 +274,7 @@ def run_model_evaluation(model_key, retriever_mode):
             "category": category,
             "expected_adas": expected_adas,
             "expected_source_ids": expected_source_ids,
+            "expected_file_names": expected_file_names,
             "retrieved_ids": retrieved_ids,
             "answer_exactness": answer_exactness,
             "number_accuracy": number_accuracy,
@@ -428,6 +437,7 @@ def save_results(all_scores):
                 "actual_answer": detail.get("actual_answer"),
                 "expected_adas": ", ".join(detail.get("expected_adas", [])),
                 "expected_source_ids": ", ".join(detail.get("expected_source_ids", [])),
+                "expected_file_names": ", ".join(detail.get("expected_file_names", [])),
                 "retrieved_ids": ", ".join(detail.get("retrieved_ids", [])),
                 "answer_exactness": detail.get("answer_exactness"),
                 "number_accuracy": detail.get("number_accuracy"),
@@ -445,6 +455,7 @@ def save_results(all_scores):
         "actual_answer",
         "expected_adas",
         "expected_source_ids",
+        "expected_file_names",
         "retrieved_ids",
         "answer_exactness",
         "number_accuracy",

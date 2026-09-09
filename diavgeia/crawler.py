@@ -492,7 +492,7 @@ def normalize_record(
         "protocol_number": raw_record.get(
             "protocolNumber"
         ),
-        "subject": raw_record.get("subject"),
+        #"subject": raw_record.get("subject"),
         "issue_date": normalized_issue_date,
         "publish_date": publish_timestamp,
         "submission_date": submission_timestamp,
@@ -724,9 +724,7 @@ Validate and normalize a raw decision record.
 
         return None, {
             "reason": "missing_ada",
-            "subject": raw_record.get(
-                "subject"
-            ),
+            #"subject": raw_record.get("subject"),
         }
 
     return normalized_record, None

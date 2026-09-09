@@ -743,10 +743,9 @@ def build_dataset_record(
         "protocol_number": metadata.get(
             "protocol_number"
         ),
-        "subject": metadata.get("subject"),
-        "issue_date": metadata.get(
-            "issue_date"
-        ),
+        #"subject": metadata.get("subject"),
+    
+
         "publish_date": metadata.get(
             "publish_date"
         ),
@@ -823,10 +822,8 @@ def build_failed_record(
 
     return {
         "ada": metadata.get("ada"),
-        "subject": metadata.get("subject"),
-        "issue_date": metadata.get(
-            "issue_date"
-        ),
+        #"subject": metadata.get("subject"),
+        "issue_date": metadata.get("issue_date"),
         "document_url": metadata.get(
             "document_url"
         ),

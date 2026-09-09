@@ -450,10 +450,10 @@ with st.sidebar:
 
                                 
     retriever_options = {
-        "Προτεινόμενο: BGE-M3": "bge",
-        "MiniLM": "minilm",
-        "Ensemble": "ensemble",
-    }
+    "Προτεινόμενο: BGE-M3": "drive_bge",
+    "MiniLM": "drive_minilm",
+    "Ensemble": "drive_ensemble",
+}
 
     selected_retriever_label = st.selectbox(
         "Retriever",
@@ -479,33 +479,24 @@ with st.sidebar:
 
 
     if st.button("Φόρτωση Google λογαριασμού"):
-        st.write("DEBUG 1: button clicked")
-        print("DEBUG 1: button clicked")
-
         try:
-            st.write("DEBUG 2: πριν το Google loader")
-            print("DEBUG 2: πριν το Google loader")
-
-            result = authenticate_google_drive()
-
-            st.write("DEBUG 3: μετά το Google loader")
-            print("DEBUG 3: μετά το Google loader")
-
-            st.write("Result:", result)
-
+            authenticate_google_drive()
+            st.cache_resource.clear()
+            st.session_state.agent = None
+            st.success("Η σύνδεση με το Google Drive ολοκληρώθηκε.")
+            st.rerun()
         except Exception as e:
             st.error(f"Google error: {e}")
-            print("GOOGLE ERROR:", repr(e))
             Path("token.json").unlink(missing_ok=True)
 
-        st.cache_resource.clear()
+            st.cache_resource.clear()
 
-        st.session_state.agent = None
+            st.session_state.agent = None
 
-        st.success(
-            "Ο προηγούμενος λογαριασμός αποσυνδέθηκε.\n"
-            "Πάτησε ξανά «Φόρτωση agent»."
-        )
+            st.success(
+                "Ο προηγούμενος λογαριασμός αποσυνδέθηκε.\n"
+                "Πάτησε ξανά «Φόρτωση agent»."
+            )
 
         st.rerun()
 # Καθαρισμός ιστορικού
@@ -531,14 +522,12 @@ if initialize_clicked:
         with st.spinner(
             "Φόρτωση μοντέλου, εγγράφων και retriever..."
         ):
+            st.cache_resource.clear()
             st.session_state.agent = create_agent(
                 model_key=selected_model_key,
                 retriever_mode=selected_retriever_mode,
             )
-
-            st.session_state.active_configuration = (
-                selected_configuration
-            )
+            st.session_state.active_configuration = selected_configuration
 
         st.success(
             f"Ο agent φορτώθηκε με "
@@ -594,14 +583,6 @@ for message in st.session_state.messages:
             with st.expander("Retrieved context"):
                 st.text(message["context"])
 
-        if (
-            message["role"] == "assistant"
-            and show_context
-            and message.get("context")
-        ):
-            with st.expander("Retrieved context"):
-                st.text(message["context"])
-
 
 # Πεδίο ερώτησης
 
@@ -643,6 +624,7 @@ if user_question:
                         "context": "",
                         "answer": "",
                         "iterations": 0,
+                        "sources":[],
                     }
                 )
 

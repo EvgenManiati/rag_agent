@@ -39,3 +39,10 @@ VECTOR_STORE_DIR = Path("data/vectorstores")
 MINILM_INDEX_DIR = VECTOR_STORE_DIR / "minilm_index"
 BGE_INDEX_DIR = VECTOR_STORE_DIR / "bge_index"
   
+from pathlib import Path
+
+DRIVE_BGE_INDEX_DIR = Path("data/vectorstores/bge_drive")
+
+DRIVE_MINILM_INDEX_DIR = Path("data/vectorstores/minilm_drive")
+
+GOOGLE_DRIVE_ROOT_FOLDER_ID = ("1lHB8v0IV67KNP3RJh2QBkgfr2TO3wrtl")

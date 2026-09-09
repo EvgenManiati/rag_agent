@@ -289,9 +289,7 @@ def run_quality_check() -> None:
 
         report = {
             "ada": record.get("ada"),
-            "subject": record.get(
-                "subject"
-            ),
+            #"subject": record.get("subject"),
             **quality,
         }
 

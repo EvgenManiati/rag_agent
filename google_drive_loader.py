@@ -9,10 +9,11 @@ from googleapiclient.http import MediaIoBaseDownload
 from langchain_core.documents import Document
 from pypdf import PdfReader
 from google.auth.exceptions import RefreshError
+import time
 
 
 # Read-only δικαίωμα πρόσβασης στο Google Drive.
-SCOPES = ["https://www.googleapis.com/auth/drive.readonly"]
+SCOPES = ["https://www.googleapis.com/auth/drive"]
 
 PDF_MIME_TYPE = "application/pdf"
 FOLDER_MIME_TYPE = "application/vnd.google-apps.folder"
@@ -184,35 +185,32 @@ def collect_pdf_files(
     return collected
 
 
-def download_file_to_memory(
-    service: Resource,
-    file_id: str,
-) -> bytes:
-    """
-    Κατεβάζει ένα PDF σε προσωρινό buffer στη RAM.
+import time
 
-    Δεν δημιουργείται κανένα αρχείο στον δίσκο.
-    """
 
-    request = service.files().get_media(
-        fileId=file_id,
-        supportsAllDrives=True,
-    )
+def download_file_to_memory(service: Resource, file_id: str, max_retries: int = 5) -> bytes:
+    """Κατεβάζει PDF στη RAM με retries σε προσωρινά network timeouts."""
 
-    buffer = io.BytesIO()
+    for attempt in range(1, max_retries + 1):
+        try:
+            request = service.files().get_media(fileId=file_id, supportsAllDrives=True)
+            buffer = io.BytesIO()
+            downloader = MediaIoBaseDownload(buffer, request)
 
-    downloader = MediaIoBaseDownload(
-        buffer,
-        request,
-    )
+            done = False
 
-    done = False
+            while not done:
+                _, done = downloader.next_chunk(num_retries=3)
 
-    while not done:
-        _, done = downloader.next_chunk()
+            return buffer.getvalue()
 
-    # Επιστρέφουμε το περιεχόμενο του buffer ως bytes.
-    return buffer.getvalue()
+        except (TimeoutError, ConnectionError, OSError) as exc:
+            print(f"DOWNLOAD ERROR {attempt}/{max_retries} | file_id={file_id} | {exc}")
+
+            if attempt < max_retries:
+                time.sleep(5)
+
+    raise RuntimeError(f"Αποτυχία λήψης Drive αρχείου μετά από {max_retries} προσπάθειες: {file_id}")
 
 
 def pdf_bytes_to_documents(
@@ -222,30 +220,60 @@ def pdf_bytes_to_documents(
     """
     Μετατρέπει PDF bytes σε LangChain Document objects.
 
-    Δημιουργείται ένα Document ανά σελίδα.
+    Δημιουργείται ένα Document ανά σελίδα και
+    διατηρούνται metadata για αρχείο και Drive path.
     """
 
     reader = PdfReader(io.BytesIO(pdf_bytes))
 
     documents: list[Document] = []
 
-    for page_number, page in enumerate(reader.pages, start=1):
+    drive_path = file_info.get(
+        "virtual_path",
+        file_info.get("name", ""),
+    )
+
+    path_parts = drive_path.split("/")
+
+    file_name = file_info.get("name", "")
+
+    # Ο άμεσος γονικός φάκελος του αρχείου.
+    folder_name = (
+        path_parts[-2]
+        if len(path_parts) >= 2
+        else ""
+    )
+
+    for page_number, page in enumerate(
+        reader.pages,
+        start=1,
+    ):
         text = page.extract_text() or ""
 
-        # Αγνοούμε εντελώς κενές σελίδες.
         if not text.strip():
             continue
 
+        file_name = file_info.get("name", "")
+        drive_path = file_info.get("virtual_path", file_name)
+        ada = Path(file_name).stem if drive_path.startswith("Diavgeia/") else ""
+
         metadata = {
-            "source": file_info.get("name", ""),
-            "drive_file_id": file_info.get("id", ""),
-            "drive_path": file_info.get(
-                "virtual_path",
-                file_info.get("name", ""),
-            ),
+            "source": "google_drive",
+
+            "file_name": file_name,
+
+            "drive_file_id": file_info.get("id","",),
+
+            "folder_name": folder_name,
+
+            "drive_path": drive_path,
+
             "page": page_number,
-            "modified_time": file_info.get("modifiedTime", ""),
-            "document_source": "google_drive",
+
+            "modified_time": file_info.get("modifiedTime",""),
+
+            "ada": ada,
+    
         }
 
         documents.append(

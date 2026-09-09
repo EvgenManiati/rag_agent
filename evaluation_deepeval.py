@@ -38,15 +38,15 @@ if hasattr(sys.stderr, "reconfigure"):
 
 MODELS_TO_TEST = [
     #"krikri",
-   "llama",
-   "qwen",
-   "gpt41_mini",
-   "gemini_flash",
-   "claude_haiku",
+    "llama",
+    "qwen",
+    "gpt41_mini",
+    "gemini_flash",
+    "claude_haiku",
 ]
 
 
-RETRIEVERS_TO_TEST =["bge"] 
+RETRIEVERS_TO_TEST =["drive_ensemble"] 
 
 
 # Model used only as DeepEval judge.
@@ -58,11 +58,11 @@ EVALUATOR_MODEL_KEY = "gpt41_mini"
 
 RESULTS_DIR = Path("data/evaluation_results")
 
-JSON_RESULTS_FILE = (RESULTS_DIR/ "deepeval_results.json")
+JSON_RESULTS_FILE = (RESULTS_DIR/ "deepeval_results_drive_ensemble.json")
 
-CSV_RESULTS_FILE = (RESULTS_DIR/ "deepeval_results.csv")
+CSV_RESULTS_FILE = (RESULTS_DIR/ "deepeval_results_drive_ensemble.csv")
 
-DETAILED_CSV_FILE = (RESULTS_DIR/ "deepeval_detailed_results.csv")
+DETAILED_CSV_FILE = (RESULTS_DIR/ "deepeval_detailed_results_drive_ensemble.csv")
 
 
 # DEEPEVAL MODEL WRAPPER
@@ -220,26 +220,23 @@ def run_model_evaluation(
 
         answerable = item["answerable"]
 
+        expected_adas = item.get("expected_adas", [])
+
+        expected_source_ids = item.get("expected_source_ids", [])
+
+        expected_file_names = item.get("expected_file_names", [])
+
 
         print(
         f"\nTEST CASE {index}/{total_cases} "
         f"| MODEL: {generator_name} "
         f"| RETRIEVER: {retriever_name}")
 
-        print(
-            f"Category: "
-            f"{category}"
-        )
+        print(f"Category: {category}")
 
-        print(
-            f"Answerable: "
-            f"{answerable}"
-        )
+        print(f"Answerable: {answerable}")
 
-        print(
-            f"Ερώτηση: "
-            f"{question}"
-        )
+        print(f"Ερώτηση: {question}")
 
 
         # RUN RAG
@@ -258,9 +255,31 @@ def run_model_evaluation(
 
         context = result.get("context","" )
 
-        print(
-            f"\nΑπάντηση: {answer}")
+        sources = result.get("sources", [])
 
+        retrieved_adas = []
+        retrieved_source_ids = []
+        retrieved_file_names = []
+
+        for source in sources:
+            ada = str(source.get("ada") or "").strip()
+            source_id = str(source.get("source_id") or "").strip()
+            file_name = str(source.get("file_name") or "").strip()
+
+            if ada:
+                retrieved_adas.append(ada)
+
+            if source_id:
+                retrieved_source_ids.append(source_id)
+
+            if file_name:
+                retrieved_file_names.append(file_name)
+
+        expected_documents = set(expected_adas) | set(expected_source_ids) | set(expected_file_names)
+        retrieved_documents = set(retrieved_adas) | set(retrieved_source_ids) | set(retrieved_file_names)
+        source_match = bool(expected_documents & retrieved_documents) if expected_documents else None
+
+        print(f"\nΑπάντηση: {answer}")
 
         # CREATE DEEPEVAL TEST CASE
 
@@ -396,6 +415,16 @@ def run_model_evaluation(
             "expected_adas": item.get("expected_adas", []),
 
             "expected_source_ids": item.get("expected_source_ids", []),
+
+            "expected_file_names": expected_file_names,
+
+            "retrieved_adas": retrieved_adas,
+
+            "retrieved_source_ids": retrieved_source_ids,
+
+            "retrieved_file_names": retrieved_file_names,
+
+            "source_match": source_match,
             
             "faithfulness": (case_scores["faithfulness"]),
 
@@ -413,12 +442,8 @@ def run_model_evaluation(
     # OVERALL AVERAGES
 
     answerable_avg_scores = {
-    metric_name: (
-        sum(metric_values)
-        / len(metric_values)
-        if metric_values
-        else None
-    )
+    metric_name: (sum(metric_values)/ len(metric_values) 
+                  if metric_values else None)
     for  (metric_name, metric_values) in answerable_scores.items()
 }
 
@@ -456,27 +481,17 @@ def run_model_evaluation(
             )
 
 
-    print(
-        f"\nUNANSWERABLE RESULTS "
-        f"- {generator_name} + {retriever_name}"
-    )
+    print(f"\nUNANSWERABLE RESULTS - {generator_name} + {retriever_name}")
 
-    for (
-        metric_name,
-        score,
-    ) in unanswerable_avg_scores.items():
+    for (metric_name, score) in unanswerable_avg_scores.items():
 
         if score is None:
-            print(
-                f"{metric_name}: -"
-            )
+            print(f"{metric_name}: -")
         else:
-            print(
-                f"{metric_name}: "
-                f"{score:.3f}"
-            )
-    # CATEGORY AVERAGES
+            print(f"{metric_name}: {score:.3f}")
 
+
+    # CATEGORY AVERAGES
 
     category_avg_scores = {}
 
@@ -485,14 +500,8 @@ def run_model_evaluation(
 
         category_avg_scores[category] = {
 
-            metric_name: (
-                sum(metric_values)
-                / len(metric_values)
-
-                if metric_values
-
-                else None
-            )
+            metric_name: (sum(metric_values)/ len(metric_values)
+                if metric_values else None)
 
             for (metric_name, metric_values) in metric_dict.items()
         }
@@ -501,19 +510,12 @@ def run_model_evaluation(
     # PRINT CATEGORY RESULTS
 
     print("\n")
-    print(
-        f"ΑΠΟΤΕΛΕΣΜΑΤΑ ΑΝΑ ΚΑΤΗΓΟΡΙΑ "
-        f"- {generator_name}"
-        f" + {retriever_name}"
-    )
+    print(f"ΑΠΟΤΕΛΕΣΜΑΤΑ ΑΝΑ ΚΑΤΗΓΟΡΙΑ - {generator_name} + {retriever_name}")
 
 
     for (category, metric_results) in category_avg_scores.items():
 
-        print(
-            f"\nΚατηγορία: "
-            f"{category}"
-        )
+        print(f"\nΚατηγορία: {category}")
 
 
         for (metric_name, score) in metric_results.items():
@@ -523,9 +525,7 @@ def run_model_evaluation(
 
             else:
                 print(
-                    f"  {metric_name}: "
-                    f"{score:.3f}"
-                )
+                    f"  {metric_name}: {score:.3f}")
 
     print("\n" + "=" * 100)
     print(f"END MODEL: {generator_name.upper()} | RETRIEVER: {retriever_name.upper()}")
@@ -583,69 +583,54 @@ def save_results(all_scores):
 
     summary_rows = []
 
-
-    for (experiment_name, experiment_results) in all_scores.items():
-
-        model_name = (experiment_results.get("model", ""))
-
-        retriever_name = (experiment_results.get("retriever", ""))
-
-        # Overall
+    for experiment_name, experiment_results in all_scores.items():
+        model_name = experiment_results.get("model", "")
+        retriever_name = experiment_results.get("retriever", "")
 
         answerable_overall = experiment_results.get("answerable_overall", {})
         unanswerable_overall = experiment_results.get("unanswerable_overall", {})
 
+        # Answerable overall
         summary_rows.append({
-
             "model": model_name,
-
-            "retriever": (retriever_name),
-
+            "retriever": retriever_name,
             "category": "answerable_overall",
-
             "faithfulness": answerable_overall.get("faithfulness"),
-
             "answer_relevancy": answerable_overall.get("answer_relevancy"),
-
             "contextual_precision": answerable_overall.get("contextual_precision"),
-
             "contextual_recall": answerable_overall.get("contextual_recall"),
-
             "refusal_accuracy": None,
-
             "hallucination_rate": None,
         })
 
+        # Unanswerable overall
+        summary_rows.append({
+            "model": model_name,
+            "retriever": retriever_name,
+            "category": "unanswerable_overall",
+            "faithfulness": unanswerable_overall.get("faithfulness"),
+            "answer_relevancy": unanswerable_overall.get("answer_relevancy"),
+            "contextual_precision": None,
+            "contextual_recall": None,
+            "refusal_accuracy": unanswerable_overall.get("refusal_accuracy"),
+            "hallucination_rate": unanswerable_overall.get("hallucination_rate"),
+        })
 
         # Categories
+        category_results = experiment_results.get("by_category", {})
 
-
-        category_results = (experiment_results.get("by_category", {}))
-
-
-        for (category, metrics) in category_results.items():
-
+        for category, metrics in category_results.items():
             summary_rows.append({
-
                 "model": model_name,
-
-                "retriever": (retriever_name),
-
-                "category": "unanswerable_overall",
-
-                "faithfulness": unanswerable_overall.get("faithfulness"),
-
-                "answer_relevancy": unanswerable_overall.get("answer_relevancy"),
-
-                "contextual_precision": None,
-
-                "contextual_recall": None,
-
-                "refusal_accuracy": unanswerable_overall.get("refusal_accuracy"),
-
-                "hallucination_rate": unanswerable_overall.get("hallucination_rate"),
-                })
-
+                "retriever": retriever_name,
+                "category": category,
+                "faithfulness": metrics.get("faithfulness"),
+                "answer_relevancy": metrics.get("answer_relevancy"),
+                "contextual_precision": metrics.get("contextual_precision"),
+                "contextual_recall": metrics.get("contextual_recall"),
+                "refusal_accuracy": metrics.get("refusal_accuracy"),
+                "hallucination_rate": metrics.get("hallucination_rate"),
+            })
 
     summary_fieldnames = [
         "model",
@@ -657,15 +642,11 @@ def save_results(all_scores):
         "contextual_recall",
         "refusal_accuracy",
         "hallucination_rate",
-        ]
-
+    ]
 
     with CSV_RESULTS_FILE.open("w", encoding="utf-8-sig", newline="") as file:
-
-        writer = csv.DictWriter(file, fieldnames=(summary_fieldnames))
-
+        writer = csv.DictWriter(file, fieldnames=summary_fieldnames)
         writer.writeheader()
-
         writer.writerows(summary_rows)
 
 # DETAILED CSV
@@ -703,6 +684,16 @@ def save_results(all_scores):
 
                 "expected_source_ids": "," .join(detail.get("expected_source_ids", [])), 
 
+                "expected_file_names": ", ".join(detail.get("expected_file_names", [])),
+
+                "retrieved_adas": ", ".join(detail.get("retrieved_adas", [])),
+
+                "retrieved_source_ids": ", ".join(detail.get("retrieved_source_ids", [])),
+
+                "retrieved_file_names": ", ".join(detail.get("retrieved_file_names", [])),
+                
+                "source_match": detail.get("source_match"),
+
                 "faithfulness": detail.get("faithfulness"),
 
                 "answer_relevancy": detail.get("answer_relevancy"),
@@ -728,6 +719,11 @@ def save_results(all_scores):
         "retrieved_context",
         "expected_adas",
         "expected_source_ids",
+        "expected_file_names",
+        "retrieved_adas",
+        "retrieved_source_ids",
+        "retrieved_file_names",
+        "source_match",
         "faithfulness",
         "answer_relevancy",
         "contextual_precision",

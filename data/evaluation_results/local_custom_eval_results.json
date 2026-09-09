@@ -1,0 +1,37 @@
+{
+    "llama_bge": {
+        "model": "llama",
+        "retriever": "bge",
+        "overall": {},
+        "by_category": {},
+        "details": []
+    },
+    "qwen_bge": {
+        "model": "qwen",
+        "retriever": "bge",
+        "overall": {},
+        "by_category": {},
+        "details": []
+    },
+    "gpt41_mini_bge": {
+        "model": "gpt41_mini",
+        "retriever": "bge",
+        "overall": {},
+        "by_category": {},
+        "details": []
+    },
+    "gemini_flash_bge": {
+        "model": "gemini_flash",
+        "retriever": "bge",
+        "overall": {},
+        "by_category": {},
+        "details": []
+    },
+    "claude_haiku_bge": {
+        "model": "claude_haiku",
+        "retriever": "bge",
+        "overall": {},
+        "by_category": {},
+        "details": []
+    }
+}

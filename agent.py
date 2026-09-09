@@ -5,6 +5,7 @@ from typing import TypedDict, List, Dict, Any
 
 import retriever
 
+
 class AgentState(TypedDict):
     question: str
     context: str
@@ -32,69 +33,42 @@ def build_agent(llm, retriever):
 
     def retrieve(state: AgentState) -> AgentState:
         """
-        Retrieve relevant Diavgeia documents and construct
+        Retrieve relevant documents and construct
         the context that will be provided to the LLM.
         """
 
         docs = retriever.invoke(state["question"])
+
 
         context_parts = []
 
         for doc in docs:
             metadata = doc.metadata
 
-            ada = metadata.get(
-                "ada",
-                "Άγνωστος ΑΔΑ",
-            )
+            ada = metadata.get("ada", "")
+            #subject = metadata.get("subject", "")
+            file_name = metadata.get("file_name", "")
+            folder_name = metadata.get("folder_name", "")
+            drive_path = metadata.get("drive_path", "")
+            page = metadata.get("page", "")
 
-            subject = metadata.get(
-                "subject",
-                "Χωρίς θέμα",
-            )
+            context_part = f"ΑΔΑ: {ada}\nΑρχείο: {file_name}\nΦάκελος: {folder_name}\nDrive path: {drive_path}\nΣελίδα: {page}\n\n{doc.page_content}"
 
-            issue_date = metadata.get(
-                "issue_date",
-                "Άγνωστη ημερομηνία",
-            )
+            context_parts.append(context_part)
 
-            document_url = metadata.get(
-                "document_url",
-                "",
-            )
+        state["context"] = ("\n\n").join(context_parts)
 
-            context_part = (
-                f"Θέμα: {subject}\n"
-                f"ΑΔΑ: {ada}\n"
-                f"Ημερομηνία: {issue_date}\n"
-                f"URL: {document_url}\n\n"
-                f"{doc.page_content}"
-            )
-
-            context_parts.append(
-                context_part
-            )
-
-        state["context"] = (
-            "\n\n"
-        ).join(
-            context_parts
-        )
-
-        state["iterations"] = (
-            state.get(
-                "iterations",
-                0,
-            )
-            + 1
-        )
+        state["iterations"] = (state.get("iterations",0,)+ 1 )
 
         state["sources"] = [
         {
             "ada": doc.metadata.get("ada", ""),
-            "subject": doc.metadata.get("subject", ""),
-            "issue_date": doc.metadata.get("issue_date", ""),
-            "document_url": doc.metadata.get("document_url", ""),
+            #"subject": doc.metadata.get("subject", ""),
+            "source_id": doc.metadata.get("source_id", ""),
+            "file_name": doc.metadata.get("file_name", ""),
+            "folder_name": doc.metadata.get("folder_name", ""),
+            "drive_path": doc.metadata.get("drive_path", ""),
+            "page": doc.metadata.get("page", ""),
             "chunk_id": doc.metadata.get("chunk_id", ""),
         }
         for doc in docs
@@ -105,7 +79,7 @@ def build_agent(llm, retriever):
     def generate(state: AgentState) -> AgentState:
             """
             Generate the final answer using only the retrieved
-            Diavgeia context.
+            context.
             """
 
             question_lower = state["question"].lower().strip()
@@ -124,7 +98,7 @@ def build_agent(llm, retriever):
 
             prompt = f"""
     Είσαι βοηθός οργανισμού που απαντά σε ερωτήσεις
-    με βάση αποφάσεις και έγγραφα της Διαύγειας.
+    με βάση αποφάσεις και έγγραφα που υπάρχουν στο διαθέσιμο context. 
 
     Απάντησε ΜΟΝΟ με βάση το Context που σου δίνεται.
 
@@ -134,8 +108,9 @@ def build_agent(llm, retriever):
     - Αν δεν υπάρχει αρκετή πληροφορία στο Context, απάντησε:
     "Δεν βρέθηκε σαφής απάντηση στις διαθέσιμες πληροφορίες."
     - Απάντησε σύντομα, καθαρά και στα ελληνικά.
-    - Αν η απάντηση προκύπτει από συγκεκριμένη απόφαση,
-    μπορείς να αναφέρεις τον ΑΔΑ της.
+    - Αν η απάντηση προκύπτει από συγκεκριμένο έγγραφο, 
+      μπορείς να αναφέρεις τον ΑΔΑ ή το όνομα του αρχείου, 
+      εφόσον εμφανίζεται στο Context.
     - Μην επινοείς ΑΔΑ, ημερομηνίες, ποσά, ονόματα ή αριθμούς.
     - Χρησιμοποίησε μόνο αριθμούς και πληροφορίες που
     εμφανίζονται στο Context.

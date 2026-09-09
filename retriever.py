@@ -1,3 +1,4 @@
+from google_drive_loader import load_documents_from_drive_folders
 from functools import lru_cache
 from typing import Any
 from langchain_community.vectorstores import FAISS
@@ -5,6 +6,7 @@ from langchain_core.documents import Document
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 import json
+
 
 from config import (
     CHUNK_OVERLAP,
@@ -14,6 +16,9 @@ from config import (
     ENSEMBLE_K,
     MINILM_INDEX_DIR,
     BGE_INDEX_DIR,
+    DRIVE_BGE_INDEX_DIR,
+    DRIVE_MINILM_INDEX_DIR,
+    GOOGLE_DRIVE_ROOT_FOLDER_ID,
 )
 #rom google_drive_loader import load_documents_from_drive_folders
 
@@ -114,50 +119,28 @@ class SimpleEnsembleRetriever:
                 # Each chunk must have a unique key.
                 
                 document_key = str(
-                document.metadata.get(
-                    "ada"
-                )
-                or document.metadata.get(
-                    "source_id"
-                )
-                or document.metadata.get(
-                    "source"
-                )
+
+                document.metadata.get("ada")
+
+                or document.metadata.get("source_id")
+
+                or document.metadata.get("file_name")
+
+                or document.metadata.get("source") 
+
                 or ""
             )    
 
-                chunk_id = str(
-                    document.metadata.get(
-                        "chunk_id",
-                        "",
-                    )
-                )
+                chunk_id = str(document.metadata.get("chunk_id",""))
 
-                key = (
-                    document_key,
-                    chunk_id,
-                )
+                key = (document_key, chunk_id)
 
                 # Weighted Reciprocal Rank Fusion
-                rrf_score = (
-                    weight
-                    / (
-                        self.rrf_constant
-                        + rank
-                    )
-                )
+                rrf_score = (weight/ (self.rrf_constant + rank))
 
-                scores[key] = (
-                    scores.get(
-                        key,
-                        0.0,
-                    )
-                    + rrf_score
-                )
+                scores[key] = (scores.get(key,0.0) + rrf_score)
 
-                documents_by_key[key] = (
-                    document
-                )
+                documents_by_key[key] = (document)
 
         # Sort from highest score to lowest.
         ranked_keys = sorted(
@@ -223,24 +206,22 @@ def load_source_documents() -> tuple[Document, ...]:
             metadata = {
                 "ada": record.get("ada"),
                 "source_id": record.get("source_id"),
-                "subject": record.get("subject"),
+                #"subject": record.get("subject"),
                 "document_title": record.get("document_title"),
-                "issue_date": record.get("issue_date"),
                 "organization_id": record.get("organization_id"),
                 "organization": record.get("organization"),
                 "decision_type_id": record.get("decision_type_id"),
-                "document_url": record.get("document_url"),
                 "source": source,
             }
 
-            subject = str(record.get("subject", "")).strip()
+            #subject = str(record.get("subject", "")).strip()
 
-            if subject:
-                content = f"Θέμα: {subject}\n\nΚείμενο:\n{text}"
-            else:
-                content = text
+            #if subject:
+             #   content = f"Θέμα: {subject}\n\nΚείμενο:\n{text}"
+            #else:
+            #  content = text
 
-            document = Document(page_content=content, metadata=metadata)
+            document = Document(page_content=text, metadata=metadata)
             documents.append(document)
 
             if source == "external_pdf":
@@ -255,6 +236,39 @@ def load_source_documents() -> tuple[Document, ...]:
     print(f"Diavgeia documents: {diavgeia_count}")
     print(f"External PDF documents: {external_count}")
     print(f"Skipped records: {skipped_count}")
+
+    return tuple(documents)
+
+@lru_cache(maxsize=1)
+def load_drive_source_documents() -> tuple[Document, ...]:
+    """
+    Φορτώνει ολόκληρο το corpus από το Google Drive.
+
+    Περιλαμβάνει recursive:
+    - Diavgeia
+    - External
+    - όλους τους υποφακέλους
+    """
+
+    print(
+        "Φόρτωση documents από Google Drive..."
+    )
+
+    documents = load_documents_from_drive_folders(
+        folder_ids=[
+            GOOGLE_DRIVE_ROOT_FOLDER_ID
+        ],
+        recursive=True,
+    )
+
+    if not documents:
+        raise RuntimeError(
+            "Δεν βρέθηκαν documents στο Google Drive."
+        )
+
+    print(
+        f"Drive Document pages: {len(documents)}"
+    )
 
     return tuple(documents)
 
@@ -300,6 +314,42 @@ def load_chunks() -> tuple[Document, ...]:
 
     return tuple(chunks)
 
+@lru_cache(maxsize=1)
+def load_drive_chunks() -> tuple[Document, ...]:
+    """
+    Δημιουργεί chunks από τα Google Drive documents,
+    διατηρώντας file/folder/path metadata.
+    """
+
+    documents = list(
+        load_drive_source_documents()
+    )
+
+    splitter = RecursiveCharacterTextSplitter(
+        chunk_size=CHUNK_SIZE,
+        chunk_overlap=CHUNK_OVERLAP,
+        separators=[
+            "\n\n",
+            "\n",
+            ". ",
+            " ",
+            "",
+        ],
+    )
+
+    chunks = splitter.split_documents(
+        documents
+    )
+
+    for index, chunk in enumerate(chunks):
+        chunk.metadata["chunk_id"] = index
+
+    print(
+        f"Δημιουργήθηκαν {len(chunks)} Drive chunks "
+        f"από {len(documents)} σελίδες."
+    )
+
+    return tuple(chunks)
 
 # Embedding models
 
@@ -343,6 +393,91 @@ def load_bge_embeddings() -> HuggingFaceEmbeddings:
         },
     )
 
+@lru_cache(maxsize=1)
+def build_drive_bge_vectorstore():
+    """
+    Φορτώνει υπάρχον Drive BGE-M3 FAISS index
+    ή τον δημιουργεί από τα Google Drive PDFs.
+    """
+
+    embeddings = load_bge_embeddings()
+
+    if DRIVE_BGE_INDEX_DIR.exists():
+
+        print(
+            "Φόρτωση υπάρχοντος Drive "
+            "BGE-M3 FAISS index..."
+        )
+
+        return FAISS.load_local(
+            folder_path=str(DRIVE_BGE_INDEX_DIR),
+            embeddings=embeddings,
+            allow_dangerous_deserialization=True,
+        )
+
+    print("Δεν βρέθηκε Drive BGE-M3 FAISS index.")
+
+    print("Φόρτωση Drive corpus και δημιουργία index...")
+
+    chunks = list(load_drive_chunks())
+
+    vectorstore = FAISS.from_documents(
+        documents=chunks,
+        embedding=embeddings,
+    )
+
+    DRIVE_BGE_INDEX_DIR.parent.mkdir(
+        parents=True,
+        exist_ok=True,
+    )
+
+    vectorstore.save_local(str(DRIVE_BGE_INDEX_DIR))
+
+    print("Drive BGE-M3 FAISS index αποθηκεύτηκε.")
+
+    return vectorstore
+
+
+@lru_cache(maxsize=1)
+def build_drive_minilm_vectorstore():
+    """
+    Load or build a MiniLM FAISS index
+    using the Google Drive corpus.
+    """
+
+    embeddings = load_minilm_embeddings()
+
+    if DRIVE_MINILM_INDEX_DIR.exists():
+        print("Φόρτωση υπάρχοντος Drive MiniLM FAISS index...")
+
+        return FAISS.load_local(
+            folder_path=str(DRIVE_MINILM_INDEX_DIR),
+            embeddings=embeddings,
+            allow_dangerous_deserialization=True,
+        )
+
+    print("Δεν βρέθηκε Drive MiniLM FAISS index.")
+    print("Δημιουργία Drive MiniLM FAISS index...")
+
+    chunks = list(load_drive_chunks())
+
+    vectorstore = FAISS.from_documents(
+        documents=chunks,
+        embedding=embeddings,
+    )
+
+    DRIVE_MINILM_INDEX_DIR.parent.mkdir(
+        parents=True,
+        exist_ok=True,
+    )
+
+    vectorstore.save_local(
+        str(DRIVE_MINILM_INDEX_DIR)
+    )
+
+    print("Drive MiniLM FAISS index αποθηκεύτηκε.")
+
+    return vectorstore
 
 # FAISS vector stores
 
@@ -490,9 +625,7 @@ def build_bge_vectorstore():
 
 @lru_cache(maxsize=3)
 
-def load_retriever(
-    mode: str = "bge",
-):
+def load_retriever(mode: str = "bge"):
     from config import (
     MINILM_WEIGHT,
     BGE_WEIGHT,
@@ -515,26 +648,26 @@ def load_retriever(
 
         return (
             build_bge_vectorstore()
-            .as_retriever(
-                search_kwargs={
-                    "k": SEARCH_K,
-                }
-            )
+            .as_retriever(search_kwargs={"k": SEARCH_K})
         )
 
     if mode == "ensemble":
 
         minilm_retriever = (
-            build_minilm_vectorstore()
-            .as_retriever(
-                search_kwargs={
-                    "k": SEARCH_K,
-                }
-            )
+            build_minilm_vectorstore().
+            as_retriever(search_kwargs={"k": SEARCH_K})
         )
 
         bge_retriever = (
             build_bge_vectorstore()
+            .as_retriever(search_kwargs={"k": SEARCH_K})
+        )
+
+    
+    if mode == "drive_bge":
+
+        return (
+            build_drive_bge_vectorstore()
             .as_retriever(
                 search_kwargs={
                     "k": SEARCH_K,
@@ -542,21 +675,30 @@ def load_retriever(
             )
         )
 
+    if mode == "drive_minilm":
+        vectorstore = build_drive_minilm_vectorstore()
+
+        return vectorstore.as_retriever(search_kwargs={"k": SEARCH_K})
+
+    if mode == "drive_ensemble":
+        minilm_retriever = (
+            build_drive_minilm_vectorstore()
+            .as_retriever(search_kwargs={"k": SEARCH_K})
+        )
+
+        bge_retriever = (
+            build_drive_bge_vectorstore()
+            .as_retriever(
+                search_kwargs={"k": SEARCH_K})
+        )
+
         return SimpleEnsembleRetriever(
-            retrievers=[
-                minilm_retriever,
-                bge_retriever,
-            ],
-            weights=[
-            MINILM_WEIGHT,
-            BGE_WEIGHT,
-            ],
+            retrievers=[minilm_retriever, bge_retriever],
+            weights=[MINILM_WEIGHT, BGE_WEIGHT],
             k=ENSEMBLE_K,
         )
 
-    raise ValueError(
-        f"Άγνωστος retriever mode: {mode}"
-    )
+    raise ValueError(f"Άγνωστος retriever mode: {mode}")
 
 
 # Χειροκίνητη ανανέωση δεδομένων
@@ -575,12 +717,16 @@ def clear_retriever_cache() -> None:
 
     build_minilm_vectorstore.cache_clear()
     build_bge_vectorstore.cache_clear()
+    build_drive_bge_vectorstore.cache_clear()
+    build_drive_minilm_vectorstore.cache_clear()
 
     load_minilm_embeddings.cache_clear()
     load_bge_embeddings.cache_clear()
 
     load_chunks.cache_clear()
+    load_drive_chunks.cache_clear()
     load_source_documents.cache_clear()
+    load_drive_source_documents.cache_clear()
 
     print("Το cache των documents και retrievers καθαρίστηκε.")
     

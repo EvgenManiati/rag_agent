@@ -15,7 +15,6 @@ __pycache__/
 
 
 archive/
-gptoss120b_error.txt
 
 vectorstores/
 data/vectorstores/
@@ -25,8 +24,6 @@ data/vectorstores/
 data/diavgeia/logs/
 
 *_backup.jsonl
-*bad*.jsonl
-*baaad*.jsonl
 
 .DS_Store
 Thumbs.db

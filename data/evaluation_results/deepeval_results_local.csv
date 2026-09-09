@@ -1,0 +1,12 @@
+﻿model,retriever,category,faithfulness,answer_relevancy,contextual_precision,contextual_recall,refusal_accuracy,hallucination_rate
+qwen,drive_bge,answerable_overall,0.9666666666666667,0.8771929824561404,0.8947368421052632,0.8421052631578947,,
+qwen,drive_bge,unanswerable_overall,1.0,0.875,,,1.0,0.0
+qwen,drive_bge,procurement,1.0,0.9,1.0,1.0,,
+qwen,drive_bge,travel,1.0,1.0,0.3333333333333333,0.6666666666666666,,
+qwen,drive_bge,contract_modification,1.0,0.5,1.0,1.0,,
+qwen,drive_bge,scholarship,1.0,0.5,1.0,1.0,,
+qwen,drive_bge,contract,1.0,1.0,1.0,1.0,,
+qwen,drive_bge,recruitment,0.75,1.0,1.0,0.0,,
+qwen,drive_bge,research_ethics,1.0,0.8333333333333333,1.0,1.0,,
+qwen,drive_bge,leave,1.0,1.0,,,1.0,0.0
+qwen,drive_bge,employment,1.0,0.6666666666666666,,,1.0,0.0

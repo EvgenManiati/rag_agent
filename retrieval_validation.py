@@ -46,13 +46,11 @@ def print_result(
 
         print("Source ID:", metadata.get("source_id"))
 
-        print("Subject:", metadata.get("subject"))
+        #print("Subject:", metadata.get("subject"))
 
         print("Date:", metadata.get("issue_date"))
 
         print("Chunk ID:", metadata.get("chunk_id"))
-
-        print("URL:", metadata.get("document_url"))
 
         print("\nText snippet:")
 
