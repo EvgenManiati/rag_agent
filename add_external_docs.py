@@ -93,8 +93,7 @@ def extract_pdf(pdf_path: Path) -> tuple[list[str], str]:
 
     try:
 
-        for page_index in range(
-            len(document)):
+        for page_index in range(len(document)):
 
             page = document.load_page(page_index)
 
@@ -111,9 +110,7 @@ def extract_pdf(pdf_path: Path) -> tuple[list[str], str]:
         document.close()
 
 
-    full_text = "\n\n".join(
-        pages
-    ).strip()
+    full_text = "\n\n".join(pages).strip()
 
     return pages, full_text
 
@@ -123,9 +120,7 @@ def extract_pdf(pdf_path: Path) -> tuple[list[str], str]:
 
 def calculate_sha256(pdf_path: Path) -> str:
 
-    return hashlib.sha256(
-        pdf_path.read_bytes()
-    ).hexdigest()
+    return hashlib.sha256(pdf_path.read_bytes()).hexdigest()
 
 
 
@@ -172,23 +167,13 @@ def load_existing_source_ids() -> set[str]:
 # APPEND JSONL
 
 
-def append_record(
-    record: dict,
-) -> None:
+def append_record(record: dict) -> None:
 
-    DATASET_FILE.parent.mkdir(
-        parents=True,
-        exist_ok=True,
-    )
+    DATASET_FILE.parent.mkdir(parents=True, exist_ok=True)
 
     with DATASET_FILE.open("a", encoding="utf-8") as file:
 
-        file.write(
-            json.dumps(
-                record,
-                ensure_ascii=False,
-            )
-        )
+        file.write(json.dumps(record, ensure_ascii=False))
 
         file.write("\n")
 
@@ -198,27 +183,17 @@ def append_record(
 
 def main():
 
-    print(
-        "EXTERNAL DOCUMENT IMPORT"
-    )
+    print("EXTERNAL DOCUMENT IMPORT")
 
     print(
-        f"Dataset: "
-        f"{DATASET_FILE.resolve()}"
-    )
+        f"Dataset: {DATASET_FILE.resolve()}")
 
-    print(
-        f"PDF directory: "
-        f"{EXTERNAL_PDF_DIR.resolve()}"
-    )
+    print(f"PDF directory: {EXTERNAL_PDF_DIR.resolve()}")
 
 
     if not DATASET_FILE.exists():
 
-        raise FileNotFoundError(
-            f"Δεν βρέθηκε το dataset:\n"
-            f"{DATASET_FILE.resolve()}"
-        )
+        raise FileNotFoundError(f"Δεν βρέθηκε το dataset:\n {DATASET_FILE.resolve()}")
 
 
     existing_source_ids = (load_existing_source_ids())
@@ -234,24 +209,16 @@ def main():
 
         pdf_path = (EXTERNAL_PDF_DIR / document_info["filename"])
 
-        print(
-            f"Έγγραφο: "
-            f"{document_info['title']}"
-        )
+        print(f"Έγγραφο: {document_info['title']}")
 
 
         
         # Already imported?
     
 
-        if source_id in (
-            existing_source_ids
-        ):
+        if source_id in (existing_source_ids):
 
-            print(
-                "Υπάρχει ήδη στο dataset. "
-                "Παράλειψη."
-            )
+            print("Υπάρχει ήδη στο dataset. Παράλειψη.")
 
             skipped += 1
 
@@ -264,10 +231,7 @@ def main():
 
         if not pdf_path.exists():
 
-            print(
-                f"ΔΕΝ ΒΡΕΘΗΚΕ:\n"
-                f"{pdf_path.resolve()}"
-            )
+            print(f"ΔΕΝ ΒΡΕΘΗΚΕ:\n {pdf_path.resolve()}")
 
             skipped += 1
 
@@ -283,10 +247,7 @@ def main():
 
         if not full_text:
 
-            print(
-                "Δεν εξήχθη κείμενο. "
-                "Παράλειψη."
-            )
+            print("Δεν εξήχθη κείμενο. Παράλειψη.")
 
             skipped += 1
 
@@ -344,28 +305,16 @@ def main():
 
         print(f"Προστέθηκε επιτυχώς.")
 
-        print(
-            f"Σελίδες: "
-            f"{len(pages)}"
-        )
+        print(f"Σελίδες: {len(pages)}")
 
-        print(
-            f"Χαρακτήρες: "
-            f"{len(full_text)}"
-        )
+        print(f"Χαρακτήρες: {len(full_text)}")
 
 
     print("IMPORT COMPLETE")
 
-    print(
-        f"Νέα documents: "
-        f"{added}"
-    )
+    print(f"Νέα documents: {added}")
 
-    print(
-        f"Παραλείφθηκαν: "
-        f"{skipped}"
-    )
+    print(f"Παραλείφθηκαν: {skipped}")
 
 
 if __name__ == "__main__":

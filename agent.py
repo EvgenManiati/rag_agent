@@ -46,7 +46,6 @@ def build_agent(llm, retriever):
             metadata = doc.metadata
 
             ada = metadata.get("ada", "")
-            #subject = metadata.get("subject", "")
             file_name = metadata.get("file_name", "")
             folder_name = metadata.get("folder_name", "")
             drive_path = metadata.get("drive_path", "")
@@ -85,15 +84,13 @@ def build_agent(llm, retriever):
             question_lower = state["question"].lower().strip()
 
             if any(h in question_lower for h in hellos):
-                state["answer"] = (
-                    "Γεια σου συνάδελφε! Πώς μπορώ να σε βοηθήσω;"
-                )
+                state["answer"] = ("Γεια σου συνάδελφε! Πώς μπορώ να σε βοηθήσω;")
+
                 return state
 
             if any(b in question_lower for b in byes):
-                state["answer"] = (
-                    "Η ευχαρίστηση είναι όλη δική μου!"
-                )
+                state["answer"] = ("Η ευχαρίστηση είναι όλη δική μου!")
+                
                 return state
 
             prompt = f"""
@@ -145,10 +142,7 @@ def build_agent(llm, retriever):
             raw = str(raw)
 
             if "Απάντηση:" in raw:
-                raw = raw.split(
-                    "Απάντηση:",
-                    1,
-                )[1]
+                raw = raw.split("Απάντηση:", 1 ) [1]
 
             stop_tokens = [
                 "Πόσοι",
@@ -163,10 +157,7 @@ def build_agent(llm, retriever):
 
             for stop in stop_tokens:
                 if stop in raw:
-                    raw = raw.split(
-                        stop,
-                        1,
-                    )[0]
+                    raw = raw.split(stop, 1)[0]
 
             lines = raw.strip().splitlines()
             clean_lines = []
@@ -186,24 +177,13 @@ def build_agent(llm, retriever):
 
     graph = StateGraph(AgentState)
 
-    graph.add_node(
-        "router",
-        router,
-    )
+    graph.add_node("router", router)
 
-    graph.add_node(
-        "retrieve",
-        retrieve,
-    )
+    graph.add_node("retrieve", retrieve)
 
-    graph.add_node(
-        "generate",
-        generate,
-    )
+    graph.add_node("generate", generate)
 
-    graph.set_entry_point(
-        "router"
-    )
+    graph.set_entry_point("router")
 
     graph.add_conditional_edges(
         "router",
@@ -214,14 +194,8 @@ def build_agent(llm, retriever):
         },
     )
 
-    graph.add_edge(
-        "retrieve",
-        "generate",
-    )
+    graph.add_edge("retrieve", "generate",)
 
-    graph.add_edge(
-        "generate",
-        END,
-    )
+    graph.add_edge("generate", END)
 
     return graph.compile()

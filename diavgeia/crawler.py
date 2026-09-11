@@ -99,14 +99,9 @@ def configure_logging() -> logging.Logger:
             The configured crawler logger.
     """
 
-    LOG_DIRECTORY.mkdir(
-        parents=True,
-        exist_ok=True,
-    )
+    LOG_DIRECTORY.mkdir(parents=True, exist_ok=True)
 
-    logger = logging.getLogger(
-        "diavgeia_crawler"
-    )
+    logger = logging.getLogger("diavgeia_crawler")
 
     logger.setLevel(
         getattr(
@@ -129,10 +124,7 @@ def configure_logging() -> logging.Logger:
     console_handler = logging.StreamHandler()
     console_handler.setFormatter(formatter)
 
-    file_handler = logging.FileHandler(
-        LOG_FILE,
-        encoding="utf-8",
-    )
+    file_handler = logging.FileHandler(LOG_FILE, encoding="utf-8")
     file_handler.setFormatter(formatter)
 
     logger.addHandler(console_handler)
@@ -168,28 +160,14 @@ def append_jsonl(
     if not records:
         return
 
-    path.parent.mkdir(
-        parents=True,
-        exist_ok=True,
-    )
+    path.parent.mkdir(parents=True, exist_ok=True)
 
-    with path.open(
-        "a",
-        encoding="utf-8",
-    ) as output_file:
+    with path.open("a", encoding="utf-8") as output_file:
         for record in records:
-            output_file.write(
-                json.dumps(
-                    record,
-                    ensure_ascii=False,
-                )
-                + "\n"
-            )
+            output_file.write(json.dumps(record, ensure_ascii=False) + "\n")
 
 
-def load_existing_adas(
-    path: Path,
-) -> set[str]:
+def load_existing_adas(path: Path) -> set[str]:
     """
     Load all ADA identifiers already stored in a JSONL file.
 
@@ -211,14 +189,8 @@ def load_existing_adas(
 
     existing_adas: set[str] = set()
 
-    with path.open(
-        "r",
-        encoding="utf-8",
-    ) as input_file:
-        for line_number, line in enumerate(
-            input_file,
-            start=1,
-        ):
+    with path.open("r", encoding="utf-8") as input_file:
+        for line_number, line in enumerate(input_file, start=1):
             try:
                 record = json.loads(line)
             except json.JSONDecodeError:
@@ -239,9 +211,7 @@ def load_existing_adas(
 
 # Date handling
 
-def normalize_date(
-    value: Any,
-) -> str | None:
+def normalize_date(value: Any) -> str | None:
     """
     Convert a Diavgeia date value to ISO format.
 
@@ -294,23 +264,17 @@ def normalize_date(
     )
 
     try:
-        return datetime.fromisoformat(
-            normalized_text
-        ).date().isoformat()
+        return datetime.fromisoformat(normalized_text).date().isoformat()
     except ValueError:
         pass
 
     try:
-        return date.fromisoformat(
-            text[:10]
-        ).isoformat()
+        return date.fromisoformat(text[:10]).isoformat()
     except ValueError:
         return None
 
 
-def extract_record_date(
-    raw_record: dict[str, Any],
-) -> str | None:
+def extract_record_date(raw_record: dict[str, Any]) -> str | None:
     """
     Extract and normalize the most appropriate decision date.
 
@@ -336,9 +300,7 @@ def extract_record_date(
     return normalize_date(raw_date)
 
 
-def is_inside_date_range(
-    normalized_date: str | None,
-) -> bool:
+def is_inside_date_range(normalized_date: str | None) -> bool:
     """
     Check whether a normalized date is inside the configured range.
 
@@ -356,9 +318,7 @@ def is_inside_date_range(
         return False
 
     try:
-        record_date = date.fromisoformat(
-            normalized_date
-        )
+        record_date = date.fromisoformat(normalized_date)
     except ValueError:
         return False
 
@@ -367,9 +327,7 @@ def is_inside_date_range(
 
 # API response parsing
 
-def extract_decisions(
-    payload: Any,
-) -> list[dict[str, Any]]:
+def extract_decisions(payload: Any) -> list[dict[str, Any]]:
     """
     Extract decision records from an API response payload.
 
@@ -427,10 +385,7 @@ def extract_decisions(
     return []
 
 
-def normalize_record(
-    raw_record: dict[str, Any],
-    normalized_issue_date: str,
-) -> dict[str, Any] | None:
+def normalize_record(raw_record: dict[str, Any], normalized_issue_date: str) -> dict[str, Any] | None:
     """
     Convert a raw Diavgeia decision into the metadata schema.
 
@@ -527,10 +482,7 @@ def normalize_record(
 
 # HTTP request
 
-def request_search_page(
-    session: requests.Session,
-    page: int,
-) -> list[dict[str, Any]]:
+def request_search_page(session: requests.Session, page: int) -> list[dict[str, Any]]:
     """
         Retrieve one paginated result set from the Diavgeia API.
 
@@ -587,10 +539,7 @@ def request_search_page(
 
             response.raise_for_status()
 
-            content_type = response.headers.get(
-                "Content-Type",
-                "",
-            ).lower()
+            content_type = response.headers.get("Content-Type", "").lower()
 
             if (
                 "json" not in content_type
@@ -678,13 +627,9 @@ Validate and normalize a raw decision record.
             - the rejected-record description, or None.
     """
 
-    normalized_date = extract_record_date(
-        raw_record
-    )
+    normalized_date = extract_record_date(raw_record)
 
-    if not is_inside_date_range(
-        normalized_date
-    ):
+    if not is_inside_date_range(normalized_date):
         stats.invalid_date_records += 1
 
         return None, {

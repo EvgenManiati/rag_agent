@@ -16,24 +16,16 @@ from diavgeia.config import (
 )
 
 
-SUSPICIOUS_FILE = Path(
-    "data/diavgeia/suspicious_documents.jsonl"
-)
+SUSPICIOUS_FILE = Path("data/diavgeia/suspicious_documents.jsonl")
 
-REPAIRED_FILE = Path(
-    "data/diavgeia/repaired_documents.jsonl"
-)
+REPAIRED_FILE = Path("data/diavgeia/repaired_documents.jsonl")
 
-FAILED_FILE = Path(
-    "data/diavgeia/repair_failed.jsonl"
-)
+FAILED_FILE = Path("data/diavgeia/repair_failed.jsonl")
 
 
 # Αν το Tesseract δεν βρίσκεται στο PATH των Windows,
 # άφησε ενεργή αυτή τη γραμμή.
-pytesseract.pytesseract.tesseract_cmd = (
-    r"C:\Program Files\Tesseract-OCR\tesseract.exe"
-)
+pytesseract.pytesseract.tesseract_cmd = (r"C:\Program Files\Tesseract-OCR\tesseract.exe")
 
 
 def load_jsonl(path):
@@ -43,10 +35,7 @@ def load_jsonl(path):
 
     records = []
 
-    with path.open(
-        "r",
-        encoding="utf-8",
-    ) as file:
+    with path.open("r", encoding="utf-8") as file:
 
         for line in file:
 
@@ -55,9 +44,7 @@ def load_jsonl(path):
             if not line:
                 continue
 
-            records.append(
-                json.loads(line)
-            )
+            records.append(json.loads(line))
 
     return records
 
@@ -67,23 +54,11 @@ def save_jsonl(path, record):
     Append one record to a JSONL file.
     """
 
-    path.parent.mkdir(
-        parents=True,
-        exist_ok=True,
-    )
+    path.parent.mkdir(parents=True, exist_ok=True)
 
-    with path.open(
-        "a",
-        encoding="utf-8",
-    ) as file:
+    with path.open("a", encoding="utf-8") as file:
 
-        file.write(
-            json.dumps(
-                record,
-                ensure_ascii=False,
-            )
-            + "\n"
-        )
+        file.write(json.dumps(record, ensure_ascii=False) + "\n")
 
 
 def load_dataset_by_ada():
@@ -92,9 +67,7 @@ def load_dataset_by_ada():
     ADA -> dataset record.
     """
 
-    records = load_jsonl(
-        DATASET_FILE
-    )
+    records = load_jsonl(DATASET_FILE)
 
     return {
         str(record["ada"]): record
@@ -130,19 +103,10 @@ def clean_text(text):
     if not text:
         return ""
 
-    text = text.replace(
-        "\r\n",
-        "\n"
-    ).replace(
-        "\r",
-        "\n"
-    )
+    text = text.replace("\r\n", "\n").replace("\r", "\n")
 
     while "\n\n\n" in text:
-        text = text.replace(
-            "\n\n\n",
-            "\n\n"
-        )
+        text = text.replace("\n\n\n", "\n\n")
 
     return text.strip()
 
@@ -153,41 +117,24 @@ def ocr_pdf(pdf_bytes):
     Greek + English Tesseract OCR.
     """
 
-    document = pymupdf.open(
-        stream=pdf_bytes,
-        filetype="pdf",
-    )
+    document = pymupdf.open(stream=pdf_bytes, filetype="pdf")
 
     pages = []
 
     # 250 DPI
     zoom = 250 / 72
 
-    matrix = pymupdf.Matrix(
-        zoom,
-        zoom,
-    )
+    matrix = pymupdf.Matrix(zoom, zoom)
 
     try:
 
-        for page_number in range(
-            len(document)
-        ):
+        for page_number in range(len(document)):
 
-            page = document.load_page(
-                page_number
-            )
+            page = document.load_page(page_number)
 
-            pixmap = page.get_pixmap(
-                matrix=matrix,
-                alpha=False,
-            )
+            pixmap = page.get_pixmap(matrix=matrix, alpha=False)
 
-            image = Image.open(
-                io.BytesIO(
-                    pixmap.tobytes("png")
-                )
-            )
+            image = Image.open(io.BytesIO(pixmap.tobytes("png")))
 
             text = pytesseract.image_to_string(
                 image,
@@ -212,43 +159,27 @@ def repair_suspicious():
     as suspicious.
     """
 
-    suspicious = load_jsonl(
-        SUSPICIOUS_FILE
-    )
+    suspicious = load_jsonl(SUSPICIOUS_FILE)
 
     dataset = load_dataset_by_ada()
 
     # Καθαρίζουμε παλιό αποτέλεσμα repair.
-    REPAIRED_FILE.unlink(
-        missing_ok=True
-    )
+    REPAIRED_FILE.unlink(missing_ok=True)
 
-    FAILED_FILE.unlink(
-        missing_ok=True
-    )
+    FAILED_FILE.unlink(missing_ok=True)
 
-    print(
-        f"Suspicious documents: "
-        f"{len(suspicious)}"
-    )
+    print(f"Suspicious documents: {len(suspicious)}")
 
-    for item in tqdm(
-        suspicious,
-        desc="OCR repair",
-        unit="document",
-    ):
+    for item in tqdm(suspicious, desc="OCR repair", unit="document"):
 
-        ada = str(
-            item.get("ada", "")
-        ).strip()
+        ada = str(item.get("ada", "")).strip()
 
         original = dataset.get(ada)
 
         if original is None:
 
-            save_jsonl(
-                FAILED_FILE,
-                {
+            save_jsonl(FAILED_FILE,
+                    {
                     "ada": ada,
                     "error":
                         "Original dataset record not found",
@@ -257,14 +188,11 @@ def repair_suspicious():
 
             continue
 
-        url = original.get(
-            "document_url"
-        )
+        url = original.get("document_url")
 
         if not url:
 
-            save_jsonl(
-                FAILED_FILE,
+            save_jsonl(FAILED_FILE,
                 {
                     "ada": ada,
                     "error":
@@ -276,51 +204,30 @@ def repair_suspicious():
 
         try:
 
-            pdf_bytes = download_pdf(
-                url
-            )
+            pdf_bytes = download_pdf(url)
 
-            pages = ocr_pdf(
-                pdf_bytes
-            )
+            pages = ocr_pdf(pdf_bytes)
 
-            full_text = "\n\n".join(
-                pages
-            ).strip()
+            full_text = "\n\n".join(pages).strip()
 
             if not full_text:
 
-                raise RuntimeError(
-                    "OCR produced no text"
-                )
+                raise RuntimeError("OCR produced no text")
 
-            repaired = dict(
-                original
-            )
+            repaired = dict(original)
 
             repaired["pages"] = pages
             repaired["text"] = full_text
 
-            repaired[
-                "text_page_count"
-            ] = len(pages)
+            repaired["text_page_count"] = len(pages)
 
-            repaired[
-                "text_character_count"
-            ] = len(full_text)
+            repaired["text_character_count"] = len(full_text)
 
-            repaired[
-                "extraction_method"
-            ] = "tesseract_ocr"
+            repaired["extraction_method"] = "tesseract_ocr"
 
-            repaired[
-                "repaired"
-            ] = True
+            repaired["repaired"] = True
 
-            save_jsonl(
-                REPAIRED_FILE,
-                repaired,
-            )
+            save_jsonl(REPAIRED_FILE, repaired)
 
         except Exception as error:
 
@@ -333,37 +240,21 @@ def repair_suspicious():
                 },
             )
 
-        time.sleep(
-            REQUEST_DELAY_SECONDS
-        )
+        time.sleep(REQUEST_DELAY_SECONDS)
 
     print("\nRepair finished.")
 
     if REPAIRED_FILE.exists():
 
-        repaired_count = len(
-            load_jsonl(
-                REPAIRED_FILE
-            )
-        )
+        repaired_count = len(load_jsonl(REPAIRED_FILE))
 
-        print(
-            f"Repaired documents: "
-            f"{repaired_count}"
-        )
+        print(f"Repaired documents: {repaired_count}")
 
     if FAILED_FILE.exists():
 
-        failed_count = len(
-            load_jsonl(
-                FAILED_FILE
-            )
-        )
+        failed_count = len(load_jsonl(FAILED_FILE))
 
-        print(
-            f"Failed documents: "
-            f"{failed_count}"
-        )
+        print(f"Failed documents: {failed_count}")
 
 
 if __name__ == "__main__":

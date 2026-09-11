@@ -2,9 +2,7 @@ import csv
 from pathlib import Path
 from collections import defaultdict
 
-DETAILED_FILE = Path(
-    "data/evaluation_results/deepeval_detailed_results_drive_ensemble.csv"
-)
+DETAILED_FILE = Path("data/evaluation_results/deepeval_detailed_results_drive_ensemble.csv")
 
 results = defaultdict(lambda: {
     "faithfulness": [],
@@ -29,58 +27,30 @@ def add_metric(container, metric, value):
         pass
 
 
-with DETAILED_FILE.open(
-    "r",
-    encoding="utf-8-sig",
-    newline="",
-) as file:
+with DETAILED_FILE.open("r", encoding="utf-8-sig", newline="") as file:
 
     reader = csv.DictReader(file)
 
     for row in reader:
 
         # Κρατάμε μόνο unanswerable test cases.
-        answerable = str(
-            row.get("answerable", "")
-        ).strip().lower()
+        answerable = str(row.get("answerable", "")).strip().lower()
 
-        if answerable not in {
-            "false",
-            "0",
-            "no",
-        }:
+        if answerable not in {"false", "0", "no"}:
             continue
 
-        model = str(
-            row.get("model", "")
-        ).strip()
+        model = str(row.get("model", "")).strip()
 
         if not model:
             continue
 
-        add_metric(
-            results[model],
-            "faithfulness",
-            row.get("faithfulness"),
-        )
+        add_metric(results[model], "faithfulness", row.get("faithfulness"))
 
-        add_metric(
-            results[model],
-            "answer_relevancy",
-            row.get("answer_relevancy"),
-        )
+        add_metric(results[model], "answer_relevancy", row.get("answer_relevancy"))
 
-        add_metric(
-            results[model],
-            "refusal_accuracy",
-            row.get("refusal_accuracy"),
-        )
+        add_metric(results[model], "refusal_accuracy", row.get("refusal_accuracy"))
 
-        add_metric(
-            results[model],
-            "hallucination_rate",
-            row.get("hallucination_rate"),
-        )
+        add_metric(results[model], "hallucination_rate", row.get("hallucination_rate"))
 
 
 print("\nUNANSWERABLE RESULTS - DRIVE ENSEMBLE\n")
@@ -101,9 +71,7 @@ for model, metrics in results.items():
     for metric, values in metrics.items():
 
         if values:
-            averages[metric] = (
-                sum(values) / len(values)
-            )
+            averages[metric] = (sum(values) / len(values))
         else:
             averages[metric] = None
 

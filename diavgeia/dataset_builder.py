@@ -120,14 +120,9 @@ def configure_logging() -> logging.Logger:
             Configured dataset-builder logger.
     """
 
-    LOG_DIRECTORY.mkdir(
-        parents=True,
-        exist_ok=True,
-    )
+    LOG_DIRECTORY.mkdir(parents=True, exist_ok=True)
 
-    logger = logging.getLogger(
-        "diavgeia_dataset_builder"
-    )
+    logger = logging.getLogger("diavgeia_dataset_builder")
 
     logger.setLevel(
         getattr(
@@ -165,9 +160,7 @@ LOGGER = configure_logging()
 
 # JSONL helpers
 
-def load_jsonl(
-    path: Path,
-) -> list[dict[str, Any]]:
+def load_jsonl(path: Path) -> list[dict[str, Any]]:
     """
     Load valid JSON objects from a JSON Lines file.
 
@@ -194,23 +187,15 @@ def load_jsonl(
 
     records: list[dict[str, Any]] = []
 
-    with path.open(
-        "r",
-        encoding="utf-8",
-    ) as input_file:
-        for line_number, line in enumerate(
-            input_file,
-            start=1,
-        ):
+    with path.open("r", encoding="utf-8") as input_file:
+        for line_number, line in enumerate(input_file, start=1):
             stripped_line = line.strip()
 
             if not stripped_line:
                 continue
 
             try:
-                record = json.loads(
-                    stripped_line
-                )
+                record = json.loads(stripped_line)
 
             except json.JSONDecodeError as error:
                 LOGGER.warning(
@@ -227,10 +212,7 @@ def load_jsonl(
     return records
 
 
-def append_jsonl_record(
-    path: Path,
-    record: dict[str, Any],
-) -> None:
+def append_jsonl_record(path: Path, record: dict[str, Any]) -> None:
     """
     Append one JSON object to a JSON Lines file.
 
@@ -244,27 +226,13 @@ def append_jsonl_record(
             JSON-serializable record to append.
     """
 
-    path.parent.mkdir(
-        parents=True,
-        exist_ok=True,
-    )
+    path.parent.mkdir(parents=True, exist_ok=True)
 
-    with path.open(
-        "a",
-        encoding="utf-8",
-    ) as output_file:
-        output_file.write(
-            json.dumps(
-                record,
-                ensure_ascii=False,
-            )
-            + "\n"
-        )
+    with path.open("a", encoding="utf-8") as output_file:
+        output_file.write(json.dumps(record, ensure_ascii=False) + "\n")
 
 
-def load_completed_adas(
-    path: Path,
-) -> set[str]:
+def load_completed_adas(path: Path) -> set[str]:
     """
     Load ΑΔΑ identifiers already present in dataset.jsonl.
 
@@ -296,9 +264,7 @@ def load_completed_adas(
     return completed_adas
 
 
-def load_failed_adas(
-    path: Path,
-) -> set[str]:
+def load_failed_adas(path: Path) -> set[str]:
     """
     Load ΑΔΑ identifiers already recorded as failed.
 
@@ -350,21 +316,14 @@ def load_failed_adas(
         str:
             Cleaned page text.
     """
-def clean_page_text(
-    text: str,
-) -> str:
+def clean_page_text(text: str) -> str:
     if not text:
         return ""
 
-    cleaned = text.replace(
-        "\x00",
-        " ",
-    )
+    cleaned = text.replace("\x00", " ")
 
     # Normalize Windows and old Mac line endings.
-    cleaned = cleaned.replace("\r\n", "\n",
-        ).replace("\r","\n",
-    )
+    cleaned = cleaned.replace("\r\n", "\n").replace("\r","\n")
     
     # Remove common Diavgeia digital-signature artefacts.
     cleaned = re.sub(
@@ -382,35 +341,20 @@ def clean_page_text(
     )
 
     # Replace repeated spaces and tabs while retaining line breaks.
-    cleaned = re.sub(
-        r"[ \t]+",
-        " ",
-        cleaned,
-    )
+    cleaned = re.sub(r"[ \t]+", " ", cleaned)
 
     # Remove spaces at line boundaries.
-    cleaned = re.sub(
-        r" *\n *",
-        "\n",
-        cleaned,
-    )
+    cleaned = re.sub(r" *\n *", "\n", cleaned)
 
     # Limit excessive empty lines.
-    cleaned = re.sub(
-        r"\n{3,}",
-        "\n\n",
-        cleaned,
-    )
+    cleaned = re.sub(r"\n{3,}", "\n\n", cleaned)
 
     return cleaned.strip()
 
 # Download helpers
 
 
-def looks_like_pdf(
-    content: bytes,
-    content_type: str,
-) -> bool:
+def looks_like_pdf(content: bytes, content_type: str) -> bool:
     """
     Check whether a response appears to contain a PDF document.
 
@@ -429,29 +373,16 @@ def looks_like_pdf(
             True when the response is likely a PDF.
     """
 
-    normalized_content_type = (
-        content_type.lower().strip()
-    )
+    normalized_content_type = (content_type.lower().strip())
 
-    has_pdf_header = content.startswith(
-        b"%PDF"
-    )
+    has_pdf_header = content.startswith(b"%PDF")
 
-    has_pdf_content_type = (
-        "application/pdf"
-        in normalized_content_type
-    )
+    has_pdf_content_type = ("application/pdf" in normalized_content_type)
 
-    return (
-        has_pdf_header
-        or has_pdf_content_type
-    )
+    return (has_pdf_header or has_pdf_content_type)
 
 
-def download_pdf(
-    session: requests.Session,
-    document_url: str,
-) -> tuple[bytes, str]:
+def download_pdf(session: requests.Session, document_url: str) -> tuple[bytes, str]:
     """
     Download one PDF document with retry and exponential backoff.
 
@@ -473,10 +404,7 @@ def download_pdf(
 
     last_error: Exception | None = None
 
-    for attempt in range(
-        1,
-        MAX_RETRIES + 1,
-    ):
+    for attempt in range(1, MAX_RETRIES + 1):
         try:
             response = session.get(
                 document_url,
@@ -496,21 +424,13 @@ def download_pdf(
             content = response.content
 
             if not content:
-                raise RuntimeError(
-                    "The downloaded response body is empty."
-                )
+                raise RuntimeError("The downloaded response body is empty.")
 
-            content_type = response.headers.get(
-                "Content-Type",
-                "",
-            )
+            content_type = response.headers.get("Content-Type", "")
 
             return content, content_type
 
-        except (
-            requests.RequestException,
-            RuntimeError,
-        ) as error:
+        except (requests.RequestException, RuntimeError) as error:
             last_error = error
 
             LOGGER.warning(
@@ -524,10 +444,7 @@ def download_pdf(
             if attempt >= MAX_RETRIES:
                 break
 
-            wait_seconds = (
-                RETRY_BASE_SECONDS
-                ** (attempt - 1)
-            )
+            wait_seconds = (RETRY_BASE_SECONDS ** (attempt - 1))
 
             time.sleep(wait_seconds)
 
@@ -539,9 +456,7 @@ def download_pdf(
 
 # PDF parsing
 
-def repair_pdf_with_pikepdf(
-    pdf_bytes: bytes,
-) -> bytes:
+def repair_pdf_with_pikepdf(pdf_bytes: bytes) -> bytes:
     """
     Rewrite a PDF using pikepdf before text extraction.
 
@@ -566,12 +481,8 @@ def repair_pdf_with_pikepdf(
     output_buffer = BytesIO()
 
     try:
-        with pikepdf.open(
-            input_buffer
-        ) as pdf:
-            pdf.save(
-                output_buffer,
-            )
+        with pikepdf.open(input_buffer) as pdf:
+            pdf.save(output_buffer)
 
     except Exception as error:
         raise RuntimeError(
@@ -580,9 +491,7 @@ def repair_pdf_with_pikepdf(
 
     return output_buffer.getvalue()
 
-def extract_pdf_pages(
-    pdf_bytes: bytes,
-) -> tuple[list[str], int]:
+def extract_pdf_pages(pdf_bytes: bytes) -> tuple[list[str], int]:
     """
     Repair a PDF with pikepdf and extract text using PyMuPDF.
 
@@ -607,24 +516,17 @@ def extract_pdf_pages(
     # 1. Rewrite / repair PDF
     
 
-    repaired_pdf_bytes = repair_pdf_with_pikepdf(
-        pdf_bytes
-    )
+    repaired_pdf_bytes = repair_pdf_with_pikepdf(pdf_bytes)
 
     
     # 2. Open repaired PDF with PyMuPDF
     
 
     try:
-        document = pymupdf.open(
-            stream=repaired_pdf_bytes,
-            filetype="pdf",
-        )
+        document = pymupdf.open(stream=repaired_pdf_bytes, filetype="pdf")
 
     except Exception as error:
-        raise RuntimeError(
-            f"PyMuPDF could not open the repaired PDF: {error}"
-        ) from error
+        raise RuntimeError(f"PyMuPDF could not open the repaired PDF: {error}") from error
 
     total_pages = len(document)
 
@@ -640,31 +542,17 @@ def extract_pdf_pages(
 
             # sort=True attempts to reconstruct a more natural
             # reading order from the PDF text blocks.
-            raw_text = page.get_text(
-                "text",
-                sort=True,
-            )
+            raw_text = page.get_text("text", sort=True)
 
-            cleaned_text = clean_page_text(
-                raw_text
-            )
+            cleaned_text = clean_page_text(raw_text)
 
             if page_number == 0:
                 print(cleaned_text[:1000])
 
-            LOGGER.debug(
-                "Page %s: extracted %s characters.",
-                page_number + 1,
-                len(cleaned_text),
-            )
+            LOGGER.debug("Page %s: extracted %s characters.", page_number + 1, len(cleaned_text))
 
-            if (
-                len(cleaned_text)
-                >= MIN_PAGE_CHARACTERS
-            ):
-                extracted_pages.append(
-                    cleaned_text
-                )
+            if (len(cleaned_text) >= MIN_PAGE_CHARACTERS):
+                extracted_pages.append(cleaned_text)
 
             else:
                 LOGGER.warning(
@@ -678,9 +566,7 @@ def extract_pdf_pages(
     return extracted_pages, total_pages
 
 
-def calculate_sha256(
-    content: bytes,
-) -> str:
+def calculate_sha256(content: bytes) -> str:
     """
     Calculate the SHA-256 checksum of downloaded content.
 
@@ -696,9 +582,7 @@ def calculate_sha256(
             Lowercase hexadecimal SHA-256 digest.
     """
 
-    return hashlib.sha256(
-        content
-    ).hexdigest()
+    return hashlib.sha256(content).hexdigest()
 
 
 # Record construction
@@ -734,9 +618,7 @@ def build_dataset_record(
             Final JSON-serializable dataset record.
     """
 
-    full_text = "\n\n".join(
-        pages
-    ).strip()
+    full_text = "\n\n".join(pages).strip()
 
     return {
         "ada": metadata.get("ada"),
@@ -797,11 +679,7 @@ def build_dataset_record(
     }
 
 
-def build_failed_record(
-    metadata: dict[str, Any],
-    reason: str,
-    error: str,
-) -> dict[str, Any]:
+def build_failed_record(metadata: dict[str, Any], reason: str, error: str) -> dict[str, Any]:
     """
     Build a compact failed-document record.
 
@@ -822,7 +700,6 @@ def build_failed_record(
 
     return {
         "ada": metadata.get("ada"),
-        #"subject": metadata.get("subject"),
         "issue_date": metadata.get("issue_date"),
         "document_url": metadata.get(
             "document_url"
@@ -856,21 +733,13 @@ def build_dataset() -> BuilderStats:
 
     stats = BuilderStats()
 
-    metadata_records = load_jsonl(
-        METADATA_FILE
-    )
+    metadata_records = load_jsonl(METADATA_FILE)
 
-    stats.metadata_records = len(
-        metadata_records
-    )
+    stats.metadata_records = len(metadata_records)
 
-    completed_adas = load_completed_adas(
-        DATASET_FILE
-    )
+    completed_adas = load_completed_adas(DATASET_FILE)
 
-    previous_failed_adas = load_failed_adas(
-        FAILED_FILE
-    )
+    previous_failed_adas = load_failed_adas(FAILED_FILE)
 
     if MAX_DOCUMENTS is not None:
         metadata_records = metadata_records[
@@ -879,43 +748,27 @@ def build_dataset() -> BuilderStats:
 
     
     LOGGER.info("DIAVGEIA DATASET BUILDER")
-    LOGGER.info(
-        "Metadata records available: %s",
-        stats.metadata_records,
-    )
-    LOGGER.info(
-        "Records selected for this run: %s",
-        len(metadata_records),
-    )
-    LOGGER.info(
-        "Already completed: %s",
-        len(completed_adas),
-    )
-    LOGGER.info(
-        "Previously failed: %s",
-        len(previous_failed_adas),
-    )
-    LOGGER.info(
-        "Save PDF files: %s",
-        SAVE_PDFS,
-    )
-    LOGGER.info(
-        "Minimum document characters: %s",
-        MIN_DOCUMENT_CHARACTERS,
-    )
+
+    LOGGER.info("Metadata records available: %s", stats.metadata_records)
+
+    LOGGER.info("Records selected for this run: %s", len(metadata_records))
+
+    LOGGER.info("Already completed: %s", len(completed_adas))
+    
+    LOGGER.info("Previously failed: %s", len(previous_failed_adas))
+    
+    LOGGER.info("Save PDF files: %s", SAVE_PDFS)
+    
+    LOGGER.info("Minimum document characters: %s", MIN_DOCUMENT_CHARACTERS)
+        
 
     if SAVE_PDFS:
-        PDF_DIRECTORY.mkdir(
-            parents=True,
-            exist_ok=True,
-        )
+        PDF_DIRECTORY.mkdir(parents=True, exist_ok=True)
 
     session = requests.Session()
 
     try:
-        with logging_redirect_tqdm(
-            loggers=[LOGGER]
-        ):
+        with logging_redirect_tqdm(loggers=[LOGGER]):
             with tqdm(
                 total=len(metadata_records),
                 desc="Building dataset",
@@ -926,9 +779,7 @@ def build_dataset() -> BuilderStats:
                 for metadata in metadata_records:
                     stats.documents_considered += 1
 
-                    ada = str(
-                        metadata.get("ada", "")
-                    ).strip()
+                    ada = str(metadata.get("ada", "")).strip()
 
                     if not ada:
                         failed_record = build_failed_record(
@@ -940,10 +791,7 @@ def build_dataset() -> BuilderStats:
                             ),
                         )
 
-                        append_jsonl_record(
-                            FAILED_FILE,
-                            failed_record,
-                        )
+                        append_jsonl_record(FAILED_FILE, failed_record)
 
                         stats.failed_documents += 1
                         progress.update(1)
@@ -954,28 +802,20 @@ def build_dataset() -> BuilderStats:
 
                         progress.set_postfix(
                             {
-                                "saved": (
-                                    stats.documents_completed
-                                ),
-                                "existing": (
-                                    stats.already_completed
-                                ),
-                                "failed": (
-                                    stats.failed_documents
-                                ),
+                                "saved": (stats.documents_completed),
+
+                                "existing": (stats.already_completed),
+
+                                "failed": (stats.failed_documents),
                             },
+
                             refresh=False,
                         )
 
                         progress.update(1)
                         continue
 
-                    document_url = str(
-                        metadata.get(
-                            "document_url",
-                            "",
-                        )
-                    ).strip()
+                    document_url = str(metadata.get("document_url", "")).strip()
 
                     if not document_url:
                         failed_record = build_failed_record(
@@ -987,10 +827,7 @@ def build_dataset() -> BuilderStats:
                             ),
                         )
 
-                        append_jsonl_record(
-                            FAILED_FILE,
-                            failed_record,
-                        )
+                        append_jsonl_record(FAILED_FILE, failed_record)
 
                         stats.failed_documents += 1
                         progress.update(1)
@@ -1000,10 +837,7 @@ def build_dataset() -> BuilderStats:
                         stats.downloads_attempted += 1
 
                         pdf_bytes, content_type = (
-                            download_pdf(
-                                session=session,
-                                document_url=document_url,
-                            )
+                            download_pdf(session=session, document_url=document_url)
                         )
 
                     except Exception as error:
@@ -1019,19 +853,12 @@ def build_dataset() -> BuilderStats:
                             ),
                         )
 
-                        LOGGER.error(
-                            "Download failed for ADA %s: %s",
-                            ada,
-                            error,
-                        )
+                        LOGGER.error("Download failed for ADA %s: %s", ada, error)
 
                         progress.update(1)
                         continue
 
-                    if not looks_like_pdf(
-                        content=pdf_bytes,
-                        content_type=content_type,
-                    ):
+                    if not looks_like_pdf(content=pdf_bytes, content_type=content_type):
                         stats.invalid_pdf_files += 1
                         stats.failed_documents += 1
 
@@ -1048,23 +875,16 @@ def build_dataset() -> BuilderStats:
                             ),
                         )
 
-                        LOGGER.warning(
-                            "Invalid PDF response for ADA %s.",
-                            ada,
-                        )
-
+                        LOGGER.warning("Invalid PDF response for ADA %s.", ada)
+                            
+                            
                         progress.update(1)
                         continue
 
                     if SAVE_PDFS:
-                        pdf_path = (
-                            PDF_DIRECTORY
-                            / f"{ada}.pdf"
-                        )
+                        pdf_path = (PDF_DIRECTORY/ f"{ada}.pdf")
 
-                        pdf_path.write_bytes(
-                            pdf_bytes
-                        )
+                        pdf_path.write_bytes(pdf_bytes)
 
                     try:
                         pages, total_page_count = (
@@ -1086,33 +906,13 @@ def build_dataset() -> BuilderStats:
                             ),
                         )
 
-                        LOGGER.warning(
-                            "Encrypted PDF for ADA %s: %s",
-                            ada,
-                            error,
-                        )
+                        LOGGER.warning("Encrypted PDF for ADA %s: %s", ada, error)
 
                         progress.update(1)
                         continue
 
-                    except PyMuPDF as error:
-                        stats.parsing_failures += 1
-                        stats.failed_documents += 1
 
-                        append_jsonl_record(
-                            FAILED_FILE,
-                            build_failed_record(
-                                metadata=metadata,
-                                reason="pdf_read_error",
-                                error=str(error),
-                            ),
-                        )
-
-                        LOGGER.warning(
-                            "PDF read error for ADA %s: %s",
-                            ada,
-                            error,
-                        )
+                        LOGGER.warning("PDF read error for ADA %s: %s", ada, error)
 
                         progress.update(1)
                         continue
@@ -1142,18 +942,13 @@ def build_dataset() -> BuilderStats:
                         pages
                     ).strip()
 
-                    stats.total_pages += (
-                        total_page_count
-                    )
+                    stats.total_pages += (total_page_count)
+                        
+                    
+                    stats.pages_with_text += len(pages)
 
-                    stats.pages_with_text += len(
-                        pages
-                    )
+                    if (len(full_text)< MIN_DOCUMENT_CHARACTERS):
 
-                    if (
-                        len(full_text)
-                        < MIN_DOCUMENT_CHARACTERS
-                    ):
                         stats.scanned_or_empty_documents += 1
                         stats.failed_documents += 1
 
@@ -1181,9 +976,7 @@ def build_dataset() -> BuilderStats:
                         progress.update(1)
                         continue
 
-                    pdf_checksum = calculate_sha256(
-                        pdf_bytes
-                    )
+                    pdf_checksum = calculate_sha256(pdf_bytes)
 
                     dataset_record = build_dataset_record(
                         metadata=metadata,
@@ -1193,38 +986,29 @@ def build_dataset() -> BuilderStats:
                         pdf_size_bytes=len(pdf_bytes),
                     )
 
-                    append_jsonl_record(
-                        DATASET_FILE,
-                        dataset_record,
-                    )
+                    append_jsonl_record(DATASET_FILE, dataset_record)
 
                     completed_adas.add(ada)
 
                     stats.documents_completed += 1
-                    stats.extracted_characters += len(
-                        full_text
-                    )
+                    stats.extracted_characters += len(full_text)
 
                     progress.set_postfix(
                         {
-                            "saved": (
-                                stats.documents_completed
-                            ),
-                            "existing": (
-                                stats.already_completed
-                            ),
-                            "failed": (
-                                stats.failed_documents
-                            ),
-                        },
+                            "saved": (stats.documents_completed),
+                                
+                            "existing": (stats.already_completed),
+                           
+                            "failed": (stats.failed_documents),
+                                
+                            },
+
                         refresh=False,
                     )
 
                     progress.update(1)
 
-                    time.sleep(
-                        REQUEST_DELAY_SECONDS
-                    )
+                    time.sleep(REQUEST_DELAY_SECONDS)
 
     except KeyboardInterrupt:
         LOGGER.warning(
@@ -1236,74 +1020,40 @@ def build_dataset() -> BuilderStats:
         session.close()
 
     LOGGER.info("DATASET BUILD SUMMARY")
-    LOGGER.info(
-        "Metadata records available: %s",
-        stats.metadata_records,
-    )
-    LOGGER.info(
-        "Documents considered: %s",
-        stats.documents_considered,
-    )
-    LOGGER.info(
-        "Documents completed: %s",
-        stats.documents_completed,
-    )
-    LOGGER.info(
-        "Already completed: %s",
-        stats.already_completed,
-    )
-    LOGGER.info(
-        "Downloads attempted: %s",
-        stats.downloads_attempted,
-    )
-    LOGGER.info(
-        "Download failures: %s",
-        stats.download_failures,
-    )
-    LOGGER.info(
-        "Invalid PDF responses: %s",
-        stats.invalid_pdf_files,
-    )
-    LOGGER.info(
-        "Encrypted PDFs: %s",
-        stats.encrypted_pdf_files,
-    )
-    LOGGER.info(
-        "Scanned or empty documents: %s",
-        stats.scanned_or_empty_documents,
-    )
-    LOGGER.info(
-        "PDF parsing failures: %s",
-        stats.parsing_failures,
-    )
-    LOGGER.info(
-        "Total failed documents: %s",
-        stats.failed_documents,
-    )
-    LOGGER.info(
-        "Total PDF pages: %s",
-        stats.total_pages,
-    )
-    LOGGER.info(
-        "Pages containing text: %s",
-        stats.pages_with_text,
-    )
-    LOGGER.info(
-        "Extracted characters: %s",
-        stats.extracted_characters,
-    )
-    LOGGER.info(
-        "Dataset file: %s",
-        DATASET_FILE.resolve(),
-    )
-    LOGGER.info(
-        "Failed file: %s",
-        FAILED_FILE.resolve(),
-    )
-    LOGGER.info(
-        "Builder log: %s",
-        BUILDER_LOG_FILE.resolve(),
-    )
+
+    LOGGER.info("Metadata records available: %s", stats.metadata_records)
+
+    LOGGER.info("Documents considered: %s", stats.documents_considered)
+
+    LOGGER.info("Documents completed: %s", stats.documents_completed)
+
+    LOGGER.info("Already completed: %s", stats.already_completed)
+    
+    LOGGER.info("Downloads attempted: %s",stats.downloads_attempted)
+
+    LOGGER.info("Download failures: %s", stats.download_failures)
+
+    LOGGER.info("Invalid PDF responses: %s", stats.invalid_pdf_files)
+
+    LOGGER.info("Encrypted PDFs: %s", stats.encrypted_pdf_files)
+
+    LOGGER.info("Scanned or empty documents: %s", stats.scanned_or_empty_documents)
+
+    LOGGER.info("PDF parsing failures: %s", stats.parsing_failures)
+    
+    LOGGER.info("Total failed documents: %s", stats.failed_documents)
+
+    LOGGER.info("Total PDF pages: %s", stats.total_pages)
+
+    LOGGER.info("Pages containing text: %s", stats.pages_with_text)
+
+    LOGGER.info("Extracted characters: %s", stats.extracted_characters)
+
+    LOGGER.info("Dataset file: %s", DATASET_FILE.resolve())
+
+    LOGGER.info("Failed file: %s", FAILED_FILE.resolve())
+
+    LOGGER.info("Builder log: %s", BUILDER_LOG_FILE.resolve())
 
     return stats
 

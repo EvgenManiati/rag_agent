@@ -7,38 +7,25 @@ from typing import Any
 from diavgeia.config import DATASET_FILE
 
 
-REPAIRED_FILE = Path(
-    "data/diavgeia/repaired_documents.jsonl"
-)
+REPAIRED_FILE = Path("data/diavgeia/repaired_documents.jsonl")
 
-FINAL_DATASET_FILE = Path(
-    "data/diavgeia/final_dataset.jsonl"
-)
+FINAL_DATASET_FILE = Path("data/diavgeia/final_dataset.jsonl")
 
 
-def load_jsonl(
-    path: Path,
-) -> list[dict[str, Any]]:
+def load_jsonl(path: Path) -> list[dict[str, Any]]:
     """
     Load all JSON objects from a JSONL file.
     """
 
     if not path.exists():
-        raise FileNotFoundError(
-            f"File not found: {path.resolve()}"
-        )
+        raise FileNotFoundError(f"File not found: {path.resolve()}")
 
     records = []
 
-    with path.open(
-        "r",
-        encoding="utf-8",
-    ) as file:
+    with path.open("r", encoding="utf-8") as file:
 
-        for line_number, line in enumerate(
-            file,
-            start=1,
-        ):
+        for line_number, line in enumerate(file, start=1):
+
             line = line.strip()
 
             if not line:
@@ -58,33 +45,18 @@ def load_jsonl(
     return records
 
 
-def save_jsonl(
-    path: Path,
-    records: list[dict[str, Any]],
-) -> None:
+def save_jsonl(path: Path, records: list[dict[str, Any]],) -> None:
     """
     Write all records to a JSONL file.
     """
 
-    path.parent.mkdir(
-        parents=True,
-        exist_ok=True,
-    )
+    path.parent.mkdir(parents=True, exist_ok=True,)
 
-    with path.open(
-        "w",
-        encoding="utf-8",
-    ) as file:
+    with path.open("w", encoding="utf-8") as file:
 
         for record in records:
 
-            file.write(
-                json.dumps(
-                    record,
-                    ensure_ascii=False,
-                )
-                + "\n"
-            )
+            file.write(json.dumps(record,  ensure_ascii=False) + "\n")
 
 
 def merge_repaired_documents() -> None:
@@ -104,23 +76,13 @@ def merge_repaired_documents() -> None:
     # Load files
     
 
-    original_records = load_jsonl(
-        DATASET_FILE
-    )
+    original_records = load_jsonl(DATASET_FILE)
 
-    repaired_records = load_jsonl(
-        REPAIRED_FILE
-    )
+    repaired_records = load_jsonl(REPAIRED_FILE)
 
-    print(
-        f"Original dataset records: "
-        f"{len(original_records)}"
-    )
+    print(f"Original dataset records: {len(original_records)}")
 
-    print(
-        f"Repaired records: "
-        f"{len(repaired_records)}"
-    )
+    print(f"Repaired records: {len(repaired_records)}")
 
     
     # Index repaired records by ADA
@@ -130,12 +92,7 @@ def merge_repaired_documents() -> None:
 
     for record in repaired_records:
 
-        ada = str(
-            record.get(
-                "ada",
-                "",
-            )
-        ).strip()
+        ada = str(record.get("ada", "")).strip()
 
         if not ada:
             continue
@@ -151,26 +108,17 @@ def merge_repaired_documents() -> None:
 
     for original_record in original_records:
 
-        ada = str(
-            original_record.get(
-                "ada",
-                "",
-            )
-        ).strip()
+        ada = str(original_record.get("ada", "")).strip()
 
         if ada in repaired_by_ada:
 
-            final_records.append(
-                repaired_by_ada[ada]
-            )
+            final_records.append(repaired_by_ada[ada])
 
             replaced_count += 1
 
         else:
 
-            final_records.append(
-                original_record
-            )
+            final_records.append(original_record)
 
     
     # Safety checks
@@ -188,14 +136,9 @@ def merge_repaired_documents() -> None:
         if record.get("ada")
     }
 
-    repaired_adas = set(
-        repaired_by_ada.keys()
-    )
+    repaired_adas = set(repaired_by_ada.keys())
 
-    missing_repaired_adas = (
-        repaired_adas
-        - original_adas
-    )
+    missing_repaired_adas = (repaired_adas - original_adas)
 
     if missing_repaired_adas:
 
@@ -205,69 +148,42 @@ def merge_repaired_documents() -> None:
             "found in the original dataset:"
         )
 
-        for ada in sorted(
-            missing_repaired_adas
-        ):
-            print(
-                f"  {ada}"
-            )
+        for ada in sorted(missing_repaired_adas):
 
-    if len(final_records) != len(
-        original_records
-    ):
+            print(f"  {ada}")
+
+    if len(final_records) != len(original_records):
+
         raise RuntimeError(
             "Final dataset record count does not "
             "match original dataset record count."
         )
 
     if final_adas != original_adas:
-        raise RuntimeError(
-            "ADA integrity check failed."
-        )
+        raise RuntimeError("ADA integrity check failed.")
 
     
     # Save final dataset
     
 
-    save_jsonl(
-        FINAL_DATASET_FILE,
-        final_records,
-    )
+    save_jsonl(FINAL_DATASET_FILE, final_records)
 
     # Summary
    
     print("MERGE SUMMARY")
 
 
-    print(
-        f"Original records: "
-        f"{len(original_records)}"
-    )
+    print(f"Original records: {len(original_records)}")
 
-    print(
-        f"Repaired records available: "
-        f"{len(repaired_records)}"
-    )
+    print(f"Repaired records available: {len(repaired_records)}")
 
-    print(
-        f"Records replaced: "
-        f"{replaced_count}"
-    )
+    print(f"Records replaced: {replaced_count}")
 
-    print(
-        f"Final records: "
-        f"{len(final_records)}"
-    )
+    print(f"Final records: {len(final_records)}")
 
-    print(
-        f"Unique ADA values: "
-        f"{len(final_adas)}"
-    )
+    print(f"Unique ADA values: {len(final_adas)}")
 
-    print(
-        f"Final dataset: "
-        f"{FINAL_DATASET_FILE.resolve()}"
-    )
+    print(f"Final dataset: {FINAL_DATASET_FILE.resolve()}")
 
 
 

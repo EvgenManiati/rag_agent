@@ -747,17 +747,11 @@ def save_results(all_scores):
     print("\n")
     print("ΑΠΟΘΗΚΕΥΣΗ ΑΠΟΤΕΛΕΣΜΑΤΩΝ")
 
-    print(
-        f"JSON: "
-        f"{JSON_RESULTS_FILE}")
+    print(f"JSON: {JSON_RESULTS_FILE}")
 
-    print(
-        f"Summary CSV: "
-        f"{CSV_RESULTS_FILE}")
+    print(f"Summary CSV: {CSV_RESULTS_FILE}")
 
-    print(
-        f"Detailed CSV: "
-        f"{DETAILED_CSV_FILE}")
+    print(f"Detailed CSV: {DETAILED_CSV_FILE}")
 
 
 # MAIN
@@ -767,49 +761,24 @@ if __name__ == "__main__":
 
     print("DEEPEVAL RAG EVALUATION")
 
-    print(
-        f"Test cases: "
-        f"{len(EVAL_DATASET)}"
-    )
+    print(f"Test cases: {len(EVAL_DATASET)}")
 
-    print(
-        f"Models: "
-        f"{len(MODELS_TO_TEST)}"
-    )
+    print(f"Models: {len(MODELS_TO_TEST)}")
 
-    print(
-        f"Retrievers: "
-        f"{len(RETRIEVERS_TO_TEST)}"
-    )
+    print(f"Retrievers: {len(RETRIEVERS_TO_TEST)}")
 
-    print(
-        f"Total experiments: "
-        f"{len(MODELS_TO_TEST) * len(RETRIEVERS_TO_TEST)}"
-    )
+    print(f"Total experiments: {len(MODELS_TO_TEST) * len(RETRIEVERS_TO_TEST)}")
 
 
     # LOAD EVALUATOR ONCE
 
-    print(
-        f"\nΦόρτωση DeepEval evaluator: "
-        f"{EVALUATOR_MODEL_KEY}"
-    )
+    print(f"\nΦόρτωση DeepEval evaluator: {EVALUATOR_MODEL_KEY}")
 
 
-    evaluator_llm = load_llm(
-        EVALUATOR_MODEL_KEY
-    )
+    evaluator_llm = load_llm(EVALUATOR_MODEL_KEY)
 
 
-    evaluator_model = (
-        LocalLangChainLLM(
-            evaluator_llm,
-            name=(
-                f"{EVALUATOR_MODEL_KEY}"
-                f"-evaluator"
-            ),
-        )
-    )
+    evaluator_model = (LocalLangChainLLM(evaluator_llm, name=(f"{EVALUATOR_MODEL_KEY} -evaluator")))
 
 
     # RUN ALL EXPERIMENTS
@@ -821,21 +790,17 @@ if __name__ == "__main__":
 
         for retriever_name in (RETRIEVERS_TO_TEST):
 
-            experiment_name = (
-                f"{generator_name}_"
-                f"{retriever_name}")
+            experiment_name = (f"{generator_name}_{retriever_name}")
 
 
             print("\n\n")
 
-            print(
-                f"ΠΕΙΡΑΜΑ: "
-                f"{experiment_name}")
+            print(f"ΠΕΙΡΑΜΑ: {experiment_name}")
 
             try:
 
                 result = (
-                    run_model_evaluation(generator_name=(generator_name),
+                       run_model_evaluation(generator_name=(generator_name),
 
                         retriever_name=(retriever_name),
 
@@ -913,10 +878,7 @@ if __name__ == "__main__":
 
     # CATEGORY COMPARISON TABLE
     print("\n\n")
-    print(
-        "ΣΥΓΚΡΙΤΙΚΟΣ ΠΙΝΑΚΑΣ "
-        "- ΑΝΑ ΚΑΤΗΓΟΡΙΑ"
-    )
+    print("ΣΥΓΚΡΙΤΙΚΟΣ ΠΙΝΑΚΑΣ - ΑΝΑ ΚΑΤΗΓΟΡΙΑ")
     print(
         f"{'Experiment':<32}"
         f"{'Category':<24}"
@@ -928,8 +890,7 @@ if __name__ == "__main__":
 
     for (experiment_name, experiment_results) in all_scores.items():
 
-        categories = (experiment_results.get("by_category", {})
-        )
+        categories = (experiment_results.get("by_category", {}))
 
 
         for (category, metric_scores) in categories.items():
@@ -945,6 +906,4 @@ if __name__ == "__main__":
 
     # SAVE EVERYTHING
 
-    save_results(
-        all_scores
-    )
+    save_results(all_scores)

@@ -90,22 +90,12 @@ def authenticate_google_drive(
             ),
         )
 
-        token_path.write_text(
-            creds.to_json(),
-            encoding="utf-8",
-        )
+        token_path.write_text(creds.to_json(), encoding="utf-8")
 
-    return build(
-        "drive",
-        "v3",
-        credentials=creds,
-    )
+    return build("drive", "v3", credentials=creds)
 
 
-def list_folder_items(
-    service: Resource,
-    folder_id: str,
-) -> list[dict]:
+def list_folder_items(service: Resource, folder_id: str) -> list[dict]:
     """
     Επιστρέφει όλα τα άμεσα παιδιά ενός Google Drive φακέλου.
     """
@@ -185,8 +175,6 @@ def collect_pdf_files(
     return collected
 
 
-import time
-
 
 def download_file_to_memory(service: Resource, file_id: str, max_retries: int = 5) -> bytes:
     """Κατεβάζει PDF στη RAM με retries σε προσωρινά network timeouts."""
@@ -244,10 +232,7 @@ def pdf_bytes_to_documents(
         else ""
     )
 
-    for page_number, page in enumerate(
-        reader.pages,
-        start=1,
-    ):
+    for page_number, page in enumerate(reader.pages, start=1):
         text = page.extract_text() or ""
 
         if not text.strip():
@@ -276,12 +261,7 @@ def pdf_bytes_to_documents(
     
         }
 
-        documents.append(
-            Document(
-                page_content=text,
-                metadata=metadata,
-            )
-        )
+        documents.append(Document(page_content=text, metadata=metadata))
 
     return documents
 
@@ -299,21 +279,12 @@ def load_documents_from_drive_folders(
     Δεν αποθηκεύει τίποτα τοπικά.
     """
 
-    cleaned_folder_ids = [
-        folder_id.strip()
-        for folder_id in folder_ids
-        if folder_id and folder_id.strip()
-    ]
+    cleaned_folder_ids = [folder_id.strip() for folder_id in folder_ids if folder_id and folder_id.strip()]
 
     if not cleaned_folder_ids:
-        raise ValueError(
-            "Δεν έχουν οριστεί Google Drive folder IDs."
-        )
+        raise ValueError("Δεν έχουν οριστεί Google Drive folder IDs.")
 
-    service = authenticate_google_drive(
-        credentials_file=credentials_file,
-        token_file=token_file,
-    )
+    service = authenticate_google_drive(credentials_file=credentials_file, token_file=token_file)
 
     all_documents: list[Document] = []
     seen_file_ids: set[str] = set()
@@ -329,7 +300,7 @@ def load_documents_from_drive_folders(
 
         for file_info in pdf_files:
             file_id = file_info["id"]
-            file_name = file_info["name"]
+            
 
             # Αποφεύγουμε διπλή επεξεργασία του ίδιου Drive αρχείου.
             if file_id in seen_file_ids:
@@ -337,15 +308,9 @@ def load_documents_from_drive_folders(
 
             seen_file_ids.add(file_id)
 
-            pdf_bytes = download_file_to_memory(
-                service=service,
-                file_id=file_id,
-            )
+            pdf_bytes = download_file_to_memory(service=service, file_id=file_id)
 
-            file_documents = pdf_bytes_to_documents(
-                pdf_bytes=pdf_bytes,
-                file_info=file_info,
-            )
+            file_documents = pdf_bytes_to_documents(pdf_bytes=pdf_bytes, file_info=file_info)
 
 
             all_documents.extend(file_documents)

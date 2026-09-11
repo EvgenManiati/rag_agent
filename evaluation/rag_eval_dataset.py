@@ -430,26 +430,15 @@ UNANSWERABLE_TEST_CASES = [
 
 # COMPLETE DATASET
 
-EVAL_DATASET = (
-    NATURAL_TEST_CASES
-    + UNANSWERABLE_TEST_CASES
-)
+EVAL_DATASET = (NATURAL_TEST_CASES + UNANSWERABLE_TEST_CASES)
 
 
 # OPTIONAL HELPERS
 
-ANSWERABLE_DATASET = [
-    case
-    for case in EVAL_DATASET
-    if case["answerable"]
-]
+ANSWERABLE_DATASET = [case for case in EVAL_DATASET if case["answerable"]]
 
 
-UNANSWERABLE_DATASET = [
-    case
-    for case in EVAL_DATASET
-    if not case["answerable"]
-]
+UNANSWERABLE_DATASET = [case for case in EVAL_DATASET if not case["answerable"]]
 
 
 # SIMPLE VALIDATION
@@ -474,55 +463,31 @@ def validate_eval_dataset(dataset):
         missing_fields = required_fields - case.keys()
 
         if missing_fields:
-            raise ValueError(
-                f"Test case {index}: missing fields {missing_fields}"
-            )
+            raise ValueError(f"Test case {index}: missing fields {missing_fields}")
 
         if not isinstance(case["expected_adas"], list):
-            raise ValueError(
-                f"Test case {index}: expected_adas must be a list."
-            )
+            raise ValueError(f"Test case {index}: expected_adas must be a list.")
 
         if "expected_source_ids" in case and not isinstance(case["expected_source_ids"], list):
-            raise ValueError(
-                f"Test case {index}: expected_source_ids must be a list."
-            )
-    for index, case in enumerate(
-        EVAL_DATASET,
-        start=1,
-    ):
-        missing_fields = (
-            required_fields
-            - set(case.keys())
-        )
+            raise ValueError(f"Test case {index}: expected_source_ids must be a list.")
+        
+    for index, case in enumerate(EVAL_DATASET, start=1):
+
+        missing_fields = (required_fields - set(case.keys()))
 
         if missing_fields:
-            raise ValueError(
-                f"Test case {index} is missing fields: "
-                f"{missing_fields}"
-            )
+            raise ValueError(f"Test case {index} is missing fields: {missing_fields}")
 
         if not case["question"].strip():
-            raise ValueError(
-                f"Test case {index} has an empty question."
-            )
+            raise ValueError(f"Test case {index} has an empty question.")
 
-        if not case[
-            "expected_answer"
-        ].strip():
+        if not case["expected_answer"].strip():
             raise ValueError(
-                f"Test case {index} has an empty "
-                f"expected answer."
-            )
+                f"Test case {index} has an empty expected answer.")
 
-        if not isinstance(
-            case["expected_adas"],
-            list,
-        ):
-            raise ValueError(
-                f"Test case {index}: expected_adas "
-                f"must be a list."
-            )
+        if not isinstance(case["expected_adas"], list):
+
+            raise ValueError(f"Test case {index}: expected_adas must be a list.")
 
 
 # Validate automatically when imported.
