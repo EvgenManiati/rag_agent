@@ -1,563 +1,361 @@
+"""
+Retrieval ground-truth dataset.
 
-# RETRIEVAL GROUND-TRUTH DATASET
-#
-# VALIDATION_SET:
-# Used for retriever configuration and ensemble-weight tuning.
-#
-# TEST_SET:
-# Used only after all retriever parameters have been frozen.
-#
-# Important:
-# Do not tune the ensemble weights using TEST_SET.
+VALIDATION_SET:
+Used for retriever configuration and ensemble-weight tuning.
+
+TEST_SET:
+Used only after retriever parameters have been frozen.
+
+The Diavgeia cases are based on documents contained in the
+new curated corpus.
+
+Queries avoid using specific natural persons as retrieval keys.
+"""
 
 
 # VALIDATION SET
-# 15 queries
 
 VALIDATION_SET = [
 
-    # 1. CONTRACT - ΟΡΙΖΟΝΤΙΟ ΙΠΣΥ
-    # ADA: 6Θ5Β469ΗΞΩ-ΣΧΛ
+    # DIAVGEIA
 
+    # 1. GeCoInt
     {
         "query": (
-            "Ποια απόφαση αφορά τη σύναψη συμβάσεων "
-            "μίσθωσης έργου στο Οριζόντιο ΙΠΣΥ;"
+            "Ποια απόφαση αφορά ανατροπή ποσού 5.952 ευρώ "
+            "για δαπάνες προσωπικού του έργου GeCoInt;"
         ),
-        "expected_adas": [
-            "6Θ5Β469ΗΞΩ-ΣΧΛ"
-        ],
+        "expected_adas": ["6Ξ82469ΗΞΩ-ΘΛΜ"],
+        "expected_source_ids": [],
+        "expected_file_names": [],
+        "category": "budget",
+        "difficulty": "natural",
+    },
+
+    # 2. LOCARD
+    {
+        "query": (
+            "Ποια απόφαση αφορά σύναψη ιδιωτικού συμφωνητικού "
+            "στο έργο LOCARD για εργασίες ανάπτυξης λογισμικού, "
+            "ασφάλειας, ιδιωτικότητας και blockchains;"
+        ),
+        "expected_adas": ["ΕΒΟ9469ΗΞΩ-ΙΤΕ"],
+        "expected_source_ids": [],
+        "expected_file_names": [],
         "category": "contract",
         "difficulty": "semantic",
     },
 
+    # 3. 2023 payment
     {
         "query": (
-            "Βρες μου τις συμβάσεις συνεργατών που "
-            "συνάφθηκαν για το έργο Οριζόντιο ΙΠΣΥ."
+            "Ποια απόφαση αφορά οριστικοποίηση πληρωμής ποσού "
+            "1.475,39 ευρώ για έξοδα μετακίνησης στη Σουηδία;"
         ),
-        "expected_adas": [
-            "6Θ5Β469ΗΞΩ-ΣΧΛ"
-        ],
+
+        "expected_adas": ["6ΠΜΛ469ΗΞΩ-ΚΕΦ"],
+        "expected_source_ids": [],
+        "expected_file_names": [],
+        "category": "payment",
+        "difficulty": "natural",
+    },
+
+    # 4. PREFERRED
+    {
+        "query": (
+            "Ποια απόφαση αφορά σύναψη σύμβασης στο έργο PREFERRED "
+             "για ανάπτυξη τεχνολογιών πρόβλεψης και πρόληψης πυρκαγιών;"
+        ),
+
+        "expected_adas": ["ΨΑΧ1469ΗΞΩ-ΓΧΣ"],
+        "expected_source_ids": [],
+        "expected_file_names": [],
         "category": "contract",
+        "difficulty": "semantic",
+    },
+
+    # 5. Kahoot / ΕπιSTEAMουσική
+    {
+        "query": (
+            "Ποια απόφαση αφορά πληρωμή 133,92 ευρώ "
+            "για ανανέωση συνδρομής στο Kahoot στο έργο "
+            "ΕπιSTEAMουσική;"
+        ),
+        "expected_adas": ["9Ε53469ΗΞΩ-ΤΛΠ"],
+        "expected_source_ids": [],
+        "expected_file_names": [],
+        "category": "payment",
         "difficulty": "natural",
     },
 
-
-    # 2. INVITATION - ARIA
-    # ADA: 9Ζ87469ΗΞΩ-ΕΩΟ
-
-
+    # 6. Remote work
     {
         "query": (
-            "Ποια απόφαση αφορά την πρόσκληση "
-            "ILSP.293.ARIA-0421;"
+        "Ποια απόφαση αφορά χορήγηση άδειας τηλεργασίας "
+        "για 44 ημέρες κατά το Α΄ τρίμηνο του 2025;"
         ),
-        "expected_adas": [
-            "9Ζ87469ΗΞΩ-ΕΩΟ"
-        ],
-        "category": "invitation",
+
+        "expected_adas": ["68ΓΑ469ΗΞΩ-8Ν9"],
+        "expected_source_ids": [],
+        "expected_file_names": [],
+        "category": "employment",
         "difficulty": "semantic",
     },
 
+    # 7. Electricity bill payment
     {
         "query": (
-            "Βρες μου την πρόσκληση εκδήλωσης "
-            "ενδιαφέροντος που σχετίζεται με το ARIA."
+            "Ποια απόφαση αφορά οριστικοποίηση πληρωμής ποσού "
+            "262 ευρώ για λογαριασμό ηλεκτρικής ενέργειας;"
         ),
-        "expected_adas": [
-            "9Ζ87469ΗΞΩ-ΕΩΟ"
-        ],
-        "category": "invitation",
+
+        "expected_adas": ["ΨΑΣΜ469ΗΞΩ-ΗΩΛ"],
+        "expected_source_ids": [],
+        "expected_file_names": [],
+        "category": "payment",
+        "difficulty": "natural",
+    },
+    # 8. contracts
+    {
+    "query": (
+        "Ποια απόφαση αφορά τη σύναψη συμφωνητικών χορήγησης "
+        "υποτροφίας στο έργο IntelComp το 2022;"
+      ),
+    "expected_adas": ["9ΡΔ0469ΗΞΩ-ΒΗΛ"],
+    "expected_source_ids": [],
+    "expected_file_names": [],
+    "category": "payment",
+    "difficulty": "natural",
+    },
+
+    # 9. Archimedes
+    {
+    "query": (
+        "Ποια απόφαση εγκρίνει δαπάνη 1.160,50 ευρώ "
+        "για γραφική ύλη και είδη γραφείου στο έργο ΑΡΧΙΜΗΔΗΣ;"
+    ),
+    "expected_adas": ["Ω5ΑΡ469ΗΞΩ-4ΜΓ"],
+    "expected_source_ids": [],
+    "expected_file_names": [],
+    "category": "payment",
+    "difficulty": "natural",
+},
+
+    # 10. SI_CLUSTER-2
+    {
+        "query":(
+        "Ποια απόφαση αφορά εντολή πληρωμής ποσού 2.199,76 ευρώ "
+        "στο έργο SI_CLUSTER-2 για έξοδα σχεδιασμού και ανάπτυξης του site;"
+        ),
+        "expected_adas": ["6ΝΩΓ469ΗΞΩ-ΜΙΛ"],
+        "expected_source_ids": [],
+        "expected_file_names": [],
+        "category": "payment",
         "difficulty": "natural",
     },
 
-    # 3. RESULTS - AutoFAIR
-    # ADA: ΡΖΑΟ469ΗΞΩ-ΒΤΑ
+    # EXTERNAL
 
+
+    # 11. Research ethics
     {
         "query": (
-            "Ποια απόφαση περιέχει τα αποτελέσματα "
-            "της πρόσκλησης AutoFAIR_upotr_022023;"
+            "Από πόσα τακτικά μέλη αποτελείται η ΕΗΔΕ "
+            "του Ερευνητικού Κέντρου Αθηνά;"
         ),
-        "expected_adas": [
-            "ΡΖΑΟ469ΗΞΩ-ΒΤΑ"
-        ],
-        "category": "results",
-        "difficulty": "semantic",
-    },
-
-    {
-        "query": (
-            "Βρες μου τα αποτελέσματα αξιολόγησης "
-            "υποψηφίων για την υποτροφία AutoFAIR."
-        ),
-        "expected_adas": [
-            "ΡΖΑΟ469ΗΞΩ-ΒΤΑ"
-        ],
-        "category": "results",
+        "expected_adas": [],
+        "expected_source_ids": ["athena_ehde_regulation"],
+        "expected_file_names": ["kanonismos_ehde_athina.pdf"],
+        "category": "research_ethics",
         "difficulty": "natural",
     },
 
-
-    # 4. PROCUREMENT - SMS-CBA
-    # ADA: ΩΤΑΜ469ΗΞΩ-ΤΛ3
-
+    # 12. Research ethics
     {
         "query": (
-            "Ποια απόφαση αφορά την προμήθεια "
-            "ηλεκτρονικού εξοπλισμού για το SMS-CBA;"
+            "Σε πόσες ημέρες πρέπει να αποφασίσει "
+            "η ΕΗΔΕ για μια αίτηση;"
         ),
-        "expected_adas": [
-            "ΩΤΑΜ469ΗΞΩ-ΤΛ3"
-        ],
-        "category": "procurement",
-        "difficulty": "semantic",
-    },
-
-    {
-        "query": (
-            "Βρες μου την αγορά εξοπλισμού και ειδικού "
-            "λογισμικού που έγινε για το έργο SMS-CBA."
-        ),
-        "expected_adas": [
-            "ΩΤΑΜ469ΗΞΩ-ΤΛ3"
-        ],
-        "category": "procurement",
-        "difficulty": "natural",
-    },
-
-
-    # 5. CONTRACT MODIFICATION - TRUSTEE
-    # ADA: 67ΖΙ469ΗΞΩ-1ΧΧ
-
-    {
-        "query": (
-            "Ποια απόφαση τροποποίησε σύμβαση "
-            "μίσθωσης έργου στο TRUSTEE;"
-        ),
-        "expected_adas": [
-            "67ΖΙ469ΗΞΩ-1ΧΧ"
-        ],
-        "category": "contract_modification",
-        "difficulty": "semantic",
-    },
-
-    {
-        "query": (
-            "Βρες μου την αλλαγή που έγινε σε σύμβαση "
-            "συνεργάτη του έργου TRUSTEE."
-        ),
-        "expected_adas": [
-            "67ΖΙ469ΗΞΩ-1ΧΧ"
-        ],
-        "category": "contract_modification",
-        "difficulty": "natural",
-    },
-
-
-    # 6. TRAVEL - BEHAVE
-    # ADA: Ψ640469ΗΞΩ-30Ο
-
-    {
-        "query": (
-            "Ποια απόφαση εγκρίνει μετακίνηση "
-            "επιστημονικού συνεργάτη για το BEHAVE;"
-        ),
-        "expected_adas": [
-            "Ψ640469ΗΞΩ-30Ο"
-        ],
-        "category": "travel",
-        "difficulty": "semantic",
-    },
-
-    {
-        "query": (
-            "Βρες μου την απόφαση για ταξίδι "
-            "συνεργάτη του έργου BEHAVE."
-        ),
-        "expected_adas": [
-            "Ψ640469ΗΞΩ-30Ο"
-        ],
-        "category": "travel",
-        "difficulty": "natural",
-    },
-
-
-    # 7. INVITATION - ΑΡΧΙΜΗΔΗΣ
-    # ADA: 6ΠΙΟ469ΗΞΩ-1ΦΛ
-
-    {
-        "query": (
-            "Ποια απόφαση αφορά δημοσίευση πρόσκλησης "
-            "εκδήλωσης ενδιαφέροντος για το έργο ΑΡΧΙΜΗΔΗΣ;"
-        ),
-        "expected_adas": [
-            "6ΠΙΟ469ΗΞΩ-1ΦΛ"
-        ],
-        "category": "invitation",
-        "difficulty": "semantic",
-    },
-
-
-    # 8. INVITATION - ENVISION II
-    # ADA: 6ΙΧΒ469ΗΞΩ-ΕΤΦ
-
-    {
-        "query": (
-            "Βρες μου την πρόσκληση ENVISION II "
-            "με κωδικό 001.2023."
-        ),
-        "expected_adas": [
-            "6ΙΧΒ469ΗΞΩ-ΕΤΦ"
-        ],
-        "category": "invitation",
-        "difficulty": "semantic",
-    },
-
-    # 9. CONTRACT MODIFICATION - ΑΠΤΟΣ
-    # ADA: 6ΛΔΦ469ΗΞΩ-Λ9Δ
-
-    {
-        "query": (
-            "Ποια απόφαση αφορά τροποποίηση συμβάσεων "
-            "μίσθωσης έργου στο έργο ΑΠΤΟΣ;"
-        ),
-        "expected_adas": [
-            "6ΛΔΦ469ΗΞΩ-Λ9Δ"
-        ],
-        "category": "contract_modification",
+        "expected_adas": [],
+        "expected_source_ids": ["athena_ehde_regulation"],
+        "expected_file_names": ["kanonismos_ehde_athina.pdf"],
+        "category": "research_ethics",
         "difficulty": "semantic",
     },
 ]
 
 
-# FINAL TEST SET
-#
-# 15 queries
-# Different relevant documents from VALIDATION_SET.
-#
-# DO NOT use this set for ensemble-weight tuning.
+
+# TEST SET
 
 TEST_SET = [
 
-    # 1. INVITATION - ΟΡΙΖΟΝΤΙΟ ΙΠΣΥ
-    # ADA: ΨΨ7Α469ΗΞΩ-Ι9Ο
+    # DIAVGEIA
 
+    # 1. ARCHIMEDES equipment
     {
         "query": (
-            "Ποια απόφαση δημοσίευσε πρόσκληση "
-            "για συνεργάτη στο Οριζόντιο ΙΠΣΥ;"
+            "Ποια διακήρυξη αφορά προμήθεια ηλεκτρονικού "
+            "εξοπλισμού για τις ανάγκες της Μονάδας ΑΡΧΙΜΗΔΗΣ;"
         ),
-        "expected_adas": [
-            "ΨΨ7Α469ΗΞΩ-Ι9Ο"
-        ],
-        "category": "invitation",
-        "difficulty": "semantic",
-    },
-
-    {
-        "query": (
-            "Βρες μου την πρόσκληση για νέο συνεργάτη "
-            "στο Οριζόντιο έργο ΙΠΣΥ."
-        ),
-        "expected_adas": [
-            "ΨΨ7Α469ΗΞΩ-Ι9Ο"
-        ],
-        "category": "invitation",
-        "difficulty": "natural",
-    },
-
-
-    # 2. RESULTS - ΠΕΡΙΠΛΟΥΣ
-    # ADA: ΡΕΒΜ469ΗΞΩ-7Φ1
-
-    {
-        "query": (
-            "Ποια απόφαση αφορά τα αποτελέσματα "
-            "της πρόσκλησης του έργου ΠΕΡΙΠΛΟΥΣ;"
-        ),
-        "expected_adas": [
-            "ΡΕΒΜ469ΗΞΩ-7Φ1"
-        ],
-        "category": "results",
-        "difficulty": "semantic",
-    },
-
-    {
-        "query": (
-            "Βρες μου τα αποτελέσματα της πρόσκλησης "
-            "ILSP.356.PER-07.ΧΑΝ.0423."
-        ),
-        "expected_adas": [
-            "ΡΕΒΜ469ΗΞΩ-7Φ1"
-        ],
-        "category": "results",
-        "difficulty": "natural",
-    },
-
-
-    # 3. INVITATION - CEI BOOST
-    # ADA: 6Β3Λ469ΗΞΩ-Ξ1Ε
-
-    {
-        "query": (
-            "Ποια απόφαση αφορά την πρόσκληση "
-            "CEI BOOST 002.2023;"
-        ),
-        "expected_adas": [
-            "6Β3Λ469ΗΞΩ-Ξ1Ε"
-        ],
-        "category": "invitation",
-        "difficulty": "semantic",
-    },
-
-    {
-        "query": (
-            "Βρες μου τη δημοσιευμένη πρόσκληση "
-            "για το CEI BOOST."
-        ),
-        "expected_adas": [
-            "6Β3Λ469ΗΞΩ-Ξ1Ε"
-        ],
-        "category": "invitation",
-        "difficulty": "natural",
-    },
-
-
-    # 4. SCHOLARSHIP AGREEMENT - AutoFAIR
-    # ADA: 6ΒΥ8469ΗΞΩ-Κ0Τ
-
-    {
-        "query": (
-            "Ποια απόφαση αφορά σύναψη συμφωνητικού "
-            "χορήγησης υποτροφίας στο AutoFAIR;"
-        ),
-        "expected_adas": [
-            "6ΒΥ8469ΗΞΩ-Κ0Τ"
-        ],
-        "category": "scholarship",
-        "difficulty": "semantic",
-    },
-
-    {
-        "query": (
-            "Βρες μου τη σύμβαση υποτροφίας που "
-            "υπογράφηκε στο πλαίσιο του AutoFAIR."
-        ),
-        "expected_adas": [
-            "6ΒΥ8469ΗΞΩ-Κ0Τ"
-        ],
-        "category": "scholarship",
-        "difficulty": "natural",
-    },
-
-
-    # 5. RESULTS - AutoFAIR 122022
-    # ADA: 9ΖΝ0469ΗΞΩ-Ο7Μ
-
-    {
-        "query": (
-            "Ποια απόφαση περιέχει τα αποτελέσματα "
-            "της πρόσκλησης AutoFAIR_122022;"
-        ),
-        "expected_adas": [
-            "9ΖΝ0469ΗΞΩ-Ο7Μ"
-        ],
-        "category": "results",
-        "difficulty": "semantic",
-    },
-
-    {
-        "query": (
-            "Βρες μου ποια απόφαση δημοσίευσε "
-            "τα αποτελέσματα του AutoFAIR τον Δεκέμβριο."
-        ),
-        "expected_adas": [
-            "9ΖΝ0469ΗΞΩ-Ο7Μ"
-        ],
-        "category": "results",
-        "difficulty": "natural",
-    },
-
-
-    # 6. EMPLOYMENT - Βοΐσκα / ΑΠΤΟΣ / ΑΠΟΗΧΟΙ
-    # ADA: ΨΕΤ0469ΗΞΩ-ΤΒΑ
-
-    {
-        "query": (
-            "Ποια απόφαση αφορά σύμβαση εργασίας "
-            "ορισμένου χρόνου για τα έργα "
-            "Βοΐσκα, ΑΠΤΟΣ και ΑΠΟΗΧΟΙ;"
-        ),
-        "expected_adas": [
-            "ΨΕΤ0469ΗΞΩ-ΤΒΑ"
-        ],
-        "category": "employment",
-        "difficulty": "semantic",
-    },
-
-
-    # 7. PROCUREMENT EXPENSE - EOSCFuture
-    # ADA: ΡΒ14469ΗΞΩ-9ΩΣ
-
-
-    {
-        "query": (
-            "Βρες μου την απόφαση έγκρισης δαπάνης "
-            "για ηλεκτρονικό εξοπλισμό στο EOSCFuture."
-        ),
-        "expected_adas": [
-            "ΡΒ14469ΗΞΩ-9ΩΣ"
-        ],
+        "expected_adas": ["65Κ0469ΗΞΩ-0ΜΤ"],
+        "expected_source_ids": [],
+        "expected_file_names": [],
         "category": "procurement",
         "difficulty": "natural",
     },
 
-
-    # 8. PAYMENT - INTRACOM 1 - ART
-    # ADA: 6ΜΓ8469ΗΞΩ-6Τ6
-
-
+    # 2. 2025 utility obligation
     {
         "query": (
-            "Ποια απόφαση αφορά εντολή πληρωμής "
-            "για εξοπλισμό και αναλώσιμα στο "
-            "INTRACOM 1 - ART;"
+            "Ποια απόφαση του Ιουνίου 2025 αφορά ανάληψη "
+            "υποχρέωσης για λογαριασμό παροχής με ποσό "
+            "366 ευρώ;"
         ),
-        "expected_adas": [
-            "6ΜΓ8469ΗΞΩ-6Τ6"
-        ],
-        "category": "payment",
+        "expected_adas": ["ΨΡΔ1469ΗΞΩ-1ΗΜ"],
+        "expected_source_ids": [],
+        "expected_file_names": [],
+        "category": "budget",
         "difficulty": "semantic",
     },
 
-
-    # 9. TRAVEL - OpenGPT-X/ARC
-    # ADA: 6ΛΟΘ469ΗΞΩ-ΓΧ3
-
+    # 3. 2022 assignment
     {
         "query": (
-            "Βρες μου την έγκριση μετακίνησης "
-            "συνεργάτη στο πλαίσιο του OpenGPT-X/ARC."
+            "Ποια απόφαση του Αυγούστου 2022 αφορά "
+            "ανάθεση έργου ή υπηρεσίας στο Ερευνητικό "
+            "Κέντρο Αθηνά;"
         ),
-        "expected_adas": [
-            "6ΛΟΘ469ΗΞΩ-ΓΧ3"
-        ],
-        "category": "travel",
-        "difficulty": "natural",
-    },
-
-
-    # 10. TRAVEL - EASIER
-    # ADA: 69Ζ2469ΗΞΩ-ΜΗΖ
-
-    {
-        "query": (
-            "Ποια απόφαση αφορά μετακίνηση "
-            "δύο συνεργατών στο έργο EASIER;"
-        ),
-        "expected_adas": [
-            "69Ζ2469ΗΞΩ-ΜΗΖ"
-        ],
-        "category": "travel",
+        "expected_adas": ["ΨΙΜΩ469ΗΞΩ-ΩΣ6"],
+        "expected_source_ids": [],
+        "expected_file_names": [],
+        "category": "procurement",
         "difficulty": "semantic",
     },
 
-    # 11. RESEARCH ETHICS - ΕΗΔΕ ΕΚ ΑΘΗΝΑ
-    # source_id: athena_ehde_regulation
+    # 4. MAST 
+{
+    "query": (
+        "Ποια απόφαση εγκρίνει δαπάνη 400 ευρώ στο έργο MAST "
+        "για προωθητικό υλικό στο πλαίσιο συνάντησης Matchmaking event;"
+    ),
+    "expected_adas": ["9ΚΓ0469ΗΞΩ-ΠΩΝ"],
+    "expected_source_ids": [],
+    "expected_file_names": [],
+    "category": "expense",
+    "difficulty": "natural",
+},
 
+# 5. Slack for XMANAI 
+{
+    "query": (
+        "Ποια απόφαση εγκρίνει δαπάνη 407,57 ευρώ στο έργο XMANAI "
+        "για ετήσια άδεια χρήσης του λογισμικού Slack;"
+    ),
+    "expected_adas": ["ΩΤΗΕ469ΗΞΩ-ΙΙΦ"],
+    "expected_source_ids": [],
+    "expected_file_names": [],
+    "category": "expense",
+    "difficulty": "natural",
+},
+
+# 6. Archimedes catering
+{
+    "query": (
+        "Ποια απόφαση εγκρίνει δαπάνη 210 ευρώ στο έργο ΑΡΧΙΜΗΔΗΣ "
+        "για catering στο Open Day ARCHIMEDES;"
+    ),
+    "expected_adas": ["6Ε9Ζ469ΗΞΩ-4ΚΓ"],
+    "expected_source_ids": [],
+    "expected_file_names": [],
+    "category": "expense",
+    "difficulty": "natural",
+},
+
+# 7. Transition to 8 
+{
+    "query": (
+        "Ποια απόφαση αφορά δέσμευση ποσού 34.242,37 ευρώ "
+        "για το έργο Transition to 8 για το οικονομικό έτος 2023;"
+    ),
+    "expected_adas": ["6ΞΖΕ469ΗΞΩ-ΘΝΣ"],
+    "expected_source_ids": [],
+    "expected_file_names": [],
+    "category": "commitment",
+    "difficulty": "natural",
+},
+
+# 8. SciLake evaluation results
+{
+    "query": (
+        "Ποια απόφαση αφορά τη δημοσίευση αποτελεσμάτων αξιολόγησης "
+        "υποψηφίων για χορήγηση υποτροφίας στο έργο SciLake;"
+    ),
+    "expected_adas": ["9Κ0Ε469ΗΞΩ-ΤΡ0"],
+    "expected_source_ids": [],
+    "expected_file_names": [],
+    "category": "evaluation_results",
+    "difficulty": "natural",
+},
+
+# 9. GeCoInt - semantic formulation
+{
+    "query": (
+        "Ποια διακήρυξη αφορά την προμήθεια ρομποτικών συστημάτων "
+        "και περιλαμβάνει υποβρύχιο ρομποτικό βραχίονα "
+        "εκτιμώμενης αξίας 20.354,84 ευρώ χωρίς ΦΠΑ;"
+    ),
+    "expected_adas": ["98ΘΦ469ΗΞΩ-ΧΚ3"],
+    "expected_source_ids": [],
+    "expected_file_names": [],
+    "category": "procurement",
+    "difficulty": "natural",
+},
+# 10. DT4GS payment
+{
+    "query": (
+        "Ποια απόφαση αφορά εντολή πληρωμής ποσού 399,92 ευρώ "
+        "στο έργο DT4GS - Open collaboration and open Digital Twin "
+        "infrastructure for Green Smart Shipping;"
+    ),
+    "expected_adas": ["62ΚΞ469ΗΞΩ-ΝΥΣ"],
+    "expected_source_ids": [],
+    "expected_file_names": [],
+    "category": "payment",
+    "difficulty": "natural",
+},
+
+    # EXTERNAL
+
+
+    # 11. EKPA funding guide
     {
-        "query": "Από πόσα τακτικά μέλη αποτελείται η ΕΗΔΕ του Ερευνητικού Κέντρου Αθηνά;",
-        "expected_adas": [],
-        "expected_source_ids": ["athena_ehde_regulation"],
-        "expected_file_names": ["kanonismos_ehde_athina.pdf"],
-        "expected_folder_names":["External"],
-        "category": "research_ethics",
-        "difficulty": "natural",
-    },
-
-    {
-        "query": "Πόσα από τα μέλη της ΕΗΔΕ πρέπει να είναι εκτός του ΕΚ Αθηνά;",
-        "expected_adas": [],
-        "expected_source_ids": ["athena_ehde_regulation"],
-        "expected_file_names": ["kanonismos_ehde_athina.pdf"],
-        "expected_folder_names":["External"],
-        "category": "research_ethics",
-        "difficulty": "natural",
-    },
-
-    {
-        "query": "Κάθε πότε συνεδριάζει κανονικά η ΕΗΔΕ;",
-        "expected_adas": [],
-        "expected_source_ids": ["athena_ehde_regulation"],
-        "expected_file_names": ["kanonismos_ehde_athina.pdf"],
-        "expected_folder_names":["External"],
-        "category": "research_ethics",
-        "difficulty": "natural",
-    },
-
-    {
-        "query": "Πόσα μέλη πρέπει να είναι παρόντα για να υπάρχει απαρτία στην ΕΗΔΕ;",
-        "expected_adas": [],
-        "expected_source_ids": ["athena_ehde_regulation"],
-        "expected_file_names": ["kanonismos_ehde_athina.pdf"],
-        "expected_folder_names":["External"],
-        "category": "research_ethics",
-        "difficulty": "natural",
-    },
-
-    {
-        "query": "Σε πόσες μέρες πρέπει να αποφασίσει η ΕΗΔΕ για μια αίτηση;",
-        "expected_adas": [],
-        "expected_source_ids": ["athena_ehde_regulation"],
-        "expected_file_names": ["kanonismos_ehde_athina.pdf"],
-        "expected_folder_names":["External"],
-        "category": "research_ethics",
-        "difficulty": "natural",
-    },
-
-    # 12. ΕΛΚΕ ΕΚΠΑ - RECRUITMENT / EMPLOYMENT
-    # source_id: ekpa_funding_guide_2024
-
-    {
-        "query": "Πόσες μέρες έχω για να κάνω αίτηση σε δημόσια πρόσκληση του ΕΛΚΕ;",
+        "query": (
+            "Πόσες ημέρες έχει κάποιος για να υποβάλει "
+            "ένσταση στα αποτελέσματα δημόσιας πρόσκλησης "
+            "του ΕΛΚΕ;"
+        ),
         "expected_adas": [],
         "expected_source_ids": ["ekpa_funding_guide_2024"],
         "expected_file_names": ["odigos_xrimatodotisis_ekpa_2024.pdf"],
-        "expected_folder_names":["External"],
         "category": "recruitment",
         "difficulty": "natural",
     },
 
+    # 12. EKPA funding guide
     {
-        "query": "Πόσες μέρες έχω για να κάνω ένσταση στα αποτελέσματα μιας πρόσκλησης του ΕΛΚΕ;",
+        "query": (
+            "Πόσες ώρες θεωρούνται ένα έτος "
+            "πλήρους απασχόλησης;"
+        ),
         "expected_adas": [],
         "expected_source_ids": ["ekpa_funding_guide_2024"],
         "expected_file_names": ["odigos_xrimatodotisis_ekpa_2024.pdf"],
-        "expected_folder_names":["External"],
-        "category": "recruitment",
-        "difficulty": "natural",
-    },
-
-    {
-        "query": "Πόσες ώρες θεωρούνται ένα έτος πλήρους απασχόλησης;",
-        "expected_adas": [],
-        "expected_source_ids": ["ekpa_funding_guide_2024"],
-        "expected_file_names": ["odigos_xrimatodotisis_ekpa_2024.pdf"],
-        "expected_folder_names":["External"],
         "category": "employment",
         "difficulty": "natural",
     },
-
-    {
-        "query": "Μέχρι πόσες ώρες υπερωρία μπορώ να κάνω τον χρόνο σε έργα που χρηματοδοτούνται από ιδιωτικούς, διεθνείς ή ίδιους πόρους;",
-        "expected_adas": [],
-        "expected_source_ids": ["ekpa_funding_guide_2024"],
-        "expected_file_names": ["odigos_xrimatodotisis_ekpa_2024.pdf"],
-        "expected_folder_names":["External"],
-        "category": "employment",
-        "difficulty": "natural",
-    },
-
 ]
+
+
+ALL_RETRIEVAL_CASES = VALIDATION_SET + TEST_SET

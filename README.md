@@ -75,7 +75,8 @@ Final Answer
 
 The system currently supports multiple local and API-based LLMs, allowing the same RAG pipeline to be tested and evaluated with five different generator models:
 
-- Llama 2.3 - Ollama
+- Llama 3.2 - Ollama
+- Qwen 14B - OpenRouter
 - Gemini Flash - OpenRouter
 - Gemini Flash Lite - OpenRouter
 - GPT-4.1 Mini - OpenRouter
@@ -106,13 +107,13 @@ The system supports three retrieval strategies over the Google Drive document co
    
    - Retriever mode: `drive_bge`
 
-- Ensemble Retrievers
+- Ensemble Retriever
     - Retriever mode: `drive_ensemble`
     - It combines the rankings produced by MiniLM and BGE-M3 using Weighted Reciprocal Rank Fusion (RRF). 
 
 The contribution of each retriever is controlled through configurable weights. 
 
-The Ensemble Retriever achieved the best overall retrieval score thus it was selected for the final Drive-based RAG evaluation.
+Based on the retrieval benchmark, `drive_bge` was selected as the retriever for the final end-to-end RAG evaluation, achieving the highest Hit@1 and MRR while matching the Ensemble Retriever on Hit@3 and Hit@5.
 
 
 ## Document Corpus
@@ -288,13 +289,13 @@ The retrieval ground truth is defined in:
 The final benchmark compares three retrieval strategies over the same Google Drive document corpus:
 
 | Retriever     | Hit@1 | Hit@3 | Hit@5 | MRR   |
-| Drive MiniLM  | 0.500 | 0.708 | 0.750 | 0.608 |
-| Drive Ensemble| 0.875 | 1.000 | 1.000 | 0.924 |
-| Drive BGE-M3  | 0.833 | 1.000 | 1.000 | 0.903 |
+| Drive MiniLM  | 0.250 | 0.333 | 0.333 | 0.292 |
+| Drive Ensemble| 0.583 | 0.833 | 0.833 | 0.708 |
+| Drive BGE-M3  | 0.667 | 0.833 | 0.833 | 0.750 |
 
-As the table shows the Ensemble Retriever achieved the best overall retrieval performance with the highest Hit@1 and MRR while maintaining perfect Hit@3 and Hit@5.
+As the table shows the BGE-M3 Retriever achieved the best overall retrieval performance with the highest Hit@1 and MRR while its performance with Ensemble Retriever in Hit@3 and Hit@5.
 
-Based on the above, `drive_ensemble` was selected as the retriever for the final end-to-end RAG evaluation.
+Based on the above, `drive_bge` was selected as the retriever for the final end-to-end RAG evaluation.
 
 Run the retrieval benchmark with:
 
@@ -315,7 +316,9 @@ For the selected Drive Ensemble configuration, folder-level retrieval performed 
 After selecting the retrieval configuration, the complete RAG pipeline is evaluated across multiple generator models.
 
 
-The final end-to-end experiment use the `drive_ensemble` retriever for all models, keeping the retrieval component fixed so that differences in the results primarily reflect the behavior of the generator models.
+The final end-to-end experiment use the `drive_bge` retriever for all models, keeping the retrieval component fixed so that differences in the results primarily reflect the behavior of the generator models.
+
+The final evaluation dataset contains 20 answerable and 8 unanswerable questions.
 
 Two complimentary evaluation approaches are used:
 
@@ -349,27 +352,27 @@ python evaluation_deepeval.py
 
 ```markdown
 
-#### Answerable Results — Drive Ensemble
+#### Answerable Results — Drive BGE-M3
 
 | Model            | Faithfulness | Answer Relevancy | Context Precision | Context Recall |
-| Llama 3.2        | 0.744        | 0.956 	     | 0.900             | 0.947          |
-| Qwen3 14B        | 0.929        | 0.939            | 0.947             | 0.895          |
-| GPT-4.1 Mini     | 0.897        | 0.786            | 0.947             | 0.947          |
-| Gemini 2.5 Flash | 1.000        | 0.961            | 0.947             | 0.947          |
-| Claude Haiku 4.5 | 0.959        | 0.836            | 0.947             | 0.947          |
+| Llama 3.2        | 0.830        | 0.943 	     | 1.000             | 1.000          |
+| Qwen3 14B        | 0.925        | 0.833            | 1.000             | 1.000          |
+| GPT-4.1 Mini     | 0.975        | 0.674            | 1.000             | 1.000          |
+| Gemini 2.5 Flash | 0.900        | 0.930            | 1.000             | 1.000          |
+| Claude Haiku 4.5 | 0.975        | 0.799            | 1.000             | 1.000          |
 
-Gemini 2.5 Flash achieved the strongest overall semantic evaluation results, reaching perfect Faithfulness and the highest Answer Relevancy while maintaining high Contextual Presicion and Contextual Recall.
+GPT-4.1 Mini and Claude Haiku 4.5 achieved the highest Faithfulness, while Llama 3.2 and Gemini 2.5 Flash achieved the highest Answer Relevancy. Contextual Precision and Contextual Recall reached 1.000 for all evaluated models.
 
-#### Unanswerable Results — Drive Ensemble
+#### Unanswerable Results — Drive BGE-ME
 
 | Model            | Faithfulness | Answer Relevancy | Refusal Accuracy |Hallucination Rate
-| Llama 3.2        | 1.000        | 0.667            | 0.125            | 0.875 
-| Qwen3 14B        | 1.000        | 0.875            | 1.000            | 0.000 
-| GPT-4.1 Mini     | 1.000        | 0.750            | 1.000            | 0.000 
-| Gemini 2.5 Flash | 1.000        | **1.000**        | 1.000            | 0.000 
-| Claude Haiku 4.5 | 1.000        | 0.708            | 1.000            | 0.000 
+| Llama 3.2        | 1.000        | 1.000            | 1.000            | 0.000
+| Qwen3 14B        | 1.000        | 1.000            | 1.000            | 0.000 
+| GPT-4.1 Mini     | 1.000        | 0.875            | 1.000            | 0.000 
+| Gemini 2.5 Flash | 1.000        | 1.000            | 1.000            | 0.000 
+| Claude Haiku 4.5 | 1.000        | 0.717            | 1.000            | 0.000 
 
-Qwen3 14B, GPT-4.1 Mini, Gemini 2.5 Flash and Claude Haiku 4.5 correctly refused all evaluated unanswerable questions without hallucinating unsupported answers. Llama 3.2 showed substantially weaker refusal behavior, with a Refusal Accuracy of 0.125 and a Hallucination Ratw of 0.875.
+All evaluated models correctly refused all unanswerable questions, achieving a Refusal Accurracy of 1.000 and Hallucination Rate of 0.000.
 
 
 ### Custom Evaluation
@@ -393,21 +396,21 @@ python custom_eval.py
 ```
 
 
-#### Custom Evaluation Results — Drive Ensemble
+#### Custom Evaluation Results — Drive BGE-M3
 
 | Model            | Answer Exactness | Number Accuracy | Source Accuracy | Source Rank |
-| Llama 3.2        | 0.000            | 0.077           | 0.895           | 1.235       |
-| Qwen3 14B        | 0.211            | 0.846           | 0.895           | 1.235       |
-| GPT-4.1 Mini     | 0.000            | 0.846           | 0.895           | 1.235       |
-| Gemini 2.5 Flash | 0.158            | 0.769           | 0.895           | 1.235       |
-| Claude Haiku 4.5 | 0.053            | 0.846           | 0.895           | 1.235       |
+| Llama 3.2        | 0.000            | 0.182           | 1.000           | 1.100       |
+| Qwen3 14B        | 0.200            | 1.000           | 1.000           | 1.100       |
+| GPT-4.1 Mini     | 0.000            | 1.000           | 1.000           | 1.100       |
+| Gemini 2.5 Flash | 0.200            | 1.000           | 1.000           | 1.100       |
+| Claude Haiku 4.5 | 0.053            | 1.000           | 1.000           | 1.100       |
 
 
 For Source Rank, lower values indicate better retrieval performance, as the correct source appears earlier in the ranked results.
 
-Qwen3 14B achieved the highest Answer Exactness and Number Accuracy. High Number Accuracy also was achieved by GPT-4.1 Mini and Claude Haiku 4.5.
+Qwen3 14B and Gemini 2.5 Flash achieved the highest Answer Exactness. Qwen 14B, GPT-4.1 Mini, Gemini 2.5 Flash and Claude Haiku 4.5 achieved the perfect Number Accuracy.
 
-Source Accuracy and Source Rank are identical across all generator models because same fixed `drive_ensemble` retriever was used in every experiment.
+Source Accuracy and Source Rank are identical across all generator models because same fixed `drive_bge` retriever was used in every experiment.
 
 
 
@@ -445,7 +448,7 @@ The dataset contains both Answerable and Unanswerable questions. For the first t
 
 Evaluation questions are designed to resemble natural user questions rather than artificial keyword queries.
 
-The dataset contains multiple thematic categories including procurement, contract and contract modification, travel, scholarship, employment, Research ethics and leave. 
+The dataset contains multiple thematic categories including procurement, publication, promotion, event, conference, training, web services and unanswerable questions.
 
 The evaluation dataset is intentionally kept separate from the retrieval benchmark dataset. Retrieval evaluation measures the retriever independently, whereas the end-to-end dataset
 evaluates the complete RAG pipeline. 
@@ -493,25 +496,16 @@ rag_agent/
     -- evaluation/
        -- retrieval_benchmark.json
     -- evaluation_results/
-       -- local_custom_eval_results.csv
-       -- local_custom_eval_results.json
-       -- local_custom_eval_detailed_results.csv
   
-       -- custom_eval_drive_results.csv
-       -- custom_eval_drive_results.json
-       -- custom_eval_drive_detailed_results.csv
+       -- custom_eval_drive_bge_final_results.csv
+       -- custom_eval_drive_bge_final_results.json
+       -- custom_eval_drive_bge_final_detailed_results.csv
 
-       -- custom_eval_drive_ensemble_results.csv
-       -- custom_eval_drive_ensemble_results.json
-       -- custom_eval_drive_ensemble_detailed_results.csv
        
-       -- deepeval_results_drive.csv
-       -- deepeval_results_drive.json
-       -- deepeval_detailed_results_drive.csv
+       -- deepeval_drive_bge_final_results.csv
+       -- deepeval_drive_bge_final_results.json
+       -- deepeval_drive_bge_final_detailed_results.csv
 
-       -- deepeval_results_drive_ensemble.csv
-       -- deepeval_results_drive_ensemble.json
-       -- deepeval_detailed_results_drive_ensemble.csv
 
 - requirements.txt
 - README.md

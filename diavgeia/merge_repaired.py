@@ -62,7 +62,10 @@ def save_jsonl(path: Path, records: list[dict[str, Any]],) -> None:
 def merge_repaired_documents() -> None:
     """
     Replace suspicious dataset records with their
-    repaired OCR versions.
+    repaired versions.
+
+    Repairs may come from Unicode normalization
+    or OCR fallback.
 
     The original dataset remains unchanged.
     A new final_dataset.jsonl file is created.

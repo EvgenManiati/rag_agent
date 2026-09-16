@@ -25,11 +25,16 @@ DOCUMENT_URL_TEMPLATE = "https://diavgeia.gov.gr/doc/{ada}"
 
 # Πλήθος εγγραφών ανά σελίδα.
 # Για την τελική συλλογή βάλε 100.
-PAGE_SIZE = 20
+PAGE_SIZE = 100
 
 # None = ανάκτηση όλων των σελίδων.
 # Για δοκιμή μπορείς να βάλεις 1, 3, 5 κ.λπ.
-MAX_PAGES = 3
+MAX_PAGES = None
+
+
+#Μέγεθος χρονικού παραθύρου του crawler
+
+CRAWL_WINDOW_DAYS = 180
 
 REQUEST_TIMEOUT_SECONDS = 60
 REQUEST_DELAY_SECONDS = 0.5
@@ -62,6 +67,7 @@ DATA_DIRECTORY = Path("data/diavgeia")
 LOG_DIRECTORY = DATA_DIRECTORY / "logs"
 
 METADATA_FILE = DATA_DIRECTORY / "metadata.jsonl"
+SELECTED_METADATA_FILE = DATA_DIRECTORY / "selected_metadata.jsonl"
 REJECTED_FILE = DATA_DIRECTORY / "rejected_metadata.jsonl"
 
 LOG_FILE = LOG_DIRECTORY / "crawler.log"
@@ -99,21 +105,13 @@ MIN_PAGE_CHARACTERS = 10
 
 # Suspicious document repair
 
-SUSPICIOUS_FILE = (
-    DATA_DIRECTORY / "suspicious_documents.jsonl"
-)
+SUSPICIOUS_FILE = (DATA_DIRECTORY / "suspicious_documents.jsonl")
 
-REPAIRED_FILE = (
-    DATA_DIRECTORY / "repaired_documents.jsonl"
-)
+REPAIRED_FILE = (DATA_DIRECTORY / "repaired_documents.jsonl")
 
-REPAIR_FAILED_FILE = (
-    DATA_DIRECTORY / "repair_failed.jsonl"
-)
+REPAIR_FAILED_FILE = (DATA_DIRECTORY / "repair_failed.jsonl")
 
-REPAIR_LOG_FILE = (
-    LOG_DIRECTORY / "repair_suspicious.log"
-)
+REPAIR_LOG_FILE = (LOG_DIRECTORY / "repair_suspicious.log")
 
 # OCR settings
 OCR_ENABLED = True

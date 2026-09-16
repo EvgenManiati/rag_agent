@@ -15,6 +15,8 @@ from diavgeia.config import (
     REQUEST_TIMEOUT_SECONDS,
 )
 
+import unicodedata
+from diavgeia.quality_check import evaluate_text_quality
 
 SUSPICIOUS_FILE = Path("data/diavgeia/suspicious_documents.jsonl")
 
@@ -25,8 +27,11 @@ FAILED_FILE = Path("data/diavgeia/repair_failed.jsonl")
 
 # Αν το Tesseract δεν βρίσκεται στο PATH των Windows,
 # άφησε ενεργή αυτή τη γραμμή.
-pytesseract.pytesseract.tesseract_cmd = (r"C:\Program Files\Tesseract-OCR\tesseract.exe")
+pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 
+
+def normalize_unicode(text):
+    return unicodedata.normalize("NFC", text)
 
 def load_jsonl(path):
     """
@@ -204,6 +209,23 @@ def repair_suspicious():
 
         try:
 
+            normalized_pages = [normalize_unicode(page) for page in original.get("pages", [])]
+
+            normalized_text = "\n\n".join(normalized_pages).strip()
+
+            quality = evaluate_text_quality(normalized_text)
+
+            if quality["status"] == "good":
+                repaired = dict(original)
+                repaired["pages"] = normalized_pages
+                repaired["text"] = normalized_text
+                repaired["text_character_count"] = len(normalized_text)
+                repaired["extraction_method"] = "pymupdf_unicode_nfc"
+                repaired["repaired"] = True
+                save_jsonl(REPAIRED_FILE, repaired)
+
+                continue
+
             pdf_bytes = download_pdf(url)
 
             pages = ocr_pdf(pdf_bytes)
@@ -217,6 +239,7 @@ def repair_suspicious():
             repaired = dict(original)
 
             repaired["pages"] = pages
+
             repaired["text"] = full_text
 
             repaired["text_page_count"] = len(pages)
@@ -231,14 +254,7 @@ def repair_suspicious():
 
         except Exception as error:
 
-            save_jsonl(
-                FAILED_FILE,
-                {
-                    "ada": ada,
-                    "document_url": url,
-                    "error": str(error),
-                },
-            )
+            save_jsonl(FAILED_FILE, {"ada": ada, "document_url": url, "error": str(error)})
 
         time.sleep(REQUEST_DELAY_SECONDS)
 

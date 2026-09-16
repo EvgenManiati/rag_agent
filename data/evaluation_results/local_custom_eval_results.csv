@@ -1,6 +1,0 @@
-﻿model,retriever,category,answer_exactness,number_accuracy,source_accuracy,source_rank
-llama,bge,overall,,,,
-qwen,bge,overall,,,,
-gpt41_mini,bge,overall,,,,
-gemini_flash,bge,overall,,,,
-claude_haiku,bge,overall,,,,

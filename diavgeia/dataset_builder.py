@@ -25,7 +25,7 @@ from diavgeia.config import (
     LOG_LEVEL,
     MAX_DOCUMENTS,
     MAX_RETRIES,
-    METADATA_FILE,
+    SELECTED_METADATA_FILE,
     MIN_DOCUMENT_CHARACTERS,
     MIN_PAGE_CHARACTERS,
     PDF_DIRECTORY,
@@ -45,7 +45,7 @@ class BuilderStats:
 
     Attributes:
         metadata_records:
-            Number of metadata records loaded from metadata.jsonl.
+            Number of metadata records loaded from selected_metadata.jsonl.
 
         documents_considered:
             Number of records examined during the current execution.
@@ -67,8 +67,8 @@ class BuilderStats:
         invalid_pdf_files:
             Number of responses that were not valid PDF files.
 
-        encrypted_pdf_files:
-            Number of encrypted PDF files that could not be read.
+        pdf_open_failures:
+            Number of PDF open failures that could not be read.
 
         scanned_or_empty_documents:
             Number of PDFs from which insufficient text was extracted.
@@ -96,7 +96,7 @@ class BuilderStats:
     downloads_attempted: int = 0
     download_failures: int = 0
     invalid_pdf_files: int = 0
-    encrypted_pdf_files: int = 0
+    pdf_open_failures: int = 0
     scanned_or_empty_documents: int = 0
     parsing_failures: int = 0
     failed_documents: int = 0
@@ -533,21 +533,15 @@ def extract_pdf_pages(pdf_bytes: bytes) -> tuple[list[str], int]:
     extracted_pages: list[str] = []
 
     try:
-        for page_number in range(
-            total_pages
-        ):
-            page = document.load_page(
-                page_number
-            )
+        for page_number in range(total_pages):
+
+            page = document.load_page(page_number)
 
             # sort=True attempts to reconstruct a more natural
             # reading order from the PDF text blocks.
             raw_text = page.get_text("text", sort=True)
 
             cleaned_text = clean_page_text(raw_text)
-
-            if page_number == 0:
-                print(cleaned_text[:1000])
 
             LOGGER.debug("Page %s: extracted %s characters.", page_number + 1, len(cleaned_text))
 
@@ -622,50 +616,35 @@ def build_dataset_record(
 
     return {
         "ada": metadata.get("ada"),
-        "protocol_number": metadata.get(
-            "protocol_number"
-        ),
-        #"subject": metadata.get("subject"),
-    
 
-        "publish_date": metadata.get(
-            "publish_date"
-        ),
-        "submission_date": metadata.get(
-            "submission_date"
-        ),
-        "organization_id": metadata.get(
-            "organization_id"
-        ),
-        "unit_ids": metadata.get(
-            "unit_ids",
-            [],
-        ),
-        "signer_ids": metadata.get(
-            "signer_ids",
-            [],
-        ),
-        "decision_type_id": metadata.get(
-            "decision_type_id"
-        ),
-        "thematic_category_ids": metadata.get(
-            "thematic_category_ids",
-            [],
-        ),
+        "protocol_number": metadata.get("protocol_number"),
+
+        "issue_date" : metadata.get("issue_date"),
+    
+        "publish_date": metadata.get("publish_date"),
+
+        "submission_date": metadata.get("submission_date"),
+
+        "organization_id": metadata.get("organization_id"),
+
+        "unit_ids": metadata.get("unit_ids", []),
+
+        "signer_ids": metadata.get("signer_ids", []),
+
+        "decision_type_id": metadata.get("decision_type_id"),
+
+        "thematic_category_ids": metadata.get("thematic_category_ids", []),
+
         "status": metadata.get("status"),
-        "private_data": metadata.get(
-            "private_data",
-            False,
-        ),
-        "version_id": metadata.get(
-            "version_id"
-        ),
-        "document_url": metadata.get(
-            "document_url"
-        ),
-        "api_url": metadata.get(
-            "api_url"
-        ),
+
+        "private_data": metadata.get("private_data", False),
+
+        "version_id": metadata.get("version_id"),
+
+        "document_url": metadata.get("document_url"),
+
+        "api_url": metadata.get("api_url"),
+
         "total_page_count": total_page_count,
         "text_page_count": len(pages),
         "pdf_size_bytes": pdf_size_bytes,
@@ -733,7 +712,7 @@ def build_dataset() -> BuilderStats:
 
     stats = BuilderStats()
 
-    metadata_records = load_jsonl(METADATA_FILE)
+    metadata_records = load_jsonl(SELECTED_METADATA_FILE)
 
     stats.metadata_records = len(metadata_records)
 
@@ -742,9 +721,7 @@ def build_dataset() -> BuilderStats:
     previous_failed_adas = load_failed_adas(FAILED_FILE)
 
     if MAX_DOCUMENTS is not None:
-        metadata_records = metadata_records[
-            :MAX_DOCUMENTS
-        ]
+        metadata_records = metadata_records[:MAX_DOCUMENTS]
 
     
     LOGGER.info("DIAVGEIA DATASET BUILDER")
@@ -887,32 +864,22 @@ def build_dataset() -> BuilderStats:
                         pdf_path.write_bytes(pdf_bytes)
 
                     try:
-                        pages, total_page_count = (
-                            extract_pdf_pages(
-                                pdf_bytes
-                            )
-                        )
+                        pages, total_page_count = (extract_pdf_pages(pdf_bytes))
 
                     except RuntimeError as error:
-                        stats.encrypted_pdf_files += 1
+                        stats.pdf_open_failures += 1
                         stats.failed_documents += 1
 
                         append_jsonl_record(
                             FAILED_FILE,
                             build_failed_record(
                                 metadata=metadata,
-                                reason="encrypted_pdf",
+                                reason="pdf_repair_or_open_failed",
                                 error=str(error),
                             ),
                         )
 
-                        LOGGER.warning("Encrypted PDF for ADA %s: %s", ada, error)
-
-                        progress.update(1)
-                        continue
-
-
-                        LOGGER.warning("PDF read error for ADA %s: %s", ada, error)
+                        LOGGER.warning("PDF repair/open failed for ADA %s: %s", ada, error)
 
                         progress.update(1)
                         continue
@@ -1035,7 +1002,7 @@ def build_dataset() -> BuilderStats:
 
     LOGGER.info("Invalid PDF responses: %s", stats.invalid_pdf_files)
 
-    LOGGER.info("Encrypted PDFs: %s", stats.encrypted_pdf_files)
+    LOGGER.info("PDFs repair/open failures: %s", stats.pdf_open_failures)
 
     LOGGER.info("Scanned or empty documents: %s", stats.scanned_or_empty_documents)
 

@@ -14,35 +14,31 @@ SEARCH_K = 5
 ENSEMBLE_K = 5
 
 # Google Drive configuration
-'''
-GOOGLE_DRIVE_FOLDER_IDS = [
-    "1wsj-Hr8FlVk2CcVqbUS019tiFl9vRJBs",
-    "1uj-rTyFzAwAXT737AX2HqaGqlbfprUyu",
-    "146gzLrJB25Ndke7u8pFfo3Fef_idhzPV",
-    "1c-zBlp-rTLO-tRnpfBrdCe00QyIOh_4R",
-]
+
+from pathlib import Path
+
+DIAVGEIA_DATASET_FILE = Path(
+    "data/diavgeia/final_dataset.jsonl"
+)
+
+VECTOR_STORE_DIR = Path("data/vectorstores")
+
+# Local indexes
+MINILM_INDEX_DIR = VECTOR_STORE_DIR / "minilm_index"
+BGE_INDEX_DIR = VECTOR_STORE_DIR / "bge_index"
+
+# Google Drive indexes
+DRIVE_BGE_INDEX_DIR = VECTOR_STORE_DIR / "bge_drive"
+DRIVE_MINILM_INDEX_DIR = VECTOR_STORE_DIR / "minilm_drive"
+
+
+# Google Drive folders
+GOOGLE_DRIVE_ROOT_FOLDER_ID = "1lHB8v0IV67KNP3RJh2QBkgfr2TO3wrtl"
+GOOGLE_DRIVE_DIAVGEIA_FOLDER_ID = "1qTU0ilkzZNKIlCh_ZEx4ffuV_F5qlHk7"
+GOOGLE_DRIVE_EXTERNAL_FOLDER_ID = "1T73G502HHkA486zOEfr8vnUYat4Wb4L0"
+
 
 GOOGLE_CREDENTIALS_FILE = "credentials.json"
 GOOGLE_TOKEN_FILE = "token.json"
 
-
-# Αν είναι True, διαβάζονται και υποφάκελοι.
 DRIVE_RECURSIVE = True
-'''
-
-from pathlib import Path
-
-DIAVGEIA_DATASET_FILE = Path("data/diavgeia/final_dataset.jsonl")
-
-VECTOR_STORE_DIR = Path("data/vectorstores")
-
-MINILM_INDEX_DIR = VECTOR_STORE_DIR / "minilm_index"
-BGE_INDEX_DIR = VECTOR_STORE_DIR / "bge_index"
-  
-from pathlib import Path
-
-DRIVE_BGE_INDEX_DIR = Path("data/vectorstores/bge_drive")
-
-DRIVE_MINILM_INDEX_DIR = Path("data/vectorstores/minilm_drive")
-
-GOOGLE_DRIVE_ROOT_FOLDER_ID = ("1lHB8v0IV67KNP3RJh2QBkgfr2TO3wrtl")

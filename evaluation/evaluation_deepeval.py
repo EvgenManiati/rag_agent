@@ -14,17 +14,15 @@ from deepeval.metrics import (
     ContextualRecallMetric,
 )
 
-from deepeval.models.base_model import (
-    DeepEvalBaseLLM,
-)
+from deepeval.models.base_model import (DeepEvalBaseLLM)
 
 from model import load_llm
 from retriever import load_retriever
 from agent import build_agent
 
-from evaluation.rag_eval_dataset import (
-    EVAL_DATASET,
-)
+from evaluation.rag_eval_dataset import UNANSWERABLE_CASES
+
+EVAL_DATASET = UNANSWERABLE_CASES
 
 import sys
 
@@ -46,7 +44,7 @@ MODELS_TO_TEST = [
 ]
 
 
-RETRIEVERS_TO_TEST =["drive_ensemble"] 
+RETRIEVERS_TO_TEST =["drive_bge"] 
 
 
 # Model used only as DeepEval judge.
@@ -58,19 +56,17 @@ EVALUATOR_MODEL_KEY = "gpt41_mini"
 
 RESULTS_DIR = Path("data/evaluation_results")
 
-JSON_RESULTS_FILE = (RESULTS_DIR/ "deepeval_results_drive_ensemble.json")
+JSON_RESULTS_FILE = (RESULTS_DIR/ "deepeval_unanswerable_results_drive_bge_last.json")
 
-CSV_RESULTS_FILE = (RESULTS_DIR/ "deepeval_results_drive_ensemble.csv")
+CSV_RESULTS_FILE = (RESULTS_DIR/ "deepeval_unanswerable_results_drive_bge_last.csv")
 
-DETAILED_CSV_FILE = (RESULTS_DIR/ "deepeval_detailed_results_drive_ensemble.csv")
+DETAILED_CSV_FILE = (RESULTS_DIR/ "deepeval_unanswerable_detailed_results_drive_bge_last.csv")
 
 
 # DEEPEVAL MODEL WRAPPER
 
 
-class LocalLangChainLLM(
-    DeepEvalBaseLLM
-):
+class LocalLangChainLLM(DeepEvalBaseLLM):
     """
     Adapter that allows an LLM loaded through model.py
     to be used as a DeepEval evaluator model.

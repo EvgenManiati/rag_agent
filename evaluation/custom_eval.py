@@ -24,7 +24,7 @@ MODELS_TO_TEST = [
     "claude_haiku",
 ]
 
-RETRIEVERS_TO_TEST = ["drive_ensemble"]
+RETRIEVERS_TO_TEST = ["drive_bge"]
 
 SOURCE_TOP_K = 5
 
@@ -33,9 +33,9 @@ SOURCE_TOP_K = 5
 
 RESULTS_DIR = Path("data/evaluation_results")
 
-JSON_RESULTS_FILE = RESULTS_DIR / "custom_eval_drive_ensemble_results.json"
-CSV_RESULTS_FILE = RESULTS_DIR / "custom_eval_drive_ensemble_results.csv"
-DETAILED_CSV_FILE = RESULTS_DIR / "custom_eval_drive_ensemble_detailed_results.csv"
+JSON_RESULTS_FILE = RESULTS_DIR / "custom_eval_drive_bge_last_results.json"
+CSV_RESULTS_FILE = RESULTS_DIR / "custom_eval_drive_bge_last_results.csv"
+DETAILED_CSV_FILE = RESULTS_DIR / "custom_eval_drive_bge_last_detailed_results.csv"
 
 
 SOURCE_ID_TO_FILE_NAME = {"athena_ehde_regulation": "kanonismos_ehde_athina.pdf", "ekpa_funding_guide_2024": "odigos_xrimatodotisis_ekpa_2024.pdf"}

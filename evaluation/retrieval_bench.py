@@ -9,14 +9,9 @@ from pathlib import Path
 from google_drive_loader import authenticate_google_drive, collect_pdf_files
 from config import GOOGLE_DRIVE_ROOT_FOLDER_ID
 
-RESULTS_DIRECTORY = Path(
-    "data/evaluation"
-)
+RESULTS_DIRECTORY = Path("data/evaluation")
 
-RESULTS_FILE = (
-    RESULTS_DIRECTORY
-    / "retrieval_benchmark.json"
-)
+RESULTS_FILE = (RESULTS_DIRECTORY / "retrieval_benchmark.json")
 
 
 RETRIEVERS = ["drive_minilm", "drive_ensemble", "drive_bge"]
@@ -174,23 +169,16 @@ def build_drive_folder_map():
 
 # Retriever evaluation
 
-def evaluate_retriever(
-    retriever_name,
-):
+def evaluate_retriever(retriever_name):
     """
     Evaluate one retriever against the ground-truth set.
     """
 
-    print(
-        f"EVALUATING RETRIEVER: "
-        f"{retriever_name.upper()}"
-    )
+    print(f"EVALUATING RETRIEVER: {retriever_name.upper()}")
 
-    retriever = load_retriever(
-        retriever_name
-    )
+    retriever = load_retriever(retriever_name)
 
-    drive_folder_map = build_drive_folder_map() if retriever_name == "drive_bge" else {}
+    drive_folder_map = build_drive_folder_map() 
 
     total_hit_1 = 0
     total_hit_3 = 0
@@ -210,27 +198,21 @@ def evaluate_retriever(
 
     query_results = []
 
-    for test_number, test_case in enumerate(
-        BENCHMARK_SET,
-        start=1,
-    ):
+    for test_number, test_case in enumerate(BENCHMARK_SET, start=1):
         query = test_case["query"]
         expected_adas = test_case.get("expected_adas", [])
         expected_source_ids = test_case.get("expected_source_ids", [])
         expected_file_names = test_case.get("expected_file_names", [])
         expected_folder_names = test_case.get("expected_folder_names", [])
 
-        if retriever_name == "drive_bge" and not expected_folder_names:
+        if not expected_folder_names:
             expected_folder_names = [drive_folder_map[ada] for ada in expected_adas if ada in drive_folder_map]
 
         # Retrieve chunks.
         documents = retriever.invoke(query)
 
         # Convert chunk results into unique ADA ranking.
-        ranking = get_unique_document_ranking(
-            documents,
-            max_results=EVALUATION_K,
-        )
+        ranking = get_unique_document_ranking(documents, max_results=EVALUATION_K)
 
         metrics = calculate_query_metrics(
             ranking,
@@ -285,9 +267,7 @@ def evaluate_retriever(
     
 
         print(
-            f"\n[{test_number}/"
-            f"{len(BENCHMARK_SET)}]"
-        )
+            f"\n[{test_number}/ {len(BENCHMARK_SET)}]")
 
         print(f"Query: {query}")
 
@@ -315,25 +295,16 @@ def evaluate_retriever(
             )
 
         if metrics["rank"] is None:
-            print(
-                "\nResult: NOT FOUND "
-                "in top 5"
-            )
+            print("\nResult: NOT FOUND in top 5")
+            
         else:
-            print(
-                f"\nResult: found at "
-                f"rank {metrics['rank']}"
-            )
+            print(f"\nResult: found at rank {metrics['rank']}")
 
-        print(
-            f"RR: {metrics['rr']:.3f}"
-        )
+        print(f"RR: {metrics['rr']:.3f}")
 
     # Aggregate metrics
 
-    number_of_queries = len(
-        BENCHMARK_SET
-    )
+    number_of_queries = len(BENCHMARK_SET)
 
     results = {
         "retriever": retriever_name,
@@ -399,11 +370,7 @@ def run_benchmark():
     all_results = {}
 
     for retriever_name in RETRIEVERS:
-        all_results[
-            retriever_name
-        ] = evaluate_retriever(
-            retriever_name
-        )
+        all_results[retriever_name] = evaluate_retriever(retriever_name)
 
     print("\n\n")
     print("FINAL RETRIEVAL BENCHMARK")
@@ -430,26 +397,12 @@ def run_benchmark():
             f"{result['mrr']:<12.3f}"
         )
 
-        RESULTS_DIRECTORY.mkdir(
-        parents=True,
-        exist_ok=True,
-    )
+        RESULTS_DIRECTORY.mkdir(parents=True, exist_ok=True)
 
-    with RESULTS_FILE.open(
-        "w",
-        encoding="utf-8",
-    ) as file:
-        json.dump(
-            all_results,
-            file,
-            ensure_ascii=False,
-            indent=4,
-        )
+    with RESULTS_FILE.open("w", encoding="utf-8") as file:
+        json.dump(all_results, file, ensure_ascii=False, indent=4)
 
-    print(
-        f"\nResults saved to: "
-        f"{RESULTS_FILE}"
-    )
+    print(f"\nResults saved to: {RESULTS_FILE}")
 
 if __name__ == "__main__":
     run_benchmark()

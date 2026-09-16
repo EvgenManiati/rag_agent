@@ -5,7 +5,6 @@ import re
 from pathlib import Path
 from typing import Any
 
-from pathlib import Path 
 
 DATASET_FILE = Path("data/diavgeia/dataset.jsonl")
     

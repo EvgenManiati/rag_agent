@@ -1,494 +1,376 @@
 """
-RAG evaluation dataset.
+Evaluation dataset για την αξιολόγηση του RAG agent.
 
-Το αρχείο περιέχει φυσικές ερωτήσεις χρηστών για την
-αξιολόγηση του end-to-end RAG pipeline.
+Δομή:
+- 20 answerable ερωτήσεις
+- 8 unanswerable ερωτήσεις
 
-Κάθε test case περιλαμβάνει:
-
-- question:
-    Η ερώτηση που θα σταλεί στον agent.
-
-- expected_answer:
-    Η αναμενόμενη απάντηση που χρησιμοποιεί το DeepEval
-    ως reference / ground truth.
-
-- expected_adas:
-    Οι ΑΔΑ των αποφάσεων που περιέχουν την πληροφορία.
-    Χρησιμοποιούνται για ανάλυση και debugging.
-
-- category:
-    Η θεματική κατηγορία της ερώτησης.
-
-- answerable:
-    True όταν η απάντηση υπάρχει στο dataset.
-    False όταν θέλουμε να ελέγξουμε αν το RAG αποφεύγει
-    hallucination όταν η πληροφορία δεν υπάρχει.
+Σύνολο: 28 evaluation cases
 """
 
 
-# ANSWERABLE TEST CASES
+UNANSWERABLE_RESPONSE = ("Δεν βρέθηκε σαφής απάντηση στις διαθέσιμες πληροφορίες.")
 
-NATURAL_TEST_CASES = [
 
-    # SMS-CBA
+EVAL_DATASET = [
 
-    {
-        "question": (
-            "Πόσο κόστισε ο ηλεκτρονικός εξοπλισμός "
-            "και το λογισμικό για το SMS-CBA;"
-        ),
-        "expected_answer": (
-            "17.371,24 Ευρώ, πλέον ΦΠΑ."
-        ),
-        "expected_adas": [
-            "ΩΤΑΜ469ΗΞΩ-ΤΛ3",
-        ],
+    # ANSWERABLE CASES
+
+
+        {
+        "question": "Πόσο κόστισε η προμήθεια 4 δίσκων για το έργο AdVENt;",
+        "expected_answer": "967,60 ευρώ, συμπεριλαμβανομένου ΦΠΑ και λοιπών νόμιμων κρατήσεων.",
+        "expected_adas": ["69ΑΟ469ΗΞΩ-4ΔΥ"],
+        "expected_source_ids": [],
         "category": "procurement",
         "answerable": True,
     },
 
+    # 2
     {
-        "question": (
-            "Ποια εταιρεία ανέλαβε την προμήθεια "
-            "για το SMS-CBA;"
-        ),
-        "expected_answer": (
-            "COSMOS BUSINESS SYSTEMS AEBE."
-        ),
-        "expected_adas": [
-            "ΩΤΑΜ469ΗΞΩ-ΤΛ3",
-        ],
+        "question": "Ποια εταιρεία ανέλαβε την προμήθεια ηλεκτρονικών ειδών για το έργο ΔΙΟΙΚΗΣΗ το 2021;",
+        "expected_answer": "Creative Minds M. ΕΠΕ.",
+        "expected_adas": ["Ψ57Χ469ΗΞΩ-Ν74"],
+        "expected_source_ids": [],
         "category": "procurement",
         "answerable": True,
     },
 
+    # 3
     {
-        "question": (
-            "Τι αγοράστηκε για το έργο SMS-CBA;"
-        ),
-        "expected_answer": (
-            "Ηλεκτρονικός εξοπλισμός "
-            "και ειδικό λογισμικό."
-        ),
-        "expected_adas": [
-            "ΩΤΑΜ469ΗΞΩ-ΤΛ3",
-        ],
+        "question": "Ποιο ποσό εγκρίθηκε για την προμήθεια ηλεκτρονικού εξοπλισμού στο έργο MORE το 2021;",
+        "expected_answer": "5.592,93 ευρώ, συμπεριλαμβανομένου ΦΠΑ και λοιπών νόμιμων κρατήσεων.",
+        "expected_adas": ["ΩΞ2Ε469ΗΞΩ-ΜΤ5"],
+        "expected_source_ids": [],
         "category": "procurement",
         "answerable": True,
     },
 
+    # 4
     {
-        "question": (
-            "Μέχρι πότε διαρκούσε η σύμβαση "
-            "προμήθειας για το SMS-CBA;"
-        ),
-        "expected_answer": (
-            "Μέχρι 30/08/2021."
-        ),
-        "expected_adas": [
-            "ΩΤΑΜ469ΗΞΩ-ΤΛ3",
-        ],
+        "question": "Τι προμηθεύτηκε το έργο Ανάπτυξη και Λειτουργία με δαπάνη 74,02 ευρώ;",
+        "expected_answer": "Φαρμακευτικό υλικό.",
+        "expected_adas": ["ΨΕΜΓ469ΗΞΩ-ΝΓΒ"],
+        "expected_source_ids": [],
         "category": "procurement",
         "answerable": True,
     },
 
+    # 5
     {
-        "question": (
-            "Πότε ξεκινούσε η σύμβαση προμήθειας "
-            "για το SMS-CBA;"
-        ),
-        "expected_answer": (
-            "Στις 15/07/2021."
-        ),
-        "expected_adas": [
-            "ΩΤΑΜ469ΗΞΩ-ΤΛ3",
-        ],
+        "question": "Από ποια εταιρεία έγινε η προμήθεια γραμματοσήμων για το έργο Ανάπτυξη και Λειτουργία το 2021;",
+        "expected_answer": "ΕΛΛΗΝΙΚΑ ΤΑΧΥΔΡΟΜΕΙΑ Α.Ε.",
+        "expected_adas": ["ΨΩΘ3469ΗΞΩ-9ΙΡ"],
+        "expected_source_ids": [],
         "category": "procurement",
         "answerable": True,
     },
 
-
-    # BEHAVE
-
+    # 6
     {
-        "question": (
-            "Πόσες μέρες θα διαρκούσε η μετακίνηση "
-            "του συνεργάτη για το BEHAVE;"
-        ),
-        "expected_answer": (
-            "36 ημέρες."
-        ),
-        "expected_adas": [
-            "Ψ640469ΗΞΩ-30Ο",
-        ],
-        "category": "travel",
+        "question": "Ποιο ποσό εγκρίθηκε στο έργο Visual Facts για τη δημοσίευση επιστημονικού άρθρου;",
+        "expected_answer": "2.178,00 ευρώ.",
+        "expected_adas": ["ΨΒΙΓ469ΗΞΩ-Ζ3Ζ"],
+        "expected_source_ids": [],
+        "category": "publication",
         "answerable": True,
     },
 
+    # 7
     {
-        "question": (
-            "Πού θα ταξίδευε ο συνεργάτης "
-            "για το έργο BEHAVE;"
-        ),
-        "expected_answer": (
-            "Από την Αθήνα στο Λος Άντζελες."
-        ),
-        "expected_adas": [
-            "Ψ640469ΗΞΩ-30Ο",
-        ],
-        "category": "travel",
+        "question": "Για ποιο σκοπό εγκρίθηκε δαπάνη 620,00 ευρώ στο έργο NEANIAS το 2022;",
+        "expected_answer": "Για την εκτύπωση προωθητικού υλικού του έργου.",
+        "expected_adas": ["93ΑΗ469ΗΞΩ-ΦΝΖ"],
+        "expected_source_ids": [],
+        "category": "promotion",
         "answerable": True,
     },
 
+    # 8
     {
-        "question": (
-            "Από ποια πόλη θα ξεκινούσε "
-            "η μετακίνηση για το BEHAVE;"
-        ),
-        "expected_answer": (
-            "Από την Αθήνα."
-        ),
-        "expected_adas": [
-            "Ψ640469ΗΞΩ-30Ο",
-        ],
-        "category": "travel",
+        "question": "Ποιο ποσό εγκρίθηκε για τη φιλοξενία στο πλαίσιο της εναρκτήριας συνάντησης του έργου STELAR;",
+        "expected_answer": "1.008,00 ευρώ, συμπεριλαμβανομένου ΦΠΑ και λοιπών νόμιμων κρατήσεων.",
+        "expected_adas": ["9Β8Φ469ΗΞΩ-02Σ"],
+        "expected_source_ids": [],
+        "category": "event",
         "answerable": True,
     },
 
-
-    # TRUSTEE
-
+    # 9
     {
-        "question": (
-            "Τι άλλαξε στη σύμβαση "
-            "του έργου TRUSTEE;"
-        ),
-        "expected_answer": (
-            "Τροποποιήθηκε το οικονομικό "
-            "αντικείμενο της σύμβασης."
-        ),
-        "expected_adas": [
-            "67ΖΙ469ΗΞΩ-1ΧΧ",
-        ],
-        "category": "contract_modification",
+        "question": "Ποιο ποσό εγκρίθηκε στο έργο ΑΡΧΙΜΗΔΗΣ για γραφική ύλη και είδη γραφείου;",
+        "expected_answer": "1.160,50 ευρώ, συμπεριλαμβανομένου ΦΠΑ και λοιπών νόμιμων κρατήσεων.",
+        "expected_adas": ["Ω5ΑΡ469ΗΞΩ-4ΜΓ"],
+        "expected_source_ids": [],
+        "category": "procurement",
         "answerable": True,
     },
 
-
-    # AutoFAIR
-
+    # 10
     {
-        "question": (
-            "Με τι αντικείμενο σχετιζόταν "
-            "η υποτροφία AutoFAIR;"
-        ),
-        "expected_answer": (
-            "Με έρευνα στον χώρο της δικαιοσύνης "
-            "και της επεξηγησιμότητας αλγορίθμων "
-            "μηχανικής μάθησης."
-        ),
-        "expected_adas": [
-            "ΡΖΑΟ469ΗΞΩ-ΒΤΑ",
-        ],
-        "category": "scholarship",
+        "question": "Τι αγοράστηκε για το έργο ERA4TB με εγκεκριμένη δαπάνη 90,00 ευρώ;",
+        "expected_answer": "Ένας σκληρός δίσκος.",
+        "expected_adas": ["6Ρ4Γ469ΗΞΩ-ΑΕΗ"],
+        "expected_source_ids": [],
+        "category": "procurement",
         "answerable": True,
     },
 
-
-    # ΟΡΙΖΟΝΤΙΟ ΙΠΣΥ
-
+    # 11
     {
-        "question": (
-            "Πόσο ήταν το συνολικό κόστος "
-            "της συνεργασίας της Αικατερίνης "
-            "στο Οριζόντιο ΙΠΣΥ;"
-        ),
-        "expected_answer": (
-            "7.350,00 Ευρώ."
-        ),
-        "expected_adas": [
-            "6Θ5Β469ΗΞΩ-ΣΧΛ",
-        ],
-        "category": "contract",
+        "question": "Σε ποιο συνέδριο αφορούσε η εγγραφή μέλους ΔΕΠ στο πλαίσιο του έργου LAZARUS το 2023;",
+        "expected_answer": "Στο συνέδριο IEEE DAPPS 2023.",
+        "expected_adas": ["6400469ΗΞΩ-9Δ0"],
+        "expected_source_ids": [],
+        "category": "conference",
         "answerable": True,
     },
 
+    # 12
     {
-        "question": (
-            "Πόσο ήταν το συνολικό κόστος "
-            "της συνεργασίας της Αντωνίας "
-            "στο Οριζόντιο ΙΠΣΥ;"
-        ),
-        "expected_answer": (
-            "9.990,00 Ευρώ."
-        ),
-        "expected_adas": [
-            "6Θ5Β469ΗΞΩ-ΣΧΛ",
-        ],
-        "category": "contract",
+        "question": "Ποιο ποσό εγκρίθηκε για την προμήθεια προωθητικού υλικού στο έργο EASIER;",
+        "expected_answer": "50,00 ευρώ, συμπεριλαμβανομένου ΦΠΑ και λοιπών νόμιμων κρατήσεων.",
+        "expected_adas": ["980Μ469ΗΞΩ-1ΑΔ"],
+        "expected_source_ids": [],
+        "category": "promotion",
         "answerable": True,
     },
 
-
-    # ARIA
-
+    # 13
     {
-        "question": (
-            "Πόσα μόρια μπορεί να δώσει "
-            "η συνέντευξη στην πρόσκληση ARIA;"
-        ),
-        "expected_answer": (
-            "Από 0 έως 10 μόρια."
-        ),
-        "expected_adas": [
-            "9Ζ87469ΗΞΩ-ΕΩΟ",
-        ],
-        "category": "recruitment",
+        "question": "Τι είδους εξοπλισμός αγοράστηκε για το έργο SciLake το 2023;",
+        "expected_answer": "Μνήμη τυχαίας προσπέλασης (RAM).",
+        "expected_adas": ["9Ν91469ΗΞΩ-ΠΚΨ"],
+        "expected_source_ids": [],
+        "category": "procurement",
         "answerable": True,
     },
 
+    # 14
     {
-        "question": (
-            "Ποια είναι η μέγιστη συνολική "
-            "βαθμολογία στην αξιολόγηση ARIA;"
-        ),
-        "expected_answer": (
-            "100 μόρια."
-        ),
-        "expected_adas": [
-            "9Ζ87469ΗΞΩ-ΕΩΟ",
-        ],
-        "category": "recruitment",
+        "question": "Ποιο ποσό εγκρίθηκε για αναλώσιμα είδη Η/Υ στο έργο EDITH το 2024;",
+        "expected_answer": "818,40 ευρώ, συμπεριλαμβανομένου ΦΠΑ και λοιπών νόμιμων κρατήσεων.",
+        "expected_adas": ["9ΒΟΩ469ΗΞΩ-ΑΤ5"],
+        "expected_source_ids": [],
+        "category": "procurement",
         "answerable": True,
     },
 
-# RESEARCH ETHICS - ΕΗΔΕ ΕΚ ΑΘΗΝΑ
-
+    # 15
     {
-        "question": "Από πόσα τακτικά μέλη αποτελείται η ΕΗΔΕ του Ερευνητικού Κέντρου Αθηνά;",
-        "expected_answer": "Η ΕΗΔΕ του ΕΚ Αθηνά αποτελείται από πέντε (5) τακτικά μέλη και τους αναπληρωτές τους.",
-        "expected_adas": [],
-        "expected_source_ids": ["athena_ehde_regulation"],
-        "category": "research_ethics",
+        "question": "Σε ποια διοργάνωση αφορούσε η εγγραφή συνεργάτη του ΙΠΣΥ στο έργο GRAPES το 2024;",
+        "expected_answer": "Στο Summer School HYPATIA 2024.",
+        "expected_adas": ["96Β6469ΗΞΩ-97Λ"],
+        "expected_source_ids": [],
+        "category": "training",
         "answerable": True,
     },
 
+    # 16
     {
-        "question": "Πόσα από τα μέλη της ΕΗΔΕ πρέπει να είναι εκτός του ΕΚ Αθηνά;",
-        "expected_answer": "Τουλάχιστον δύο (2) από τα μέλη της ΕΗΔΕ πρέπει να είναι πρόσωπα εκτός του ΕΚ Αθηνά.",
-        "expected_adas": [],
-        "expected_source_ids": ["athena_ehde_regulation"],
-        "category": "research_ethics",
+        "question": "Τι κάλυπτε η δαπάνη των 2.000,00 ευρώ στο έργο HDMS2024;",
+        "expected_answer": "Την προμήθεια προωθητικού υλικού και την ενοικίαση εξοπλισμού για τη διοργάνωση του HDMS 2024.",
+        "expected_adas": ["ΨΧΔ7469ΗΞΩ-122"],
+        "expected_source_ids": [],
+        "category": "event",
         "answerable": True,
     },
 
+    # 17
     {
-        "question": "Κάθε πότε συνεδριάζει κανονικά η ΕΗΔΕ;",
-        "expected_answer": "Η ΕΗΔΕ συνεδριάζει τακτικά μία (1) φορά τον μήνα.",
-        "expected_adas": [],
-        "expected_source_ids": ["athena_ehde_regulation"],
-        "category": "research_ethics",
+        "question": "Ποιο εργαστηριακό αναλώσιμο εγκρίθηκε για προμήθεια στο έργο ALGEBRA;",
+        "expected_answer": "Κιτ για το NIR.",
+        "expected_adas": ["9ΠΚΦ469ΗΞΩ-ΙΣ2"],
+        "expected_source_ids": [],
+        "category": "procurement",
         "answerable": True,
     },
 
+    # 18
     {
-        "question": "Πόσα μέλη πρέπει να είναι παρόντα για να υπάρχει απαρτία στην ΕΗΔΕ;",
-        "expected_answer": "Για να υπάρχει απαρτία πρέπει να είναι παρόντα τουλάχιστον τρία (3) μέλη, συμπεριλαμβανομένου του Προέδρου ή του Αντιπροέδρου και ενός (1) μέλους που δεν ανήκει στο ΕΚ Αθηνά.",
-        "expected_adas": [],
-        "expected_source_ids": ["athena_ehde_regulation"],
-        "category": "research_ethics",
+        "question": "Τι αφορούσε η προμήθεια ύψους 1.016,80 ευρώ στο έργο EBRAINS 2.0 το 2025;",
+        "expected_answer": "Ηλεκτρονικό εξοπλισμό και άδειες χρήσης λογισμικού.",
+        "expected_adas": ["9ΒΑΨ469ΗΞΩ-ΘΜ2"],
+        "expected_source_ids": [],
+        "category": "procurement",
         "answerable": True,
     },
 
+    # 19
     {
-        "question": "Σε πόσες μέρες πρέπει να αποφασίσει η ΕΗΔΕ για μια αίτηση;",
-        "expected_answer": "Η ΕΗΔΕ πρέπει να αποφασίσει μέσα σε χρονικό διάστημα που δεν μπορεί να υπερβαίνει τις δεκαπέντε (15) ημέρες από την υποβολή της αίτησης και τη συγκέντρωση όλων των απαραίτητων συνοδευτικών εγγράφων.",
-        "expected_adas": [],
-        "expected_source_ids": ["athena_ehde_regulation"],
-        "category": "research_ethics",
+        "question": "Ποιος ήταν ο προμηθευτής αναλώσιμων ειδών Η/Υ για το έργο EU BabyRobot+;",
+        "expected_answer": "ΠΛΑΙΣΙΟ COMPUTERS AEBE.",
+        "expected_adas": ["Ρ9Α3469ΗΞΩ-1ΥΕ"],
+        "expected_source_ids": [],
+        "category": "procurement",
         "answerable": True,
     },
-]
 
+    # 20
+    {
+        "question": "Ποιο ποσό εγκρίθηκε για τη δημιουργία ιστοσελίδας του έργου ENABLE 6G το 2025;",
+        "expected_answer": "6.200,00 ευρώ, συμπεριλαμβανομένου ΦΠΑ και λοιπών νόμιμων κρατήσεων.",
+        "expected_adas": ["Ψ1ΕΚ469ΗΞΩ-ΤΗΝ"],
+        "expected_source_ids": [],
+        "category": "web_services",
+        "answerable": True,
+    },
+    
+    # UNANSWERABLE CASES
+    
 
-# UNANSWERABLE TEST CASES
-#
-# Αυτά ελέγχουν αν το RAG αποφεύγει να επινοήσει απάντηση
-# όταν η ζητούμενη πληροφορία δεν υπάρχει στο corpus.
-#
-# Η expected_answer είναι ίδια με το fallback που έχουμε
-# ορίσει στο prompt του agent.
-
-UNANSWERABLE_TEST_CASES = [
-
+    # 21. Άδεια μητρότητας
     {
         "question": (
             "Πόσες μέρες άδεια μητρότητας δικαιούμαι;"
         ),
-        "expected_answer": (
-            "Δεν βρέθηκε σαφής απάντηση στις "
-            "διαθέσιμες πληροφορίες."
-        ),
+        "expected_answer": UNANSWERABLE_RESPONSE,
         "expected_adas": [],
-        "category": "leave",
+        "expected_source_ids": [],
+        "category": "unanswerable",
         "answerable": False,
     },
 
+    # 22. Άδεια πατρότητας
     {
         "question": (
             "Πόσες μέρες άδεια πατρότητας δικαιούμαι;"
         ),
-        "expected_answer": (
-            "Δεν βρέθηκε σαφής απάντηση στις "
-            "διαθέσιμες πληροφορίες."
-        ),
+        "expected_answer": UNANSWERABLE_RESPONSE,
         "expected_adas": [],
-        "category": "leave",
+        "expected_source_ids": [],
+        "category": "unanswerable",
         "answerable": False,
     },
 
+    # 23. Κανονική άδεια
     {
         "question": (
             "Πόσες μέρες κανονική άδεια δικαιούμαι;"
         ),
-        "expected_answer": (
-            "Δεν βρέθηκε σαφής απάντηση στις "
-            "διαθέσιμες πληροφορίες."
-        ),
+        "expected_answer": UNANSWERABLE_RESPONSE,
         "expected_adas": [],
-        "category": "leave",
+        "expected_source_ids": [],
+        "category": "unanswerable",
         "answerable": False,
     },
 
+    # 24. Άδεια ασθενείας
     {
         "question": (
-            "Πόσες μέρες άδεια ασθενείας "
-            "επί πληρωμή δικαιούμαι;"
+            "Πόσες μέρες άδεια ασθενείας επί πληρωμή δικαιούμαι;"
         ),
-        "expected_answer": (
-            "Δεν βρέθηκε σαφής απάντηση στις "
-            "διαθέσιμες πληροφορίες."
-        ),
+        "expected_answer": UNANSWERABLE_RESPONSE,
         "expected_adas": [],
-        "category": "leave",
+        "expected_source_ids": [],
+        "category": "unanswerable",
         "answerable": False,
     },
 
+    # 25. Άδεια γάμου
     {
         "question": (
             "Πόσες μέρες άδεια γάμου δικαιούμαι;"
         ),
-        "expected_answer": (
-            "Δεν βρέθηκε σαφής απάντηση στις "
-            "διαθέσιμες πληροφορίες."
-        ),
+        "expected_answer": UNANSWERABLE_RESPONSE,
         "expected_adas": [],
-        "category": "leave",
+        "expected_source_ids": [],
+        "category": "unanswerable",
         "answerable": False,
     },
 
-    {
-        "question": (
-            "Πόσο διάλειμμα δικαιούμαι "
-            "κατά τη διάρκεια της εργασίας μου;"
-        ),
-        "expected_answer": (
-            "Δεν βρέθηκε σαφής απάντηση στις "
-            "διαθέσιμες πληροφορίες."
-        ),
-        "expected_adas": [],
-        "category": "employment",
-        "answerable": False,
+    # 26. Άδεια πένθους
+    {"question": "Πόσες μέρες άδεια πένθους δικαιούμαι;", 
+     "expected_answer": UNANSWERABLE_RESPONSE, 
+     "expected_adas": [], 
+     "expected_source_ids": [], 
+     "category": "unanswerable", 
+     "answerable": False
+     },
+
+    # 27. Άδεια αιμοδοσίας
+    {"question": "Πόσες μέρες άδεια αιμοδοσίας δικαιούμαι;", 
+     "expected_answer": UNANSWERABLE_RESPONSE, 
+     "expected_adas": [],
+    "expected_source_ids": [], 
+    "category": "unanswerable", 
+    "answerable": False
     },
 
-{
-    "question": "Τι επίδομα τηλεργασίας δικαιούται ένας εργαζόμενος;",
-    "expected_answer": ("Δεν υπάρχει σχετική "
-                "πληροφορία στα διαθέσιμα έγγραφα."
-                ),
-    "expected_adas": [],
-    "expected_source_ids": [],
-    "category": "employment",
-    "answerable": False,
-},
-
+    # 28. Κυριακή
     {
         "question": (
             "Τι προσαύξηση παίρνω αν δουλέψω Κυριακή;"
         ),
-        "expected_answer": (
-            "Δεν βρέθηκε σαφής απάντηση στις "
-            "διαθέσιμες πληροφορίες."
-        ),
+        "expected_answer": UNANSWERABLE_RESPONSE,
         "expected_adas": [],
-        "category": "employment",
+        "expected_source_ids": [],
+        "category": "unanswerable",
         "answerable": False,
     },
 ]
 
-
-# COMPLETE DATASET
-
-EVAL_DATASET = (NATURAL_TEST_CASES + UNANSWERABLE_TEST_CASES)
+# Βοηθητικά subsets
 
 
-# OPTIONAL HELPERS
+ANSWERABLE_CASES = [
+    case
+    for case in EVAL_DATASET
+    if case["answerable"]
+]
 
-ANSWERABLE_DATASET = [case for case in EVAL_DATASET if case["answerable"]]
+
+UNANSWERABLE_CASES = [
+    case
+    for case in EVAL_DATASET
+    if not case["answerable"]
+]
 
 
-UNANSWERABLE_DATASET = [case for case in EVAL_DATASET if not case["answerable"]]
+# Validation
 
 
-# SIMPLE VALIDATION
-
-def validate_eval_dataset(dataset):
+def validate_dataset():
     """
-    Perform basic validation of the RAG evaluation dataset.
-
-    Raises ValueError if a test case does not contain
-    the expected fields.
+    Βασικός έλεγχος της δομής του evaluation dataset.
     """
+
+    assert len(EVAL_DATASET) == 28, (f"Αναμένονταν 28 cases, βρέθηκαν {len(EVAL_DATASET)}.")
+
+    assert len(ANSWERABLE_CASES) == 20, (f"Αναμένονταν 20 answerable cases, βρέθηκαν {len(ANSWERABLE_CASES)}.")
+
+    assert len(UNANSWERABLE_CASES) == 8, (f"Αναμένονταν 8 unanswerable cases,βρέθηκαν {len(UNANSWERABLE_CASES)}.")
 
     required_fields = {
         "question",
         "expected_answer",
         "expected_adas",
+        "expected_source_ids",
         "category",
         "answerable",
     }
 
-    for index, case in enumerate(dataset, start=1):
-        missing_fields = required_fields - case.keys()
-
-        if missing_fields:
-            raise ValueError(f"Test case {index}: missing fields {missing_fields}")
-
-        if not isinstance(case["expected_adas"], list):
-            raise ValueError(f"Test case {index}: expected_adas must be a list.")
-
-        if "expected_source_ids" in case and not isinstance(case["expected_source_ids"], list):
-            raise ValueError(f"Test case {index}: expected_source_ids must be a list.")
-        
     for index, case in enumerate(EVAL_DATASET, start=1):
-
         missing_fields = (required_fields - set(case.keys()))
 
-        if missing_fields:
-            raise ValueError(f"Test case {index} is missing fields: {missing_fields}")
+        assert not missing_fields, (
+            f"Case {index}: λείπουν fields {sorted(missing_fields)}")
 
-        if not case["question"].strip():
-            raise ValueError(f"Test case {index} has an empty question.")
+        assert case["question"].strip(), (f"Case {index}: κενή ερώτηση.")
 
-        if not case["expected_answer"].strip():
-            raise ValueError(
-                f"Test case {index} has an empty expected answer.")
+        assert case["expected_answer"].strip(), (f"Case {index}: κενή expected_answer.")
 
-        if not isinstance(case["expected_adas"], list):
+        if case["answerable"]:
+            assert case["expected_adas"], (f"Case {index}: answerable case χωρίς expected ADA.")
 
-            raise ValueError(f"Test case {index}: expected_adas must be a list.")
+        else:
+            assert not case["expected_adas"], (f"Case {index}: unanswerable case με expected ADA.")
+
+    print("RAG evaluation dataset is valid.")
+    print(f"Total cases: {len(EVAL_DATASET)}")
+    print(f"Answerable: {len(ANSWERABLE_CASES)}")
+    print(f"Unanswerable: {len(UNANSWERABLE_CASES)}")
 
 
-# Validate automatically when imported.
-validate_eval_dataset(EVAL_DATASET)
+if __name__ == "__main__":
+    validate_dataset()
