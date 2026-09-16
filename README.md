@@ -467,16 +467,6 @@ rag_agent/
  -- google_drive_loader.py 
  -- ui.py 
 
- -- add_external_docs.py
- -- prepare_drive_dataset.py
- -- upload_dataset_to_drive.py
-
- -- retrieval_error_analysis.py
- -- retrieval_bench.py
- -- custom_eval.py 
- -- evaluation_deepeval.py 
- -- extract_unanswerable_results.py
-
  -- diavgeia/
     -- __init__.py
     -- config.py
@@ -490,7 +480,9 @@ rag_agent/
     -- __init__.py
     -- rag_eval_dataset.py
     -- retrieval_eval_ground_truth.py
-    -- retrieval_validation_set.py
+    -- retrieval_bench.py
+    -- custom_eval.py 
+    -- evaluation_deepeval.py  
 
  -- data/
     -- evaluation/
@@ -501,7 +493,6 @@ rag_agent/
        -- custom_eval_drive_bge_final_results.json
        -- custom_eval_drive_bge_final_detailed_results.csv
 
-       
        -- deepeval_drive_bge_final_results.csv
        -- deepeval_drive_bge_final_results.json
        -- deepeval_drive_bge_final_detailed_results.csv
