@@ -469,13 +469,15 @@ EVAL_DATASET = [
      "category": "unanswerable", 
      "answerable": False},
 
-    # 50. Διάλειμμα κατά την τηλεργασία
-    {"question": "Πόσο διάλειμμα δικαιούμαι αν δουλεύω τηλεργασία;", 
-     "expected_answer": UNANSWERABLE_RESPONSE, 
-     "expected_adas": [], 
-     "expected_source_ids": [], 
-     "category": "unanswerable", 
-     "answerable": False},
+# 50. Επίδομα τηλεργασίας
+{
+    "question": "Πόσο επίδομα τηλεργασίας δικαιούμαι κάθε μήνα;",
+    "expected_answer": UNANSWERABLE_RESPONSE,
+    "expected_adas": [],
+    "expected_source_ids": [],
+    "category": "unanswerable",
+    "answerable": False,
+},
 ]
 
 # Βοηθητικά subsets
