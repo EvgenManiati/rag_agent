@@ -1,37 +1,50 @@
 import io
 import json
 import time
-from pathlib import Path
 
 import pymupdf
 import pytesseract
 import requests
 from PIL import Image
 from tqdm import tqdm
+import unicodedata
 
 from diavgeia.config import (
-    DATASET_FILE,
+    NEW_DATASET_FILE,
+    NEW_SUSPICIOUS_FILE,
+    NEW_REPAIRED_FILE,
+    NEW_REPAIR_FAILED_FILE,
     REQUEST_DELAY_SECONDS,
     REQUEST_TIMEOUT_SECONDS,
+    OCR_DPI,
+    OCR_LANGUAGES,
 )
 
-import unicodedata
 from diavgeia.quality_check import evaluate_text_quality
 
-SUSPICIOUS_FILE = Path("data/diavgeia/suspicious_documents.jsonl")
 
-REPAIRED_FILE = Path("data/diavgeia/repaired_documents.jsonl")
+def normalize_unicode(text: str) -> str:
+    if not text:
+        return ""
 
-FAILED_FILE = Path("data/diavgeia/repair_failed.jsonl")
+    decomposed = unicodedata.normalize("NFD", text)
 
+    result = []
+    seen_combining = set()
 
-# Αν το Tesseract δεν βρίσκεται στο PATH των Windows,
-# άφησε ενεργή αυτή τη γραμμή.
-pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
+    for char in decomposed:
+        if unicodedata.combining(char):
+            if char in seen_combining:
+                continue
 
+            seen_combining.add(char)
+            result.append(char)
 
-def normalize_unicode(text):
-    return unicodedata.normalize("NFC", text)
+        else:
+            seen_combining.clear()
+            result.append(char)
+
+    return unicodedata.normalize("NFC", "".join(result))
 
 def load_jsonl(path):
     """
@@ -72,7 +85,7 @@ def load_dataset_by_ada():
     ADA -> dataset record.
     """
 
-    records = load_jsonl(DATASET_FILE)
+    records = load_jsonl(NEW_DATASET_FILE)
 
     return {
         str(record["ada"]): record
@@ -127,7 +140,7 @@ def ocr_pdf(pdf_bytes):
     pages = []
 
     # 250 DPI
-    zoom = 250 / 72
+    zoom = OCR_DPI / 72
 
     matrix = pymupdf.Matrix(zoom, zoom)
 
@@ -143,7 +156,7 @@ def ocr_pdf(pdf_bytes):
 
             text = pytesseract.image_to_string(
                 image,
-                lang="ell+eng",
+                lang=OCR_LANGUAGES,
                 config="--psm 6",
             )
 
@@ -164,14 +177,14 @@ def repair_suspicious():
     as suspicious.
     """
 
-    suspicious = load_jsonl(SUSPICIOUS_FILE)
+    suspicious = load_jsonl(NEW_SUSPICIOUS_FILE)
 
     dataset = load_dataset_by_ada()
 
     # Καθαρίζουμε παλιό αποτέλεσμα repair.
-    REPAIRED_FILE.unlink(missing_ok=True)
+    NEW_REPAIRED_FILE.unlink(missing_ok=True)
 
-    FAILED_FILE.unlink(missing_ok=True)
+    NEW_REPAIR_FAILED_FILE.unlink(missing_ok=True)
 
     print(f"Suspicious documents: {len(suspicious)}")
 
@@ -183,7 +196,7 @@ def repair_suspicious():
 
         if original is None:
 
-            save_jsonl(FAILED_FILE,
+            save_jsonl(NEW_REPAIR_FAILED_FILE,
                     {
                     "ada": ada,
                     "error":
@@ -197,7 +210,7 @@ def repair_suspicious():
 
         if not url:
 
-            save_jsonl(FAILED_FILE,
+            save_jsonl(NEW_REPAIR_FAILED_FILE,
                 {
                     "ada": ada,
                     "error":
@@ -222,7 +235,7 @@ def repair_suspicious():
                 repaired["text_character_count"] = len(normalized_text)
                 repaired["extraction_method"] = "pymupdf_unicode_nfc"
                 repaired["repaired"] = True
-                save_jsonl(REPAIRED_FILE, repaired)
+                save_jsonl(NEW_REPAIRED_FILE, repaired)
 
                 continue
 
@@ -250,25 +263,25 @@ def repair_suspicious():
 
             repaired["repaired"] = True
 
-            save_jsonl(REPAIRED_FILE, repaired)
+            save_jsonl(NEW_REPAIRED_FILE, repaired)
 
         except Exception as error:
 
-            save_jsonl(FAILED_FILE, {"ada": ada, "document_url": url, "error": str(error)})
+            save_jsonl(NEW_REPAIR_FAILED_FILE, {"ada": ada, "document_url": url, "error": str(error)})
 
         time.sleep(REQUEST_DELAY_SECONDS)
 
     print("\nRepair finished.")
 
-    if REPAIRED_FILE.exists():
+    if NEW_REPAIRED_FILE.exists():
 
-        repaired_count = len(load_jsonl(REPAIRED_FILE))
+        repaired_count = len(load_jsonl(NEW_REPAIRED_FILE))
 
         print(f"Repaired documents: {repaired_count}")
 
-    if FAILED_FILE.exists():
+    if NEW_REPAIR_FAILED_FILE.exists():
 
-        failed_count = len(load_jsonl(FAILED_FILE))
+        failed_count = len(load_jsonl(NEW_REPAIR_FAILED_FILE))
 
         print(f"Failed documents: {failed_count}")
 

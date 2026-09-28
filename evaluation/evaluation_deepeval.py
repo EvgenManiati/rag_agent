@@ -20,9 +20,8 @@ from model import load_llm
 from retriever import load_retriever
 from agent import build_agent
 
-from evaluation.rag_eval_dataset import UNANSWERABLE_CASES
+from evaluation.rag_eval_dataset import EVAL_DATASET
 
-EVAL_DATASET = UNANSWERABLE_CASES
 
 import sys
 
@@ -156,17 +155,6 @@ def run_model_evaluation(
 
     # METRICS
     
-
-    metrics = [
-
-        FaithfulnessMetric(threshold=0.5, model=evaluator_model),
-
-        AnswerRelevancyMetric(threshold=0.5, model=evaluator_model),
-
-        ContextualPrecisionMetric(threshold=0.5, model=evaluator_model),
-
-        ContextualRecallMetric(threshold=0.5, model=evaluator_model),
-    ] 
     
     # SCORE STORAGE
     
@@ -218,10 +206,22 @@ def run_model_evaluation(
 
         expected_adas = item.get("expected_adas", [])
 
-        expected_source_ids = item.get("expected_source_ids", [])
+        retrieved_adas = []
 
-        expected_file_names = item.get("expected_file_names", [])
+        for source in sources:
+            ada = str(source.get("ada") or "").strip()
 
+            if ada:
+                retrieved_adas.append(ada)
+
+        expected_documents = set(expected_adas)
+        retrieved_documents = set(retrieved_adas)
+
+        source_match = (
+            bool(expected_documents & retrieved_documents)
+            if expected_documents
+            else None
+)
 
         print(
         f"\nTEST CASE {index}/{total_cases} "
@@ -253,6 +253,12 @@ def run_model_evaluation(
 
         sources = result.get("sources", [])
 
+        retrieval_context = [
+        str(source.get("content") or "").strip()
+        for source in sources
+        if str(source.get("content") or "").strip()
+        ]
+
         retrieved_adas = []
         retrieved_source_ids = []
         retrieved_file_names = []
@@ -271,7 +277,7 @@ def run_model_evaluation(
             if file_name:
                 retrieved_file_names.append(file_name)
 
-        expected_documents = set(expected_adas) | set(expected_source_ids) | set(expected_file_names)
+        expected_documents = set(expected_adas) 
         retrieved_documents = set(retrieved_adas) | set(retrieved_source_ids) | set(retrieved_file_names)
         source_match = bool(expected_documents & retrieved_documents) if expected_documents else None
 
@@ -283,7 +289,7 @@ def run_model_evaluation(
             input=question,
             actual_output=answer,
             expected_output=expected_answer,
-            retrieval_context=[context]
+            retrieval_context=retrieval_context,
         )
 
 
@@ -409,10 +415,6 @@ def run_model_evaluation(
             "answerable": (answerable),
                 
             "expected_adas": item.get("expected_adas", []),
-
-            "expected_source_ids": item.get("expected_source_ids", []),
-
-            "expected_file_names": expected_file_names,
 
             "retrieved_adas": retrieved_adas,
 
@@ -678,10 +680,6 @@ def save_results(all_scores):
 
                 "expected_adas": (", ".join(detail.get("expected_adas", []))),
 
-                "expected_source_ids": "," .join(detail.get("expected_source_ids", [])), 
-
-                "expected_file_names": ", ".join(detail.get("expected_file_names", [])),
-
                 "retrieved_adas": ", ".join(detail.get("retrieved_adas", [])),
 
                 "retrieved_source_ids": ", ".join(detail.get("retrieved_source_ids", [])),
@@ -714,8 +712,6 @@ def save_results(all_scores):
         "actual_answer",
         "retrieved_context",
         "expected_adas",
-        "expected_source_ids",
-        "expected_file_names",
         "retrieved_adas",
         "retrieved_source_ids",
         "retrieved_file_names",

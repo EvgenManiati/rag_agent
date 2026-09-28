@@ -19,13 +19,13 @@ from tqdm.contrib.logging import logging_redirect_tqdm
 
 from diavgeia.config import (
     BUILDER_LOG_FILE,
-    DATASET_FILE,
-    FAILED_FILE,
+    NEW_DATASET_FILE,
+    NEW_FAILED_FILE,
     LOG_DIRECTORY,
     LOG_LEVEL,
     MAX_DOCUMENTS,
     MAX_RETRIES,
-    SELECTED_METADATA_FILE,
+    NEW_SELECTED_METADATA_FILE,
     MIN_DOCUMENT_CHARACTERS,
     MIN_PAGE_CHARACTERS,
     PDF_DIRECTORY,
@@ -143,10 +143,7 @@ def configure_logging() -> logging.Logger:
     console_handler = logging.StreamHandler()
     console_handler.setFormatter(formatter)
 
-    file_handler = logging.FileHandler(
-        BUILDER_LOG_FILE,
-        encoding="utf-8",
-    )
+    file_handler = logging.FileHandler(BUILDER_LOG_FILE, encoding="utf-8")
     file_handler.setFormatter(formatter)
 
     logger.addHandler(console_handler)
@@ -257,9 +254,7 @@ def load_completed_adas(path: Path) -> set[str]:
         ada = record.get("ada")
 
         if ada:
-            completed_adas.add(
-                str(ada).strip()
-            )
+            completed_adas.add(str(ada).strip())
 
     return completed_adas
 
@@ -289,9 +284,7 @@ def load_failed_adas(path: Path) -> set[str]:
         ada = record.get("ada")
 
         if ada:
-            failed_adas.add(
-                str(ada).strip()
-            )
+            failed_adas.add(str(ada).strip())
 
     return failed_adas
 
@@ -712,13 +705,13 @@ def build_dataset() -> BuilderStats:
 
     stats = BuilderStats()
 
-    metadata_records = load_jsonl(SELECTED_METADATA_FILE)
+    metadata_records = load_jsonl(NEW_SELECTED_METADATA_FILE)
 
     stats.metadata_records = len(metadata_records)
 
-    completed_adas = load_completed_adas(DATASET_FILE)
+    completed_adas = load_completed_adas(NEW_DATASET_FILE)
 
-    previous_failed_adas = load_failed_adas(FAILED_FILE)
+    previous_failed_adas = load_failed_adas(NEW_FAILED_FILE)
 
     if MAX_DOCUMENTS is not None:
         metadata_records = metadata_records[:MAX_DOCUMENTS]
@@ -768,7 +761,7 @@ def build_dataset() -> BuilderStats:
                             ),
                         )
 
-                        append_jsonl_record(FAILED_FILE, failed_record)
+                        append_jsonl_record(NEW_FAILED_FILE, failed_record)
 
                         stats.failed_documents += 1
                         progress.update(1)
@@ -804,7 +797,7 @@ def build_dataset() -> BuilderStats:
                             ),
                         )
 
-                        append_jsonl_record(FAILED_FILE, failed_record)
+                        append_jsonl_record(NEW_FAILED_FILE, failed_record)
 
                         stats.failed_documents += 1
                         progress.update(1)
@@ -822,7 +815,7 @@ def build_dataset() -> BuilderStats:
                         stats.failed_documents += 1
 
                         append_jsonl_record(
-                            FAILED_FILE,
+                            NEW_FAILED_FILE,
                             build_failed_record(
                                 metadata=metadata,
                                 reason="download_failed",
@@ -840,7 +833,7 @@ def build_dataset() -> BuilderStats:
                         stats.failed_documents += 1
 
                         append_jsonl_record(
-                            FAILED_FILE,
+                            NEW_FAILED_FILE,
                             build_failed_record(
                                 metadata=metadata,
                                 reason="invalid_pdf_response",
@@ -871,7 +864,7 @@ def build_dataset() -> BuilderStats:
                         stats.failed_documents += 1
 
                         append_jsonl_record(
-                            FAILED_FILE,
+                            NEW_FAILED_FILE,
                             build_failed_record(
                                 metadata=metadata,
                                 reason="pdf_repair_or_open_failed",
@@ -889,7 +882,7 @@ def build_dataset() -> BuilderStats:
                         stats.failed_documents += 1
 
                         append_jsonl_record(
-                            FAILED_FILE,
+                            NEW_FAILED_FILE,
                             build_failed_record(
                                 metadata=metadata,
                                 reason="unexpected_parsing_error",
@@ -920,7 +913,7 @@ def build_dataset() -> BuilderStats:
                         stats.failed_documents += 1
 
                         append_jsonl_record(
-                            FAILED_FILE,
+                            NEW_FAILED_FILE,
                             build_failed_record(
                                 metadata=metadata,
                                 reason="insufficient_extracted_text",
@@ -953,7 +946,7 @@ def build_dataset() -> BuilderStats:
                         pdf_size_bytes=len(pdf_bytes),
                     )
 
-                    append_jsonl_record(DATASET_FILE, dataset_record)
+                    append_jsonl_record(NEW_DATASET_FILE, dataset_record)
 
                     completed_adas.add(ada)
 
@@ -1016,9 +1009,9 @@ def build_dataset() -> BuilderStats:
 
     LOGGER.info("Extracted characters: %s", stats.extracted_characters)
 
-    LOGGER.info("Dataset file: %s", DATASET_FILE.resolve())
+    LOGGER.info("Dataset file: %s", NEW_DATASET_FILE.resolve())
 
-    LOGGER.info("Failed file: %s", FAILED_FILE.resolve())
+    LOGGER.info("Failed file: %s", NEW_FAILED_FILE.resolve())
 
     LOGGER.info("Builder log: %s", BUILDER_LOG_FILE.resolve())
 

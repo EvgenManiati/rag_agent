@@ -11,15 +11,11 @@ import json
 from config import (
     CHUNK_OVERLAP,
     CHUNK_SIZE,
-    DIAVGEIA_DATASET_FILE,
+    DIAVGEIA_5000_FOLDER_ID,
     SEARCH_K,
     ENSEMBLE_K,
-    MINILM_INDEX_DIR,
-    BGE_INDEX_DIR,
     DRIVE_BGE_INDEX_DIR,
     DRIVE_MINILM_INDEX_DIR,
-    GOOGLE_DRIVE_DIAVGEIA_FOLDER_ID,
-    GOOGLE_DRIVE_EXTERNAL_FOLDER_ID,
 )
 #from google_drive_loader import load_documents_from_drive_folders
 
@@ -111,8 +107,6 @@ class SimpleEnsembleRetriever:
 
                 document.metadata.get("ada")
 
-                or document.metadata.get("source_id")
-
                 or document.metadata.get("file_name")
 
                 or document.metadata.get("source") 
@@ -154,10 +148,7 @@ def load_drive_source_documents() -> tuple[Document, ...]:
     print("Φόρτωση documents από Google Drive...")
 
     documents = load_documents_from_drive_folders(
-        folder_ids=[
-            GOOGLE_DRIVE_DIAVGEIA_FOLDER_ID,
-            GOOGLE_DRIVE_EXTERNAL_FOLDER_ID,
-        ],
+        folder_ids=[DIAVGEIA_5000_FOLDER_ID],
         recursive=True,
     )
 
@@ -170,40 +161,6 @@ def load_drive_source_documents() -> tuple[Document, ...]:
 
 
 # Chunking
-
-
-@lru_cache(maxsize=1)
-def load_chunks() -> tuple[Document, ...]:
-    """
-    Split Diavgeia decisions into overlapping chunks while
-    preserving the metadata of the original decision.
-    """
-
-    documents = list(
-        load_drive_source_documents()
-    )
-
-    splitter = RecursiveCharacterTextSplitter(
-        chunk_size=CHUNK_SIZE,
-        chunk_overlap=CHUNK_OVERLAP,
-        separators=[
-            "\n\n",
-            "\n",
-            ". ",
-            " ",
-            "",
-        ],
-    )
-
-    chunks = splitter.split_documents(documents)
-
-    # Προσθέτουμε ένα μοναδικό index ανά chunk.
-    for index, chunk in enumerate(chunks):
-        chunk.metadata["chunk_id"] = index
-
-    print(f"Δημιουργήθηκαν {len(chunks)} chunks από {len(documents)} αποφάσεις.")
-
-    return tuple(chunks)
 
 @lru_cache(maxsize=1)
 def load_drive_chunks() -> tuple[Document, ...]:
@@ -241,19 +198,8 @@ def load_drive_chunks() -> tuple[Document, ...]:
 
 @lru_cache(maxsize=1)
 def load_minilm_embeddings():
-    """
-    Load the multilingual MiniLM embedding model.
-    """
-
-    return HuggingFaceEmbeddings(
-        model_name=(
-            "sentence-transformers/"
-            "paraphrase-multilingual-MiniLM-L12-v2"
-        ),
-        model_kwargs={"device": "cpu"},
-
-        encode_kwargs={"normalize_embeddings": True},
-    )
+    return HuggingFaceEmbeddings(model_name="sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+     model_kwargs={"device": "cpu", "local_files_only": True}, encode_kwargs={"normalize_embeddings": True})
 
 
 @lru_cache(maxsize=1)
@@ -345,123 +291,14 @@ def build_drive_minilm_vectorstore():
 
 # FAISS vector stores
 
-@lru_cache(maxsize=1)
-def build_minilm_vectorstore():
-    """
-    Load an existing MiniLM FAISS index or create
-    and persist it if it does not exist.
-    """
-
-    embeddings = load_minilm_embeddings()
-
-    
-    # Αν υπάρχει ήδη αποθηκευμένο index,
-    # το φορτώνουμε χωρίς να ξανακάνουμε embeddings.
-    
-
-    if MINILM_INDEX_DIR.exists():
-
-        print(
-            "Φόρτωση υπάρχοντος FAISS index "
-            "για MiniLM..."
-        )
-
-        return FAISS.load_local(folder_path=str(MINILM_INDEX_DIR), embeddings=embeddings, allow_dangerous_deserialization=True)
-    # Το LangChain αποθηκεύει και metadata/docstore σε pickle αρχείο.
-    
-    # Διαφορετικά χτίζουμε νέο index.
-    
-
-    print("Δεν βρέθηκε MiniLM FAISS index.")
-
-    print("Δημιουργία νέου index...")
-
-    chunks = list(load_chunks())
-
-    vectorstore = FAISS.from_documents(documents=chunks, embedding=embeddings,)
-
-    # Δημιουργούμε τον parent φάκελο.
-    MINILM_INDEX_DIR.parent.mkdir(parents=True, exist_ok=True,)
-
-    # Αποθήκευση στον δίσκο.
-    vectorstore.save_local(str(MINILM_INDEX_DIR))
-
-    print("MiniLM FAISS index αποθηκεύτηκε.")
-
-    return vectorstore
-
-
-
-@lru_cache(maxsize=1)
-def build_bge_vectorstore():
-    """
-    Load an existing BGE-M3 FAISS index or create
-    and persist it if it does not exist.
-    """
-
-    embeddings = load_bge_embeddings()
-
-    
-    # Υπάρχει ήδη index;
-    
-
-    if BGE_INDEX_DIR.exists():
-
-        print("Φόρτωση υπάρχοντος FAISS index για BGE-M3...")
-
-        return FAISS.load_local(folder_path=str(BGE_INDEX_DIR),
-            embeddings=embeddings,
-            allow_dangerous_deserialization=True,
-        )
-
-    
-    # Δεν υπάρχει → χτίσιμο.
-    
-
-    print("Δεν βρέθηκε BGE-M3 FAISS index.")
-
-    print("Δημιουργία FAISS index με BGE-M3...")
-
-    chunks = list(load_chunks())
-
-    vectorstore = FAISS.from_documents(documents=chunks, embedding=embeddings)
-
-    BGE_INDEX_DIR.parent.mkdir(parents=True, exist_ok=True)
-
-    vectorstore.save_local(str(BGE_INDEX_DIR))
-
-    print("BGE-M3 FAISS index αποθηκεύτηκε.")
-
-    return vectorstore
-
 # Δημιουργία retrievers
 
 @lru_cache(maxsize=3)
 
-def load_retriever(mode: str = "bge"):
+def load_retriever(mode: str = "drive_bge"):
     from config import (MINILM_WEIGHT, BGE_WEIGHT)
 
     mode = mode.lower().strip()
-
-    if mode == "minilm":
-
-        return (build_minilm_vectorstore().as_retriever(search_kwargs={"k": SEARCH_K}))
-
-    if mode == "bge":
-
-        return (build_bge_vectorstore().as_retriever(search_kwargs={"k": SEARCH_K}))
-
-    if mode == "ensemble":
-
-        minilm_retriever = (build_minilm_vectorstore().as_retriever(search_kwargs={"k": SEARCH_K}))
-
-        bge_retriever = (build_bge_vectorstore().as_retriever(search_kwargs={"k": SEARCH_K}))
-
-        return SimpleEnsembleRetriever(
-            retrievers=[minilm_retriever, bge_retriever],
-            weights=[MINILM_WEIGHT, BGE_WEIGHT],
-            k=ENSEMBLE_K,
-    )
 
     
     if mode == "drive_bge":
@@ -501,15 +338,12 @@ def clear_retriever_cache() -> None:
 
     load_retriever.cache_clear()
 
-    build_minilm_vectorstore.cache_clear()
-    build_bge_vectorstore.cache_clear()
     build_drive_bge_vectorstore.cache_clear()
     build_drive_minilm_vectorstore.cache_clear()
 
     load_minilm_embeddings.cache_clear()
     load_bge_embeddings.cache_clear()
 
-    load_chunks.cache_clear()
     load_drive_chunks.cache_clear()
     load_drive_source_documents.cache_clear()
 

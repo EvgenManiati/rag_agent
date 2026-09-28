@@ -1,13 +1,10 @@
 from retriever import load_retriever
-from evaluation.retrieval_eval_ground_truth import (
-    VALIDATION_SET, TEST_SET,
-)
-
+from evaluation.retrieval_test_set_100 import TEST_SET
 import json
 from pathlib import Path
 
 from google_drive_loader import authenticate_google_drive, collect_pdf_files
-from config import GOOGLE_DRIVE_ROOT_FOLDER_ID
+
 
 RESULTS_DIRECTORY = Path("data/evaluation")
 
@@ -27,35 +24,23 @@ EVALUATION_K = 5
 
 
 # Helpers
-
 def get_unique_document_ranking(documents, max_results=5):
-    """Convert retrieved chunks into a ranking of unique source documents."""
-
     unique_results = []
-    seen_documents = set()
+    seen_adas = set()
 
     for document in documents:
         ada = str(document.metadata.get("ada") or "").strip()
-        source_id = str(document.metadata.get("source_id") or "").strip()
-        file_name = str(document.metadata.get("file_name") or "").strip()
-        folder_name = str(document.metadata.get("folder_name") or "").strip()
-        drive_path = str(document.metadata.get("drive_path") or "").strip()
 
-        document_id = ada or source_id or file_name
-
-        if not document_id or document_id in seen_documents:
+        if not ada or ada in seen_adas:
             continue
 
-        seen_documents.add(document_id)
+        seen_adas.add(ada)
 
         unique_results.append({
-            "document_id": document_id,
-            "ada": ada or None,
-            "source_id": source_id or None,
-            "file_name": file_name or None,
-            "folder_name": folder_name or None,
-            "drive_path": drive_path or None,
-            "source": document.metadata.get("source"),
+            "ada": ada,
+            "file_name": document.metadata.get("file_name"),
+            "folder_name": document.metadata.get("folder_name"),
+            "drive_path": document.metadata.get("drive_path"),
             "chunk_id": document.metadata.get("chunk_id"),
         })
 
@@ -64,108 +49,45 @@ def get_unique_document_ranking(documents, max_results=5):
 
     return unique_results
 
-def find_first_relevant_rank(ranking, expected_adas=None, expected_source_ids=None, expected_file_names=None):
-    expected_adas = expected_adas or []
-    expected_source_ids = expected_source_ids or []
-    expected_file_names = expected_file_names or []
-
-    expected_documents = set(expected_adas) | set(expected_source_ids) | set(expected_file_names)
+def find_first_relevant_rank(ranking, expected_adas):
+    expected_adas = set(expected_adas)
 
     for rank, result in enumerate(ranking, start=1):
-        if result["document_id"] in expected_documents:
+        if result["ada"] in expected_adas:
             return rank
 
     return None
 
 
-def calculate_query_metrics(ranking, expected_adas=None, expected_source_ids=None, expected_file_names=None):
-    rank = find_first_relevant_rank(ranking, expected_adas, expected_source_ids, expected_file_names)
+def calculate_query_metrics(ranking, expected_adas):
+    rank = find_first_relevant_rank(ranking, expected_adas)
 
     if rank is None:
-        return {"rank": None, 
-                "hit@1": 0, 
-                "hit@3": 0, 
-                "hit@5": 0, 
-                "rr": 0.0}
+        return {
+            "rank": None,
+            "hit@1": 0,
+            "hit@3": 0,
+            "hit@5": 0,
+            "rr": 0.0,
+        }
 
-    return {"rank": rank, 
-            "hit@1": int(rank <= 1), 
-            "hit@3": int(rank <= 3), 
-            "hit@5": int(rank <= 5), 
-            "rr": 1.0 / rank}
+    return {
+        "rank": rank,
+        "hit@1": int(rank <= 1),
+        "hit@3": int(rank <= 3),
+        "hit@5": int(rank <= 5),
+        "rr": 1.0 / rank,
+    }
 
-def find_first_file_rank(ranking, expected_adas=None, expected_file_names=None):
-    expected_adas = expected_adas or []
-    expected_file_names = expected_file_names or []
-
-    expected_files = set(expected_file_names)
-
-    for ada in expected_adas:
-        expected_files.add(f"{ada}.pdf")
+def find_first_relevant_rank(ranking, expected_adas):
+    expected_adas = set(expected_adas)
 
     for rank, result in enumerate(ranking, start=1):
-        if result.get("file_name") in expected_files:
+        if result["ada"] in expected_adas:
             return rank
 
     return None
 
-def calculate_file_metrics(ranking, expected_adas=None, expected_file_names=None):
-    rank = find_first_file_rank(ranking, expected_adas, expected_file_names)
-
-    if rank is None:
-        return {"file_rank": None, "file_hit@1": 0, "file_hit@3": 0, "file_hit@5": 0, "file_rr": 0.0}
-
-    return {"file_rank": rank, "file_hit@1": int(rank <= 1), "file_hit@3": int(rank <= 3), "file_hit@5": int(rank <= 5), "file_rr": 1.0 / rank}
-
-
-def find_first_folder_rank(ranking, expected_folder_names=None):
-    expected_folder_names = expected_folder_names or []
-    expected_folders = set(expected_folder_names)
-
-    for rank, result in enumerate(ranking, start=1):
-        if result.get("folder_name") in expected_folders:
-            return rank
-
-    return None
-
-def calculate_folder_metrics(ranking, expected_folder_names=None):
-    rank = find_first_folder_rank(ranking, expected_folder_names)
-
-    if rank is None:
-        return {"folder_rank": None,
-                "folder_hit@1": 0, 
-                "folder_hit@3": 0, 
-                "folder_hit@5": 0, 
-                "folder_rr": 0.0}
-
-    return {"folder_rank": rank, 
-            "folder_hit@1": int(rank <= 1), 
-            "folder_hit@3": int(rank <= 3), 
-            "folder_hit@5": int(rank <= 5), 
-            "folder_rr": 1.0 / rank}
-
-
-def build_drive_folder_map():
-    """Δημιουργεί mapping ADA/source filename -> άμεσο parent folder από τη δομή του Drive."""
-
-    service = authenticate_google_drive()
-
-    files = collect_pdf_files(service=service, folder_id=GOOGLE_DRIVE_ROOT_FOLDER_ID, recursive=True)
-
-    folder_map = {}
-
-    for file_info in files:
-        file_name = file_info.get("name", "")
-        drive_path = file_info.get("virtual_path", file_name)
-        path_parts = drive_path.split("/")
-
-        folder_name = path_parts[-2] if len(path_parts) >= 2 else ""
-        file_stem = Path(file_name).stem
-
-        folder_map[file_stem] = folder_name
-        folder_map[file_name] = folder_name
-
-    return folder_map
 
 # Retriever evaluation
 
@@ -178,7 +100,6 @@ def evaluate_retriever(retriever_name):
 
     retriever = load_retriever(retriever_name)
 
-    drive_folder_map = build_drive_folder_map() 
 
     total_hit_1 = 0
     total_hit_3 = 0
@@ -205,9 +126,6 @@ def evaluate_retriever(retriever_name):
         expected_file_names = test_case.get("expected_file_names", [])
         expected_folder_names = test_case.get("expected_folder_names", [])
 
-        if not expected_folder_names:
-            expected_folder_names = [drive_folder_map[ada] for ada in expected_adas if ada in drive_folder_map]
-
         # Retrieve chunks.
         documents = retriever.invoke(query)
 
@@ -216,19 +134,9 @@ def evaluate_retriever(retriever_name):
 
         metrics = calculate_query_metrics(
             ranking,
-            expected_adas= expected_adas,
-            expected_source_ids= expected_source_ids,
-            expected_file_names= expected_file_names
+            expected_adas= expected_adas
         )
 
-        file_metrics = calculate_file_metrics(
-            ranking,
-            expected_adas= expected_adas,
-            expected_file_names= expected_file_names)
-
-        folder_metrics = calculate_folder_metrics(
-            ranking,
-            expected_folder_names= expected_folder_names)
         
         total_hit_1 += metrics["hit@1"]
         total_hit_3 += metrics["hit@3"]
@@ -236,27 +144,10 @@ def evaluate_retriever(retriever_name):
         total_rr += metrics["rr"]
 
 
-        total_file_hit_1 += file_metrics["file_hit@1"]
-        total_file_hit_3 += file_metrics["file_hit@3"]
-        total_file_hit_5 += file_metrics["file_hit@5"]
-        total_file_rr += file_metrics["file_rr"]
-
-        if expected_folder_names:
-            total_folder_hit_1 += folder_metrics["folder_hit@1"]
-            total_folder_hit_3 += folder_metrics["folder_hit@3"]
-            total_folder_hit_5 += folder_metrics["folder_hit@5"]
-            total_folder_rr += folder_metrics["folder_rr"]
-            folder_query_count += 1
-
         query_results.append(
             {
                 "query": query,
                 "expected_adas": expected_adas,
-                "expected_source_ids" : expected_source_ids,
-                "expected_file_names": expected_file_names,
-                "expected_folder_names": expected_folder_names,
-                "file_metrics": file_metrics,
-                "folder_metrics": folder_metrics,
                 "ranking": ranking,
                 "metrics": metrics,
             }
@@ -285,7 +176,7 @@ def evaluate_retriever(retriever_name):
         expected_documents = set(expected_adas) | set(expected_source_ids)  | set(expected_file_names)
 
         for rank, result in enumerate(ranking, start=1):
-            marker = "  <-- CORRECT" if result["document_id"] in expected_documents else ""
+            marker = " <-- CORRECT" if result["ada"] in set(expected_adas) else ""
 
             print(
                 f"  {rank}. "

@@ -1,9 +1,8 @@
-from model import load_llm, list_available_models
+from model import load_llm
 from retriever import load_retriever
 from agent import build_agent
 
 if __name__ == "__main__":
-    models = list_available_models()
 
     print("Διάλεξε μοντέλο:")
     print("1. Krikri")
@@ -32,27 +31,20 @@ if __name__ == "__main__":
 
     print("Διάλεξε retriever:")
     print("1. MiniLM")
-    print("2. BGE-M3")
+    print("2. BGE-M3 (προτεινόμενο)")
     print("3. Ensemble MiniLM and BGE-M3")
     
 
     choice = input("Επιλογή [Enter = BGE]: ").strip() 
     retriever_map = {
-        "1": "minilm",
-        "2": "bge",
-        "3": "ensemble",
+        "1": "drive_minilm",
+        "2": "drive_bge",
+        "3": "drive_ensemble",
     }
 
-    retriever_mode = retriever_map.get(
-        choice,
-        "bge",
-    )
+    retriever_mode = retriever_map.get(choice, "drive_bge")
         
-   
-
-    #llm = load_ollama_model("llama3.2:3b", max_new_tokens=120)
-
-    retriever = load_retriever(retriever_mode)  # ή minilm/bge/ensemble
+    retriever = load_retriever(retriever_mode)  
     app = build_agent(llm, retriever)
     print("Agent έτοιμος!\n")
 

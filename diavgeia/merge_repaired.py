@@ -4,12 +4,9 @@ import json
 from pathlib import Path
 from typing import Any
 
-from diavgeia.config import DATASET_FILE
+from diavgeia.config import NEW_DATASET_FILE
+from diavgeia.config import REPAIRED_FILE, FINAL_DATASET_FILE
 
-
-REPAIRED_FILE = Path("data/diavgeia/repaired_documents.jsonl")
-
-FINAL_DATASET_FILE = Path("data/diavgeia/final_dataset.jsonl")
 
 
 def load_jsonl(path: Path) -> list[dict[str, Any]]:
@@ -68,7 +65,7 @@ def merge_repaired_documents() -> None:
     or OCR fallback.
 
     The original dataset remains unchanged.
-    A new final_dataset.jsonl file is created.
+    A new final_dataset/_new.jsonl file is created.
     """
 
     
@@ -79,7 +76,7 @@ def merge_repaired_documents() -> None:
     # Load files
     
 
-    original_records = load_jsonl(DATASET_FILE)
+    original_records = load_jsonl(NEW_DATASET_FILE)
 
     repaired_records = load_jsonl(REPAIRED_FILE)
 

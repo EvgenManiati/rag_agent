@@ -1,9 +1,6 @@
-
-from accelerate import state
 from langgraph.graph import StateGraph, END
 from typing import TypedDict, List, Dict, Any
 
-import retriever
 
 
 class AgentState(TypedDict):
@@ -57,18 +54,17 @@ def build_agent(llm, retriever):
 
         state["context"] = ("\n\n").join(context_parts)
 
-        state["iterations"] = (state.get("iterations",0,)+ 1 )
+        state["iterations"] = (state.get("iterations",0,) + 1 )
 
         state["sources"] = [
         {
             "ada": doc.metadata.get("ada", ""),
-            #"subject": doc.metadata.get("subject", ""),
-            "source_id": doc.metadata.get("source_id", ""),
             "file_name": doc.metadata.get("file_name", ""),
             "folder_name": doc.metadata.get("folder_name", ""),
             "drive_path": doc.metadata.get("drive_path", ""),
             "page": doc.metadata.get("page", ""),
             "chunk_id": doc.metadata.get("chunk_id", ""),
+            "content": doc.page_content,
         }
         for doc in docs
         ]

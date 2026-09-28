@@ -4,15 +4,16 @@ import json
 import re
 from pathlib import Path
 from typing import Any
+from diavgeia.config import (
+    NEW_DATASET_FILE,
+    NEW_QUALITY_REPORT_FILE,
+    NEW_SUSPICIOUS_FILE,
+)
 
-
-DATASET_FILE = Path("data/diavgeia/dataset.jsonl")
-    
-
-QUALITY_REPORT_FILE = Path("data/diavgeia/quality_report.jsonl")
+QUALITY_REPORT_FILE = Path("data/diavgeia/final_new_quality_report.jsonl")
    
 
-SUSPICIOUS_FILE = Path("data/diavgeia/suspicious_documents.jsonl")
+SUSPICIOUS_FILE = Path("data/diavgeia/final_new_suspicious_documents.jsonl")
 
 
 def load_jsonl(path: Path) -> list[dict[str, Any]]:
@@ -152,29 +153,21 @@ def evaluate_text_quality(text: str,) -> dict[str, Any]:
     return {
         "status": status,
         "text_length": text_length,
-        "letter_ratio": round(
-            letter_ratio,
-            4,
-        ),
+        "letter_ratio": round(letter_ratio, 4),
         "word_count": word_count,
-        "corrupted_accent_count": (
-            corrupted_accent_count
-        ),
-        "symbol_ratio": round(
-            symbol_ratio,
-            4,
-        ),
+        "corrupted_accent_count": (corrupted_accent_count),
+        "symbol_ratio": round(symbol_ratio, 4),
         "reasons": reasons,
     }
 
 
 def run_quality_check() -> None:
     """
-    Evaluate all extracted documents in dataset.jsonl
+    Evaluate all documents in the repaired new dataset
     and generate quality reports.
     """
 
-    records = load_jsonl(DATASET_FILE)
+    records = load_jsonl(NEW_DATASET_FILE)
 
     if not records:
         print("Δεν βρέθηκαν records στο dataset.")

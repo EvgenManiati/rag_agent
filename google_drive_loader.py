@@ -14,20 +14,18 @@ from googleapiclient.discovery import Resource, build
 from googleapiclient.http import MediaIoBaseDownload
 from langchain_core.documents import Document
 from pypdf import PdfReader
+from http.client import IncompleteRead
+from config import DIAVGEIA_DATASET_FILE
 
 
-SCOPES = [
-    "https://www.googleapis.com/auth/drive"
-]
+SCOPES = ["https://www.googleapis.com/auth/drive.readonly"]
 
 PDF_MIME_TYPE = "application/pdf"
-FOLDER_MIME_TYPE = (
-    "application/vnd.google-apps.folder"
-)
+FOLDER_MIME_TYPE = ("application/vnd.google-apps.folder")
 
-DIAVGEIA_DATASET_FILE = Path(
-    "data/diavgeia/final_dataset.jsonl"
-)
+DIAVGEIA_ROOT_FOLDER_NAME = "Diavgeia_5000"
+
+REPAIRED_EXTRACTION_METHODS = {"tesseract_ocr", "pymupdf_unicode_nfc"}
 
 
 def authenticate_google_drive(
@@ -94,9 +92,7 @@ def authenticate_google_drive(
                 creds = None
 
         else:
-            token_path.unlink(
-                missing_ok=True
-            )
+            token_path.unlink(missing_ok=True)
 
             creds = None
 
@@ -123,16 +119,9 @@ def authenticate_google_drive(
             ),
         )
 
-        token_path.write_text(
-            creds.to_json(),
-            encoding="utf-8",
-        )
+        token_path.write_text(creds.to_json(), encoding="utf-8")
 
-    return build(
-        "drive",
-        "v3",
-        credentials=creds,
-    )
+    return build("drive", "v3", credentials=creds)
 
 
 def load_diavgeia_metadata() -> dict[str, dict]:
@@ -155,10 +144,7 @@ def load_diavgeia_metadata() -> dict[str, dict]:
 
     metadata_by_ada: dict[str, dict] = {}
 
-    with DIAVGEIA_DATASET_FILE.open(
-        "r",
-        encoding="utf-8",
-    ) as file:
+    with DIAVGEIA_DATASET_FILE.open("r", encoding="utf-8") as file:
 
         for line in file:
 
@@ -239,16 +225,9 @@ def list_folder_items(
             .execute()
         )
 
-        items.extend(
-            response.get(
-                "files",
-                [],
-            )
-        )
+        items.extend(response.get("files",[]))
 
-        page_token = response.get(
-            "nextPageToken"
-        )
+        page_token = response.get("nextPageToken")
 
         if not page_token:
             break
@@ -271,26 +250,13 @@ def collect_pdf_files(
 
     collected: list[dict] = []
 
-    for item in list_folder_items(
-        service,
-        folder_id,
-    ):
+    for item in list_folder_items(service, folder_id,):
 
-        name = item.get(
-            "name",
-            "",
-        )
+        name = item.get("name", "")
 
-        mime_type = item.get(
-            "mimeType",
-            "",
-        )
+        mime_type = item.get("mimeType", "")
 
-        current_path = (
-            f"{parent_path}/{name}"
-            if parent_path
-            else name
-        )
+        current_path = (f"{parent_path}/{name}" if parent_path else name)
 
         if mime_type == FOLDER_MIME_TYPE:
 
@@ -312,13 +278,9 @@ def collect_pdf_files(
             or name.lower().endswith(".pdf")
         ):
 
-            item["virtual_path"] = (
-                current_path
-            )
+            item["virtual_path"] = (current_path)
 
-            collected.append(
-                item
-            )
+            collected.append(item)
 
     return collected
 
@@ -326,7 +288,7 @@ def collect_pdf_files(
 def download_file_to_memory(
     service: Resource,
     file_id: str,
-    max_retries: int = 5,
+    max_retries: int = 10,
 ) -> bytes:
     """
     Download a Drive PDF into memory.
@@ -335,10 +297,7 @@ def download_file_to_memory(
     network failures and timeouts.
     """
 
-    for attempt in range(
-        1,
-        max_retries + 1,
-    ):
+    for attempt in range(1, max_retries + 1):
 
         try:
 
@@ -372,11 +331,7 @@ def download_file_to_memory(
 
             return buffer.getvalue()
 
-        except (
-            TimeoutError,
-            ConnectionError,
-            OSError,
-        ) as exc:
+        except (TimeoutError, ConnectionError, OSError, IncompleteRead) as exc:
 
             print(
                 f"DOWNLOAD ERROR "
@@ -386,175 +341,98 @@ def download_file_to_memory(
             )
 
             if attempt < max_retries:
-                time.sleep(5)
+                time.sleep(min(5 * attempt, 30))
 
-    raise RuntimeError(
-        "Αποτυχία λήψης Drive αρχείου "
-        f"μετά από {max_retries} "
-        f"προσπάθειες: {file_id}"
-    )
+    raise RuntimeError(f"Αποτυχία λήψης Drive αρχείου μετά από {max_retries} προσπάθειες: {file_id}")
 
 
-def pdf_bytes_to_documents(
-    pdf_bytes: bytes,
-    file_info: dict,
-    diavgeia_metadata: dict[str, dict],
-) -> list[Document]:
+def parse_decision_type_folder(
+    folder_name: str,
+) -> tuple[str, str]:
     """
-    Convert one PDF into LangChain Documents.
+    Parse a folder name such as:
 
-    One Document is created per page.
+    Β.2.2 - Οριστικοποίηση Πληρωμής
+
+    Returns:
+        ("Β.2.2", "Οριστικοποίηση Πληρωμής")
     """
 
-    reader = PdfReader(
-        io.BytesIO(
-            pdf_bytes
-        )
-    )
+    if " - " not in folder_name:
+        return "", folder_name.strip()
+
+    decision_type_id, decision_type_name = (folder_name.split(" - ", 1))
+
+    return (decision_type_id.strip(), decision_type_name.strip())
+
+def pdf_bytes_to_documents(pdf_bytes: bytes, file_info: dict, diavgeia_metadata: dict[str, dict]) -> list[Document]:
+    """Convert one Diavgeia PDF into LangChain Documents while preserving repaired dataset text when available."""
+
+    file_name = file_info.get("name", "")
+    drive_path = file_info.get("virtual_path", file_name)
+    path_parts = [part for part in drive_path.split("/") if part]
+    root_folder_name = path_parts[0] if path_parts else ""
+    folder_name = path_parts[-2] if len(path_parts) >= 2 else ""
+
+    if root_folder_name.casefold() != DIAVGEIA_ROOT_FOLDER_NAME.casefold():
+        return []
+
+    ada = Path(file_name).stem.strip()
+    dataset_record = diavgeia_metadata.get(ada, {})
+
+    issue_date = str(dataset_record.get("issue_date", ""))
+    issue_year = issue_date[:4] if len(issue_date) >= 4 else ""
+    dataset_text = str(dataset_record.get("text", "")).strip()
+    extraction_method = str(dataset_record.get("extraction_method", "")).strip()
+
+    folder_decision_type_id, decision_type_name = parse_decision_type_folder(folder_name)
+    dataset_decision_type_id = str(dataset_record.get("decision_type_id", "")).strip()
+    decision_type_id = dataset_decision_type_id or folder_decision_type_id
+
+    base_metadata = {
+        "source": "google_drive",
+        "corpus": "diavgeia_5000",
+        "file_name": file_name,
+        "drive_file_id": file_info.get("id", ""),
+        "root_folder": root_folder_name,
+        "folder_name": folder_name,
+        "drive_path": drive_path,
+        "modified_time": file_info.get("modifiedTime", ""),
+        "ada": ada,
+        "decision_type_id": decision_type_id,
+        "decision_type_name": decision_type_name,
+        "decision_type_folder": folder_name,
+        "issue_date": issue_date,
+        "issue_year": issue_year,
+        "extraction_method": extraction_method,
+    }
+
+    if extraction_method in REPAIRED_EXTRACTION_METHODS and dataset_text:
+        metadata = {**base_metadata, "page": 0, "page_scope": "full_document", "text_source": f"final_dataset:{extraction_method}"}
+        return [Document(page_content=dataset_text, metadata=metadata)]
 
     documents: list[Document] = []
 
-    file_name = file_info.get(
-        "name",
-        "",
-    )
+    try:
+        reader = PdfReader(io.BytesIO(pdf_bytes))
 
-    drive_path = file_info.get(
-        "virtual_path",
-        file_name,
-    )
+        for page_number, page in enumerate(reader.pages, start=1):
+            text = page.extract_text() or ""
 
-    path_parts = [
-        part
-        for part in drive_path.split("/")
-        if part
-    ]
+            if not text.strip():
+                continue
 
-    # Direct parent folder.
-    folder_name = (
-        path_parts[-2]
-        if len(path_parts) >= 2
-        else ""
-    )
+            metadata = {**base_metadata, "page": page_number, "page_scope": "single_page", "text_source": "drive_pdf"}
+            documents.append(Document(page_content=text, metadata=metadata))
 
-    # Root folder.
-    root_folder_name = (
-        path_parts[0]
-        if path_parts
-        else ""
-    )
+    except Exception as error:
+        print(f"PDF TEXT EXTRACTION ERROR | ADA={ada} | {error}")
 
-    is_diavgeia = (
-        root_folder_name.lower()
-        == "diavgeia"
-    )
-
-    ada = (
-        Path(file_name).stem
-        if is_diavgeia
-        else ""
-    )
-
-    dataset_record = (
-        diavgeia_metadata.get(
-            ada,
-            {},
-        )
-        if ada
-        else {}
-    )
-
-    issue_date = str(
-        dataset_record.get(
-            "issue_date",
-            "",
-        )
-    )
-
-    issue_year = (
-        issue_date[:4]
-        if len(issue_date) >= 4
-        else ""
-    )
-
-    decision_type_id = str(
-        dataset_record.get(
-            "decision_type_id",
-            "",
-        )
-    )
-
-    # For the current Drive structure,
-    # the parent folder is the official
-    # Diavgeia decision-type category.
-    decision_type = (
-        folder_name
-        if is_diavgeia
-        else ""
-    )
-
-    for page_number, page in enumerate(
-        reader.pages,
-        start=1,
-    ):
-
-        text = (
-            page.extract_text()
-            or ""
-        )
-
-        if not text.strip():
-            continue
-
-        metadata = {
-            "source": "google_drive",
-
-            "file_name": file_name,
-
-            "drive_file_id": (
-                file_info.get(
-                    "id",
-                    "",
-                )
-            ),
-
-            "folder_name": folder_name,
-
-            "drive_path": drive_path,
-
-            "page": page_number,
-
-            "modified_time": (
-                file_info.get(
-                    "modifiedTime",
-                    "",
-                )
-            ),
-
-            "ada": ada,
-
-            "decision_type": (
-                decision_type
-            ),
-
-            "decision_type_id": (
-                decision_type_id
-            ),
-
-            "issue_date": issue_date,
-
-            "issue_year": issue_year,
-        }
-
-        documents.append(
-            Document(
-                page_content=text,
-                metadata=metadata,
-            )
-        )
+    if not documents and dataset_text:
+        metadata = {**base_metadata, "page": 0, "page_scope": "full_document", "text_source": "final_dataset:fallback"}
+        documents.append(Document(page_content=dataset_text, metadata=metadata))
 
     return documents
-
 
 def load_documents_from_drive_folders(
     folder_ids: Iterable[str],
@@ -572,27 +450,19 @@ def load_documents_from_drive_folders(
     cleaned_folder_ids = [
         folder_id.strip()
         for folder_id in folder_ids
-        if (
-            folder_id
-            and folder_id.strip()
-        )
+        if (folder_id and folder_id.strip())
     ]
 
     if not cleaned_folder_ids:
 
-        raise ValueError(
-            "Δεν έχουν οριστεί "
-            "Google Drive folder IDs."
-        )
+        raise ValueError("Δεν έχουν οριστεί Google Drive folder IDs.")
 
     service = authenticate_google_drive(
         credentials_file=credentials_file,
         token_file=token_file,
     )
 
-    diavgeia_metadata = (
-        load_diavgeia_metadata()
-    )
+    diavgeia_metadata = (load_diavgeia_metadata())
 
     all_documents: list[Document] = []
 
@@ -610,17 +480,18 @@ def load_documents_from_drive_folders(
             .execute()
         )
 
-        root_folder_name = (
-            folder_info.get(
-                "name",
-                "",
-            )
-        )
+        root_folder_name = (folder_info.get("name", ""))
 
-        print(
-            "\nLoading Drive folder: "
-            f"{root_folder_name}"
-        )
+        if (
+            root_folder_name.casefold()
+            != DIAVGEIA_ROOT_FOLDER_NAME.casefold()
+        ):
+            raise ValueError(
+                f"Μη επιτρεπόμενο Drive corpus: {root_folder_name}. "
+                f"Ο loader επιτρέπεται να φορτώνει μόνο {DIAVGEIA_ROOT_FOLDER_NAME}."
+            )
+
+        print(f"\nLoading Drive folder: {root_folder_name}")
 
         pdf_files = collect_pdf_files(
             service=service,
@@ -629,15 +500,9 @@ def load_documents_from_drive_folders(
             parent_path=root_folder_name,
         )
 
-        print(
-            f"PDF files found: "
-            f"{len(pdf_files)}"
-        )
+        print(f"PDF files found: {len(pdf_files)}")
 
-        for index, file_info in enumerate(
-            pdf_files,
-            start=1,
-        ):
+        for index, file_info in enumerate(pdf_files, start=1):
 
             file_id = file_info["id"]
 
@@ -646,21 +511,12 @@ def load_documents_from_drive_folders(
             if file_id in seen_file_ids:
                 continue
 
-            seen_file_ids.add(
-                file_id
-            )
+            seen_file_ids.add(file_id)
 
             print(
-                f"[{index}/{len(pdf_files)}] "
-                f"{file_info.get('virtual_path', '')}"
-            )
+                f"[{index}/{len(pdf_files)}] {file_info.get('virtual_path', '')}")
 
-            pdf_bytes = (
-                download_file_to_memory(
-                    service=service,
-                    file_id=file_id,
-                )
-            )
+            pdf_bytes = (download_file_to_memory(service=service, file_id=file_id))
 
             file_documents = (
                 pdf_bytes_to_documents(
@@ -672,16 +528,10 @@ def load_documents_from_drive_folders(
                 )
             )
 
-            all_documents.extend(
-                file_documents
-            )
+            all_documents.extend(file_documents)
 
-    print(
-        "f\nΣυνολικά δημιουργήθηκαν {len(all_documents)} Document objects.")
+    print(f"\nΣυνολικά δημιουργήθηκαν {len(all_documents)} Document objects.")
 
-    print(
-        "Συνολικά μοναδικά PDF files: "
-        f"{len(seen_file_ids)}"
-    )
+    print(f"Συνολικά μοναδικά PDF files: {len(seen_file_ids)}")
 
     return all_documents

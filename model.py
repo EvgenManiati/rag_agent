@@ -1,15 +1,12 @@
-from email import message
 import os
-from secrets import choice
-from urllib import response
-from datasets import config
+from dataclasses import dataclass
+
 from dotenv import load_dotenv
 from langchain_ollama import ChatOllama
 from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
 from langchain_huggingface import HuggingFacePipeline
-import torch
 from openai import OpenAI
-from dataclasses import dataclass
+
 
 
 load_dotenv()
@@ -189,6 +186,3 @@ def load_llm(model_key: str = "llama"):
 
     raise ValueError(f"Άγνωστος provider: {config.provider}")
 
-
-def list_available_models():
-    return models

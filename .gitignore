@@ -1,30 +1,72 @@
 # Python
 __pycache__/
 *.py[cod]
+*$py.class
 
-# Virtual environment
+# Virtual environments
 .venv/
 venv/
+env/
 
-# Environment variables
+# Environment / secrets
 .env
-
-# Google Drive credentials
+.env.*
+!.env.example
 credentials.json
 token.json
+client_secret*.json
 
-# IDE
+# DeepEval / local caches
+.deepeval/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.cache/
+
+# Jupyter / Colab
+.ipynb_checkpoints/
+
+# OS / editor files
+.DS_Store
+Thumbs.db
 .vscode/
 .idea/
 
-# DeepEval local files
-.deepeval/
+# Logs
+*.log
+logs/
 
-# Generated vector stores
+# Model / Hugging Face cache
+models/
+huggingface/
+hf_cache/
+
+# FAISS / vector stores
 data/vectorstores/
+vectorstores/
+*.faiss
+*.index
+*.pkl
 
-# OS files
-.DS_Store
-Thumbs.db
+# Large Diavgeia datasets
+data/diavgeia/*.jsonl
+data/diavgeia/*.pdf
+data/diavgeia/pdfs/
+data/diavgeia/downloads/
 
+# Temporary evaluation samples
+data/evaluation/manual_retrieval_sample_100.jsonl
+
+# Temporary / generated files
+tmp/
+temp/
+*.tmp
+*.bak
+
+# Local database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Google Drive upload staging
 data/drive_upload/
