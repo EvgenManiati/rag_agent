@@ -17,11 +17,11 @@ from evaluation.rag_eval_dataset import EVAL_DATASET
 
 MODELS_TO_TEST = [
     #"krikri",
-    "llama",
-    "qwen",
+    #"llama",
+    #"qwen",
     "gpt41_mini",
-    "gemini_flash",
-    "claude_haiku",
+    #"gemini_flash",
+    #"claude_haiku",
 ]
 
 RETRIEVERS_TO_TEST = ["drive_bge"]
@@ -154,6 +154,8 @@ def evaluate_source(retriever, question, expected_adas):
     source_accuracy = 1.0 if source_rank is not None else 0.0
 
     return source_accuracy, source_rank, retrieved_adas
+
+
 # AVERAGE
 
 
@@ -186,6 +188,8 @@ def run_model_evaluation(model_key, retriever_mode):
         "source_rank": [],
     }
 
+    category_counts = defaultdict(int)
+
     category_scores = defaultdict(
         lambda: {
             "answer_exactness": [],
@@ -206,7 +210,8 @@ def run_model_evaluation(model_key, retriever_mode):
         expected_adas = item.get("expected_adas", [])
         category = item["category"]
 
-        
+        category_counts[category] += 1
+
         print(f"TEST CASE {index}/{total_cases}")
         print(f"Category: {category}")
         print(f"Ερώτηση: {question}")
@@ -281,6 +286,7 @@ def run_model_evaluation(model_key, retriever_mode):
     
 
     overall_results = {
+        "n": total_cases, 
         "answer_exactness": average(overall_scores["answer_exactness"]),
         "number_accuracy": average(overall_scores["number_accuracy"]),
         "source_accuracy": average(overall_scores["source_accuracy"]),
@@ -295,6 +301,7 @@ def run_model_evaluation(model_key, retriever_mode):
 
     for category, metrics in category_scores.items():
         category_results[category] = {
+            "n": category_counts[category],
             "answer_exactness": average(metrics["answer_exactness"]),
             "number_accuracy": average(metrics["number_accuracy"]),
             "source_accuracy": average(metrics["source_accuracy"]),
@@ -319,9 +326,11 @@ def run_model_evaluation(model_key, retriever_mode):
     print("\nΑΠΟΤΕΛΕΣΜΑΤΑ ΑΝΑ ΚΑΤΗΓΟΡΙΑ")
 
     for category, metrics in category_results.items():
-        print(f"\nΚατηγορία: {category}")
+        print(f"\nΚατηγορία: {category} | n={metrics['n']}")
 
         for metric_name, score in metrics.items():
+            if metric_name == "n": 
+                continue
             if score is None:
                 print(f"  {metric_name}: -")
             else:
@@ -349,14 +358,11 @@ def format_score(score):
 
 # SAVE RESULTS
 
-
 def save_results(all_scores):
     RESULTS_DIR.mkdir(parents=True, exist_ok=True)
 
     with JSON_RESULTS_FILE.open("w", encoding="utf-8") as file:
         json.dump(all_scores, file, ensure_ascii=False, indent=4)
-
-    # SUMMARY CSV
 
     summary_rows = []
 
@@ -368,7 +374,9 @@ def save_results(all_scores):
         summary_rows.append({
             "model": model,
             "retriever": retriever,
+            "scope": "overall",
             "category": "overall",
+            "n": overall.get("n"),
             "answer_exactness": overall.get("answer_exactness"),
             "number_accuracy": overall.get("number_accuracy"),
             "source_accuracy": overall.get("source_accuracy"),
@@ -379,29 +387,21 @@ def save_results(all_scores):
             summary_rows.append({
                 "model": model,
                 "retriever": retriever,
+                "scope": "category",
                 "category": category,
+                "n": metrics.get("n"),
                 "answer_exactness": metrics.get("answer_exactness"),
                 "number_accuracy": metrics.get("number_accuracy"),
                 "source_accuracy": metrics.get("source_accuracy"),
                 "source_rank": metrics.get("source_rank"),
             })
 
-    summary_fieldnames = [
-        "model",
-        "retriever",
-        "category",
-        "answer_exactness",
-        "number_accuracy",
-        "source_accuracy",
-        "source_rank",
-    ]
+    summary_fieldnames = ["model", "retriever", "scope", "category", "n", "answer_exactness", "number_accuracy", "source_accuracy", "source_rank"]
 
     with CSV_RESULTS_FILE.open("w", encoding="utf-8-sig", newline="") as file:
         writer = csv.DictWriter(file, fieldnames=summary_fieldnames)
         writer.writeheader()
         writer.writerows(summary_rows)
-
-    # DETAILED CSV
 
     detailed_rows = []
 
@@ -418,7 +418,8 @@ def save_results(all_scores):
                 "expected_answer": detail.get("expected_answer"),
                 "actual_answer": detail.get("actual_answer"),
                 "expected_adas": ", ".join(detail.get("expected_adas", [])),
-                "retrieved_adas": ", ".join(detail.get("retrieved_adas", [])),
+                "expected_source_ids": ", ".join(detail.get("expected_source_ids", [])),
+                "retrieved_ids": ", ".join(detail.get("retrieved_ids", [])),
                 "answer_exactness": detail.get("answer_exactness"),
                 "number_accuracy": detail.get("number_accuracy"),
                 "source_accuracy": detail.get("source_accuracy"),
@@ -426,21 +427,7 @@ def save_results(all_scores):
                 "retrieved_context": detail.get("retrieved_context"),
             })
 
-    detailed_fieldnames = [
-        "model",
-        "retriever",
-        "category",
-        "question",
-        "expected_answer",
-        "actual_answer",
-        "expected_adas",
-        "retrieved_adas",
-        "answer_exactness",
-        "number_accuracy",
-        "source_accuracy",
-        "source_rank",
-        "retrieved_context",
-    ]
+    detailed_fieldnames = ["model", "retriever", "category", "question", "expected_answer", "actual_answer", "expected_adas", "expected_source_ids", "retrieved_ids", "answer_exactness", "number_accuracy", "source_accuracy", "source_rank", "retrieved_context"]
 
     with DETAILED_CSV_FILE.open("w", encoding="utf-8-sig", newline="") as file:
         writer = csv.DictWriter(file, fieldnames=detailed_fieldnames)
@@ -452,9 +439,7 @@ def save_results(all_scores):
     print(f"Summary CSV: {CSV_RESULTS_FILE}")
     print(f"Detailed CSV: {DETAILED_CSV_FILE}")
 
-
 # MAIN
-
 if __name__ == "__main__":
     print("CUSTOM RAG EVALUATION")
     print(f"Answerable test cases: {len([item for item in EVAL_DATASET if item['answerable']])}")
@@ -467,44 +452,29 @@ if __name__ == "__main__":
     for model_key in MODELS_TO_TEST:
         for retriever_mode in RETRIEVERS_TO_TEST:
             experiment_name = f"{model_key}_{retriever_mode}"
-
-            print(f"ΠΕΙΡΑΜΑ: {experiment_name}")
+            print(f"\nΠΕΙΡΑΜΑ: {experiment_name}")
 
             try:
                 all_scores[experiment_name] = run_model_evaluation(model_key, retriever_mode)
 
             except Exception as error:
                 print(f"Απέτυχε το πείραμα {experiment_name}: {error}")
+                all_scores[experiment_name] = {"model": model_key, "retriever": retriever_mode, "overall": {}, "by_category": {}, "details": []}
 
-                all_scores[experiment_name] = {
-                    "model": model_key,
-                    "retriever": retriever_mode,
-                    "overall": {},
-                    "by_category": {},
-                    "details": [],
-                }
-
-    # FINAL COMPARISON
-
-    print("\n\nΣΥΓΚΡΙΤΙΚΟΣ ΠΙΝΑΚΑΣ - CUSTOM EVALUATION")
-
-    print(
-        f"{'Experiment':<32}"
-        f"{'Exactness':<14}"
-        f"{'Number Acc.':<14}"
-        f"{'Source Acc.':<14}"
-        f"{'Source Rank':<14}"
-    )
+    print("\n\nΣΥΓΚΡΙΤΙΚΟΣ ΠΙΝΑΚΑΣ - CUSTOM OVERALL")
+    print(f"{'Experiment':<32}{'N':<6}{'Exactness':<14}{'Number Acc.':<14}{'Source Acc.':<14}{'Source Rank':<14}")
 
     for experiment_name, results in all_scores.items():
         overall = results.get("overall", {})
+        print(f"{experiment_name:<32}{str(overall.get('n', '-')):<6}{format_score(overall.get('answer_exactness')):<14}{format_score(overall.get('number_accuracy')):<14}{format_score(overall.get('source_accuracy')):<14}{format_score(overall.get('source_rank')):<14}")
 
-        print(
-            f"{experiment_name:<32}"
-            f"{format_score(overall.get('answer_exactness')):<14}"
-            f"{format_score(overall.get('number_accuracy')):<14}"
-            f"{format_score(overall.get('source_accuracy')):<14}"
-            f"{format_score(overall.get('source_rank')):<14}"
-        )
+    print("\n\nΣΥΓΚΡΙΤΙΚΟΣ ΠΙΝΑΚΑΣ - CUSTOM ΑΝΑ ΚΑΤΗΓΟΡΙΑ")
+    print(f"{'Experiment':<32}{'Category':<24}{'N':<6}{'Exactness':<14}{'Number Acc.':<14}{'Source Acc.':<14}{'Source Rank':<14}")
+
+    for experiment_name, results in all_scores.items():
+        categories = results.get("by_category", {})
+
+        for category, metrics in categories.items():
+            print(f"{experiment_name:<32}{category:<24}{str(metrics.get('n', '-')):<6}{format_score(metrics.get('answer_exactness')):<14}{format_score(metrics.get('number_accuracy')):<14}{format_score(metrics.get('source_accuracy')):<14}{format_score(metrics.get('source_rank')):<14}")
 
     save_results(all_scores)
