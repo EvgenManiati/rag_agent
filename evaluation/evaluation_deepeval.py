@@ -34,12 +34,11 @@ if hasattr(sys.stderr, "reconfigure"):
 # CONFIGURATION
 
 MODELS_TO_TEST = [
-    #"krikri",
-    #"llama",
-    #"qwen",
+    "llama",
+    "qwen",
     "gpt41_mini",
-    #"gemini_flash",
-    #"claude_haiku",
+    "gemini_flash",
+    "claude_haiku",
 ]
 
 

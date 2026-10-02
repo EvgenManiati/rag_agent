@@ -16,12 +16,11 @@ from evaluation.rag_eval_dataset import EVAL_DATASET
 
 
 MODELS_TO_TEST = [
-    #"krikri",
-    #"llama",
-    #"qwen",
+    "llama",
+    "qwen",
     "gpt41_mini",
-    #"gemini_flash",
-    #"claude_haiku",
+    "gemini_flash",
+    "claude_haiku",
 ]
 
 RETRIEVERS_TO_TEST = ["drive_bge"]
