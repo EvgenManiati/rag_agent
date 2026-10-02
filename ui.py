@@ -434,7 +434,6 @@ with st.sidebar:
     st.header("Ρυθμίσεις")
 
     model_options = {
-        "Krikri — Hugging Face": "krikri",
         "Llama 3.2 - Ollama": "llama",
         "Qwen3 14B — OpenRouter": "qwen",
         "GPT-4.1 Mini — OpenRouter": "gpt41_mini",

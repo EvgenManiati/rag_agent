@@ -20,12 +20,7 @@ class ModelLoader:
     no_think: bool = False
 
 models = {
-    "krikri": ModelLoader(
-        name = "krikri",
-        provider =  "huggingface",
-        model_id = "ilsp/Llama-Krikri-8B-Instruct",
-        max_new_tokens = 300
-    ),
+
     "llama": ModelLoader(
         name = "llama",
         provider = "ollama",
