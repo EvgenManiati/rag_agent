@@ -65,7 +65,7 @@ The system currently supports multiple local and API-based LLMs, allowing the sa
 - Gemini Flash - OpenRouter
 - GPT-4.1 Mini - OpenRouter
 - Claude Haiku - OpenRouter
-- Krikri - HuggingFace
+
 
 Depending on the model, inference can be performed locally or through an external API provider.
 The available model configurations are defined in `model.py`.
