@@ -1,8 +1,5 @@
 from __future__ import annotations
-
-import io
 import json
-import time
 from pathlib import Path
 from typing import Iterable
 
@@ -11,10 +8,7 @@ from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import Resource, build
-from googleapiclient.http import MediaIoBaseDownload
 from langchain_core.documents import Document
-from pypdf import PdfReader
-from http.client import IncompleteRead
 from config import DIAVGEIA_DATASET_FILE
 
 
@@ -24,8 +18,6 @@ PDF_MIME_TYPE = "application/pdf"
 FOLDER_MIME_TYPE = ("application/vnd.google-apps.folder")
 
 DIAVGEIA_ROOT_FOLDER_NAME = "Diavgeia_5000"
-
-REPAIRED_EXTRACTION_METHODS = {"tesseract_ocr", "pymupdf_unicode_nfc"}
 
 
 def authenticate_google_drive(
@@ -73,9 +65,7 @@ def authenticate_google_drive(
         if creds.expired and creds.refresh_token:
 
             try:
-                creds.refresh(
-                    Request()
-                )
+                creds.refresh(Request())
 
             except RefreshError:
                 print(
@@ -85,9 +75,7 @@ def authenticate_google_drive(
                     "σύνδεση."
                 )
 
-                token_path.unlink(
-                    missing_ok=True
-                )
+                token_path.unlink(missing_ok=True)
 
                 creds = None
 
@@ -159,36 +147,22 @@ def load_diavgeia_metadata() -> dict[str, dict]:
             except json.JSONDecodeError:
                 continue
 
-            if (
-                record.get("source")
-                != "diavgeia"
-            ):
+            if (record.get("source") != "diavgeia"):
                 continue
 
-            ada = str(
-                record.get(
-                    "ada",
-                    "",
-                )
-            ).strip()
+            ada = str(record.get("ada", "")).strip()
 
             if not ada:
                 continue
 
             metadata_by_ada[ada] = record
 
-    print(
-        "Loaded Diavgeia metadata: "
-        f"{len(metadata_by_ada)} records."
-    )
+    print(f"Loaded Diavgeia metadata: {len(metadata_by_ada)} records.")
 
     return metadata_by_ada
 
 
-def list_folder_items(
-    service: Resource,
-    folder_id: str,
-) -> list[dict]:
+def list_folder_items(service: Resource, folder_id: str) -> list[dict]:
     """
     Return all direct children of a Drive folder.
     """
@@ -284,71 +258,7 @@ def collect_pdf_files(
 
     return collected
 
-
-def download_file_to_memory(
-    service: Resource,
-    file_id: str,
-    max_retries: int = 10,
-) -> bytes:
-    """
-    Download a Drive PDF into memory.
-
-    Retries are used for temporary
-    network failures and timeouts.
-    """
-
-    for attempt in range(1, max_retries + 1):
-
-        try:
-
-            request = (
-                service.files()
-                .get_media(
-                    fileId=file_id,
-                    supportsAllDrives=True,
-                )
-            )
-
-            buffer = io.BytesIO()
-
-            downloader = (
-                MediaIoBaseDownload(
-                    buffer,
-                    request,
-                )
-            )
-
-            done = False
-
-            while not done:
-
-                _, done = (
-                    downloader
-                    .next_chunk(
-                        num_retries=3
-                    )
-                )
-
-            return buffer.getvalue()
-
-        except (TimeoutError, ConnectionError, OSError, IncompleteRead) as exc:
-
-            print(
-                f"DOWNLOAD ERROR "
-                f"{attempt}/{max_retries} "
-                f"| file_id={file_id} "
-                f"| {exc}"
-            )
-
-            if attempt < max_retries:
-                time.sleep(min(5 * attempt, 30))
-
-    raise RuntimeError(f"Αποτυχία λήψης Drive αρχείου μετά από {max_retries} προσπάθειες: {file_id}")
-
-
-def parse_decision_type_folder(
-    folder_name: str,
-) -> tuple[str, str]:
+def parse_decision_type_folder(folder_name: str) -> tuple[str, str]:
     """
     Parse a folder name such as:
 
@@ -365,12 +275,39 @@ def parse_decision_type_folder(
 
     return (decision_type_id.strip(), decision_type_name.strip())
 
-def pdf_bytes_to_documents(pdf_bytes: bytes, file_info: dict, diavgeia_metadata: dict[str, dict]) -> list[Document]:
-    """Convert one Diavgeia PDF into LangChain Documents while preserving repaired dataset text when available."""
+def drive_file_to_documents(file_info: dict, diavgeia_metadata: dict[str, dict]) -> list[Document]:
+    """
+    Convert one Google Drive PDF reference into page-level LangChain
+    Documents using quality-controlled text from final_dataset.jsonl.
 
-    file_name = file_info.get("name", "")
-    drive_path = file_info.get("virtual_path", file_name)
+    Google Drive remains the authoritative source for file identity,
+    folder structure and cloud path. The textual content used for
+    retrieval is obtained from the corresponding dataset record,
+    identified through the ADA contained in the PDF file name.
+
+    Args:
+        file_info:
+            Google Drive metadata for one PDF file.
+
+        diavgeia_metadata:
+            Mapping from ADA identifiers to records loaded from
+            final_dataset.jsonl.
+
+    Returns:
+        list[Document]:
+            One LangChain Document for every original PDF page.
+
+    Raises:
+        RuntimeError:
+            If the Drive PDF does not have a matching dataset record,
+            if its page structure is invalid or if an expected page
+            contains no text.
+    """
+
+    file_name = str(file_info.get("name", "")).strip()
+    drive_path = str(file_info.get("virtual_path", file_name)).strip()
     path_parts = [part for part in drive_path.split("/") if part]
+
     root_folder_name = path_parts[0] if path_parts else ""
     folder_name = path_parts[-2] if len(path_parts) >= 2 else ""
 
@@ -378,16 +315,32 @@ def pdf_bytes_to_documents(pdf_bytes: bytes, file_info: dict, diavgeia_metadata:
         return []
 
     ada = Path(file_name).stem.strip()
-    dataset_record = diavgeia_metadata.get(ada, {})
 
-    issue_date = str(dataset_record.get("issue_date", ""))
-    issue_year = issue_date[:4] if len(issue_date) >= 4 else ""
-    dataset_text = str(dataset_record.get("text", "")).strip()
-    extraction_method = str(dataset_record.get("extraction_method", "")).strip()
+    if not ada:
+        raise RuntimeError(f"Δεν ήταν δυνατό να εξαχθεί ADA από το Drive αρχείο: {file_name}")
 
-    folder_decision_type_id, decision_type_name = parse_decision_type_folder(folder_name)
+    dataset_record = diavgeia_metadata.get(ada)
+
+    if dataset_record is None:
+        raise RuntimeError(f"Δεν βρέθηκε record στο final_dataset.jsonl για Drive PDF με ADA {ada}.")
+
+    pages = dataset_record.get("pages", [])
+    total_page_count = dataset_record.get("total_page_count")
+
+    if not isinstance(pages, list):
+        raise RuntimeError(f"Μη έγκυρο pages field για ADA {ada}.")
+
+    if total_page_count is not None and len(pages) != total_page_count:
+        raise RuntimeError(f"Page mapping mismatch για ADA {ada}: total_page_count={total_page_count}, pages={len(pages)}")
+
+    folder_decision_type_id, folder_decision_type_name = parse_decision_type_folder(folder_name)
     dataset_decision_type_id = str(dataset_record.get("decision_type_id", "")).strip()
+
     decision_type_id = dataset_decision_type_id or folder_decision_type_id
+    decision_type_name = folder_decision_type_name
+
+    issue_date = str(dataset_record.get("issue_date", "") or dataset_record.get("publish_date", "")).strip()
+    issue_year = issue_date[:4] if len(issue_date) >= 4 else ""
 
     base_metadata = {
         "source": "google_drive",
@@ -404,33 +357,23 @@ def pdf_bytes_to_documents(pdf_bytes: bytes, file_info: dict, diavgeia_metadata:
         "decision_type_folder": folder_name,
         "issue_date": issue_date,
         "issue_year": issue_year,
-        "extraction_method": extraction_method,
+        "document_url": dataset_record.get("document_url", ""),
+        "extraction_method": dataset_record.get("extraction_method", ""),
+        "repaired": dataset_record.get("repaired", False),
+        "text_source": "final_dataset",
     }
 
-    if extraction_method in REPAIRED_EXTRACTION_METHODS and dataset_text:
-        metadata = {**base_metadata, "page": 0, "page_scope": "full_document", "text_source": f"final_dataset:{extraction_method}"}
-        return [Document(page_content=dataset_text, metadata=metadata)]
+    documents = []
 
-    documents: list[Document] = []
+    for page_number, page_text in enumerate(pages, start=1):
+        page_text = str(page_text).strip()
 
-    try:
-        reader = PdfReader(io.BytesIO(pdf_bytes))
+        if not page_text:
+            raise RuntimeError(f"Κενή σελίδα στο final_dataset για ADA {ada}, page {page_number}.")
 
-        for page_number, page in enumerate(reader.pages, start=1):
-            text = page.extract_text() or ""
+        metadata = {**base_metadata, "page": page_number, "page_scope": "single_page"}
 
-            if not text.strip():
-                continue
-
-            metadata = {**base_metadata, "page": page_number, "page_scope": "single_page", "text_source": "drive_pdf"}
-            documents.append(Document(page_content=text, metadata=metadata))
-
-    except Exception as error:
-        print(f"PDF TEXT EXTRACTION ERROR | ADA={ada} | {error}")
-
-    if not documents and dataset_text:
-        metadata = {**base_metadata, "page": 0, "page_scope": "full_document", "text_source": "final_dataset:fallback"}
-        documents.append(Document(page_content=dataset_text, metadata=metadata))
+        documents.append(Document(page_content=page_text, metadata=metadata))
 
     return documents
 
@@ -482,10 +425,7 @@ def load_documents_from_drive_folders(
 
         root_folder_name = (folder_info.get("name", ""))
 
-        if (
-            root_folder_name.casefold()
-            != DIAVGEIA_ROOT_FOLDER_NAME.casefold()
-        ):
+        if (root_folder_name.casefold()!= DIAVGEIA_ROOT_FOLDER_NAME.casefold()):
             raise ValueError(
                 f"Μη επιτρεπόμενο Drive corpus: {root_folder_name}. "
                 f"Ο loader επιτρέπεται να φορτώνει μόνο {DIAVGEIA_ROOT_FOLDER_NAME}."
@@ -506,27 +446,16 @@ def load_documents_from_drive_folders(
 
             file_id = file_info["id"]
 
-            # Avoid processing the same Drive
-            # file more than once.
+            # Avoid processing the same Drive file more than once.
+
             if file_id in seen_file_ids:
                 continue
 
             seen_file_ids.add(file_id)
 
-            print(
-                f"[{index}/{len(pdf_files)}] {file_info.get('virtual_path', '')}")
+            print(f"[{index}/{len(pdf_files)}] {file_info.get('virtual_path', '')}")
 
-            pdf_bytes = (download_file_to_memory(service=service, file_id=file_id))
-
-            file_documents = (
-                pdf_bytes_to_documents(
-                    pdf_bytes=pdf_bytes,
-                    file_info=file_info,
-                    diavgeia_metadata=(
-                        diavgeia_metadata
-                    ),
-                )
-            )
+            file_documents = drive_file_to_documents(file_info=file_info, diavgeia_metadata=diavgeia_metadata)
 
             all_documents.extend(file_documents)
 
@@ -535,3 +464,21 @@ def load_documents_from_drive_folders(
     print(f"Συνολικά μοναδικά PDF files: {len(seen_file_ids)}")
 
     return all_documents
+
+if __name__ == "__main__":
+    from config import DIAVGEIA_5000_FOLDER_ID
+
+    documents = load_documents_from_drive_folders(
+        folder_ids=[DIAVGEIA_5000_FOLDER_ID],
+        recursive=True,
+    )
+
+    print("\nDRIVE LOADER TEST COMPLETE")
+    print(f"Total Documents: {len(documents)}")
+
+    if documents:
+        print("\nFirst Document metadata:")
+        print(documents[0].metadata)
+
+        print("\nFirst Document text preview:")
+        print(documents[0].page_content[:500])

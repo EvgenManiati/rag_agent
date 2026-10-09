@@ -126,10 +126,6 @@ def build_agent(llm, retriever):
     Απάντηση:
     """
 
-            #print("\nΑνακτημένο context:")
-            #print(state["context"])
-            #print("\nΤέλος context\n")
-
             raw = llm.invoke(prompt)
 
             if hasattr(raw, "content"):

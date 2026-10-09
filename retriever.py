@@ -169,9 +169,7 @@ def load_drive_chunks() -> tuple[Document, ...]:
     διατηρώντας file/folder/path metadata.
     """
 
-    documents = list(
-        load_drive_source_documents()
-    )
+    documents = list(load_drive_source_documents())
 
     splitter = RecursiveCharacterTextSplitter(
         chunk_size=CHUNK_SIZE,

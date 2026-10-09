@@ -219,149 +219,182 @@ EVAL_DATASET = [
         "answerable": True,
     },
     
-    # 21. SMS-CBA - κόστος
-    {"question": "Πόσο κόστισε ο ηλεκτρονικός εξοπλισμός και το λογισμικό για το SMS-CBA;", 
-     "expected_answer": "17.371,24 Ευρώ, πλέον ΦΠΑ.", 
-     "expected_adas": ["ΩΤΑΜ469ΗΞΩ-ΤΛ3"], 
-     "expected_source_ids": [], 
-     "category": "procurement", 
-     "answerable": True},
+# 21 - procurement
+{
+    "question": "Ποια εταιρεία ανέλαβε την προμήθεια αναλωσίμων και περιφερειακών ειδών για το έργο AdVENt;",
+    "expected_answer": "Η easyPC – ΝΙΚΟΛΑΪΔΗΣ ΔΗΜΗΤΡΙΟΣ ΚΑΙ ΣΙΑ Ο.Ε.",
+    "expected_adas": ["Ω8ΟΤ469ΗΞΩ-2ΣΙ"],
+    "expected_source_ids": [],
+    "category": "procurement",
+    "answerable": True,
+},
 
-    # 22. SMS-CBA - ανάδοχος
-    {"question": "Ποια εταιρεία ανέλαβε την προμήθεια για το SMS-CBA;", 
-     "expected_answer": "COSMOS BUSINESS SYSTEMS AEBE.", 
-     "expected_adas": ["ΩΤΑΜ469ΗΞΩ-ΤΛ3"], 
-     "expected_source_ids": [], 
-     "category": "procurement", 
-     "answerable": True},
+# 22 - procurement
+{
+    "question": "Ποιο ήταν το ποσό της προμήθειας για το έργο AdVENt;",
+    "expected_answer": "9.794,00 ευρώ, πλέον του αναλογούντος ΦΠΑ.",
+    "expected_adas": ["Ω8ΟΤ469ΗΞΩ-2ΣΙ"],
+    "expected_source_ids": [],
+    "category": "procurement",
+    "answerable": True,
+},
 
-    # 23. SMS-CBA - αντικείμενο
-    {"question": "Τι αγοράστηκε για το έργο SMS-CBA;", 
-     "expected_answer": "Ηλεκτρονικός εξοπλισμός και ειδικό λογισμικό.", 
-     "expected_adas": ["ΩΤΑΜ469ΗΞΩ-ΤΛ3"], 
-     "expected_source_ids": [], 
-     "category": "procurement", 
-     "answerable": True},
+# 23 - procurement
+{
+    "question": "Ποιο ήταν το χρονικό διάστημα της προμήθειας για το έργο AdVENt;",
+    "expected_answer": "Από 10/01/2022 έως 17/01/2022.",
+    "expected_adas": ["Ω8ΟΤ469ΗΞΩ-2ΣΙ"],
+    "expected_source_ids": [],
+    "category": "procurement",
+    "answerable": True,
+},
 
-    # 24. SMS-CBA - λήξη σύμβασης
-    {"question": "Μέχρι πότε διαρκούσε η σύμβαση προμήθειας για το SMS-CBA;", 
-    "expected_answer": "Μέχρι 30/08/2021.", 
-    "expected_adas": ["ΩΤΑΜ469ΗΞΩ-ΤΛ3"], 
-    "expected_source_ids": [], 
-    "category": "procurement", 
-    "answerable": True},
+# 24 - procurement
+{
+    "question": "Ποια εταιρεία ανέλαβε την προμήθεια ηλεκτρονικού εξοπλισμού για το IntelComp;",
+    "expected_answer": "Η MSYSTEMS I.K.E.",
+    "expected_adas": ["ΨΘ08469ΗΞΩ-Λ28"],
+    "expected_source_ids": [],
+    "category": "procurement",
+    "answerable": True,
+},
 
-    # 25. SMS-CBA - έναρξη σύμβασης
-    {"question": "Πότε ξεκινούσε η σύμβαση προμήθειας για το SMS-CBA;", 
-     "expected_answer": "Στις 15/07/2021.", 
-     "expected_adas": ["ΩΤΑΜ469ΗΞΩ-ΤΛ3"], 
-     "expected_source_ids": [], 
-     "category": "procurement", 
-     "answerable": True},
+# 25 - procurement
+{
+    "question": "Πόσο κόστισε η προμήθεια ηλεκτρονικού εξοπλισμού για το IntelComp;",
+    "expected_answer": "4.397,1 ευρώ, πλέον του αναλογούντος ΦΠΑ.",
+    "expected_adas": ["ΨΘ08469ΗΞΩ-Λ28"],
+    "expected_source_ids": [],
+    "category": "procurement",
+    "answerable": True,
+},
 
-    # 26. BEHAVE - διάρκεια μετακίνησης
-    {"question": "Πόσες μέρες θα διαρκούσε η μετακίνηση του συνεργάτη για το BEHAVE;", 
-     "expected_answer": "36 ημέρες.", 
-     "expected_adas": ["Ψ640469ΗΞΩ-30Ο"], 
-     "expected_source_ids": [], 
-     "category": "travel", 
-     "answerable": True},
+# 26 - travel
+{
+    "question": "Από πού προς πού θα μετακινούνταν ο συνεργάτης του έργου PREMIERE;",
+    "expected_answer": "Από την Αθήνα στο Πόρτο.",
+    "expected_adas": ["ΨΝΤΥ469ΗΞΩ-ΒΣ4"],
+    "expected_source_ids": [],
+    "category": "travel",
+    "answerable": True,
+},
 
-    # 27. BEHAVE - προορισμός
-    {"question": "Πού θα ταξίδευε ο συνεργάτης για το έργο BEHAVE;", 
-     "expected_answer": "Από την Αθήνα στο Λος Άντζελες.", 
-     "expected_adas": ["Ψ640469ΗΞΩ-30Ο"], 
-     "expected_source_ids": [], 
-     "category": "travel", 
-     "answerable": True},
+# 27 - travel
+{
+    "question": "Ποιο ήταν το χρονικό διάστημα της μετακίνησης για το έργο PREMIERE;",
+    "expected_answer": "Από 17/09/2025 έως 24/09/2025.",
+    "expected_adas": ["ΨΝΤΥ469ΗΞΩ-ΒΣ4"],
+    "expected_source_ids": [],
+    "category": "travel",
+    "answerable": True,
+},
 
-    # 28. BEHAVE - αφετηρία
-    {"question": "Από ποια πόλη θα ξεκινούσε η μετακίνηση για το BEHAVE;", 
-     "expected_answer": "Από την Αθήνα.", 
-     "expected_adas": ["Ψ640469ΗΞΩ-30Ο"], 
-     "expected_source_ids": [], 
-     "category": "travel", 
-     "answerable": True},
+# 28 - travel
+{
+    "question": "Πού θα ταξίδευε ο συνεργάτης για το συνέδριο 10th IEEE International Smart Cities Conference;",
+    "expected_answer": "Από την Πάτρα στην Pataya City της Ταϊλάνδης.",
+    "expected_adas": ["9Υ7Γ469ΗΞΩ-9ΞΞ"],
+    "expected_source_ids": [],
+    "category": "travel",
+    "answerable": True,
+},
+# 29 - TRUSTEE
+{
+    "question": "Τι άλλαξε στη σύμβαση του έργου TRUSTEE;",
+    "expected_answer": "Τροποποιήθηκε το οικονομικό αντικείμενο της σύμβασης.",
+    "expected_adas": ["67ΖΙ469ΗΞΩ-1ΧΧ"],
+    "expected_source_ids": [],
+    "category": "contract_modification",
+    "answerable": True,
+},
 
-    # 29. TRUSTEE - τροποποίηση σύμβασης
-    {"question": "Τι άλλαξε στη σύμβαση του έργου TRUSTEE;", 
-     "expected_answer": "Τροποποιήθηκε το οικονομικό αντικείμενο της σύμβασης.", 
-     "expected_adas": ["67ΖΙ469ΗΞΩ-1ΧΧ"], 
-     "expected_source_ids": [], 
-     "category": "contract_modification", 
-     "answerable": True},
+# 30 - scholarship
+{
+    "question": "Ποιο ήταν το μηνιαίο ποσό της υποτροφίας στο έργο Ανάπτυξη Αυτόνομων Ρομποτικών Συστημάτων;",
+    "expected_answer": "1.300,00 ευρώ τον μήνα.",
+    "expected_adas": ["9Ε7Β469ΗΞΩ-4ΟΞ"],
+    "expected_source_ids": [],
+    "category": "scholarship",
+    "answerable": True,
+},
+# 31 - ΟΡΙΖΟΝΤΙΟ ΙΠΣΥ - Αικατερίνη
+{
+    "question": "Πόσο ήταν το συνολικό κόστος της συνεργασίας της Αικατερίνης στο Οριζόντιο ΙΠΣΥ;",
+    "expected_answer": "7.350,00 Ευρώ.",
+    "expected_adas": ["6Θ5Β469ΗΞΩ-ΣΧΛ"],
+    "expected_source_ids": [],
+    "category": "contract",
+    "answerable": True,
+},
 
-    # 30. AutoFAIR - υποτροφία
-    {"question": "Με τι αντικείμενο σχετιζόταν η υποτροφία AutoFAIR;", 
-     "expected_answer": "Με έρευνα στον χώρο της δικαιοσύνης και της επεξηγησιμότητας αλγορίθμων μηχανικής μάθησης.", 
-     "expected_adas": ["ΡΖΑΟ469ΗΞΩ-ΒΤΑ"], 
-     "expected_source_ids": [], 
-     "category": "scholarship", 
-     "answerable": True},
+# 32 - ΟΡΙΖΟΝΤΙΟ ΙΠΣΥ - Αντωνία
+{
+    "question": "Πόσο ήταν το συνολικό κόστος της συνεργασίας της Αντωνίας στο Οριζόντιο ΙΠΣΥ;",
+    "expected_answer": "9.990,00 Ευρώ.",
+    "expected_adas": ["6Θ5Β469ΗΞΩ-ΣΧΛ"],
+    "expected_source_ids": [],
+    "category": "contract",
+    "answerable": True,
+},
+# 33 - recruitment
+{
+    "question": "Πόσα μόρια μπορεί να δώσει η συνέντευξη στην πρόσκληση MINOR-MED;",
+    "expected_answer": "Έως 10 μόρια.",
+    "expected_adas": ["921Ε469ΗΞΩ-Λ7Δ"],
+    "expected_source_ids": [],
+    "category": "recruitment",
+    "answerable": True,
+},
 
-    # 31. Οριζόντιο ΙΠΣΥ - Αικατερίνη
-    {"question": "Πόσο ήταν το συνολικό κόστος της συνεργασίας της Αικατερίνης στο Οριζόντιο ΙΠΣΥ;", 
-     "expected_answer": "7.350,00 Ευρώ.", 
-     "expected_adas": ["6Θ5Β469ΗΞΩ-ΣΧΛ"], 
-     "expected_source_ids": [], 
-     "category": "contract", 
-     "answerable": True},
+# 34 - recruitment
+{
+    "question": "Ποια είναι η ανώτατη συνολική βαθμολογία στην αξιολόγηση της πρόσκλησης MINOR-MED;",
+    "expected_answer": "100 μόρια.",
+    "expected_adas": ["921Ε469ΗΞΩ-Λ7Δ"],
+    "expected_source_ids": [],
+    "category": "recruitment",
+    "answerable": True,
+},
 
-    # 32. Οριζόντιο ΙΠΣΥ - Αντωνία
-    {"question": "Πόσο ήταν το συνολικό κόστος της συνεργασίας της Αντωνίας στο Οριζόντιο ΙΠΣΥ;", 
-     "expected_answer": "9.990,00 Ευρώ.", 
-     "expected_adas": ["6Θ5Β469ΗΞΩ-ΣΧΛ"], 
-     "expected_source_ids": [], 
-     "category": "contract", 
-     "answerable": True},
+# 35 - procurement
+{
+    "question": "Ποια εταιρεία ανέλαβε την προμήθεια ηλεκτρονικού και εργαστηριακού εξοπλισμού για ΤΜΗΜΑ 3 –Φορητό σύστημα φασματοσκοπίας φθορισμού ακτίνων-Χ;",
+    "expected_answer": "Η ΑΝΑΛΥΤΙΚΕΣ ΣΥΣΚΕΥΕΣ ΑΕ.",
+    "expected_adas": ["92ΧΔ469ΗΞΩ-ΦΒ8"],
+    "expected_source_ids": [],
+    "category": "procurement",
+    "answerable": True,
+},
 
-    # 33. ARIA - συνέντευξη
-    {"question": "Πόσα μόρια μπορεί να δώσει η συνέντευξη στην πρόσκληση ARIA;", 
-     "expected_answer": "Από 0 έως 10 μόρια.", 
-     "expected_adas": ["9Ζ87469ΗΞΩ-ΕΩΟ"], 
-     "expected_source_ids": [], 
-     "category": "recruitment", 
-     "answerable": True},
+# 36 - procurement
+{
+    "question": "Ποιο ήταν το ποσό της σύμβασης προμήθειας ηλεκτρονικού και εργαστηριακού εξοπλισμού με την ΑΝΑΛΥΤΙΚΕΣ ΣΥΣΚΕΥΕΣ ΑΕ;",
+    "expected_answer": "94.866,00 ευρώ, πλέον του αναλογούντος ΦΠΑ.",
+    "expected_adas": ["92ΧΔ469ΗΞΩ-ΦΒ8"],
+    "expected_source_ids": [],
+    "category": "procurement",
+    "answerable": True,
+},
 
-    # 34. ARIA - συνολική βαθμολογία
-    {"question": "Ποια είναι η μέγιστη συνολική βαθμολογία στην αξιολόγηση ARIA;", 
-     "expected_answer": "100 μόρια.", 
-     "expected_adas": ["9Ζ87469ΗΞΩ-ΕΩΟ"], 
-     "expected_source_ids": [], 
-     "category": "recruitment", 
-     "answerable": True},
+# 37 - travel
+{
+    "question": "Πόσες ημέρες θα διαρκούσε η μετακίνηση στην Ταϊλάνδη για το 10th IEEE International Smart Cities Conference;",
+    "expected_answer": "8 ημέρες.",
+    "expected_adas": ["9Υ7Γ469ΗΞΩ-9ΞΞ"],
+    "expected_source_ids": [],
+    "category": "travel",
+    "answerable": True,
+},
 
-    # 35. SMS-CBA - χρονικό διάστημα σύμβασης
-    {"question": "Ποιο ήταν το χρονικό διάστημα της σύμβασης προμήθειας για το SMS-CBA;", 
-     "expected_answer": "Από 15/07/2021 έως 30/08/2021.", 
-     "expected_adas": ["ΩΤΑΜ469ΗΞΩ-ΤΛ3"], 
-     "expected_source_ids": [], 
-     "category": "procurement", 
-     "answerable": True},
-
-    # 36. SMS-CBA - ανάδοχος και αντικείμενο
-    {"question": "Τι προμήθευσε η COSMOS BUSINESS SYSTEMS AEBE για το SMS-CBA;", 
-     "expected_answer": "Ηλεκτρονικό εξοπλισμό και ειδικό λογισμικό.", 
-     "expected_adas": ["ΩΤΑΜ469ΗΞΩ-ΤΛ3"], 
-     "expected_source_ids": [], 
-     "category": "procurement", 
-     "answerable": True},
-
-    # 37. BEHAVE - διαδρομή και διάρκεια
-    {"question": "Ποια ήταν η διαδρομή και η διάρκεια της μετακίνησης για το έργο BEHAVE;", 
-     "expected_answer": "Από την Αθήνα στο Λος Άντζελες, για 36 ημέρες.", 
-     "expected_adas": ["Ψ640469ΗΞΩ-30Ο"], 
-     "expected_source_ids": [], 
-     "category": "travel", 
-     "answerable": True},
-
-    # 38. ARIA - συνέντευξη σε σχέση με συνολική βαθμολογία
-    {"question": "Πόσα μόρια μπορεί να δώσει η συνέντευξη στην ARIA και ποια είναι η μέγιστη συνολική βαθμολογία;", 
-     "expected_answer": "Η συνέντευξη μπορεί να δώσει από 0 έως 10 μόρια και η μέγιστη συνολική βαθμολογία είναι 100 μόρια.", 
-     "expected_adas": ["9Ζ87469ΗΞΩ-ΕΩΟ"], 
-     "expected_source_ids": [], 
-     "category": "recruitment", 
-     "answerable": True},
+# 38 - recruitment
+{
+    "question": "Πόσα μόρια πρέπει να συγκεντρώσει τουλάχιστον ένας υποψήφιος για να θεωρηθεί επιτυχών στην πρόσκληση RegulAIze;",
+    "expected_answer": "Τουλάχιστον 40 μόρια.",
+    "expected_adas": ["63Η3469ΗΞΩ-1Ρ6"],
+    "expected_source_ids": [],
+    "category": "recruitment",
+    "answerable": True,
+},
 
 # 39. ΕΚ Αθηνά - αναμόρφωση προϋπολογισμού
 {

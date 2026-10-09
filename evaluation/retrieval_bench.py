@@ -25,22 +25,56 @@ EVALUATION_K = 5
 
 # Helpers
 def get_unique_document_ranking(documents, max_results=5):
+    """
+    Convert retrieved chunks into a ranking of unique source documents.
+
+    Multiple retrieved chunks may belong to the same PDF. This function
+    collapses them into one ranked result per source document while
+    preserving the source metadata required by the retrieval evaluation.
+
+    Document identity is resolved in the following order:
+        1. ADA
+        2. source_id
+        3. file_name
+
+    Args:
+        documents:
+            Retrieved LangChain Documents.
+
+        max_results:
+            Maximum number of unique source documents to return.
+
+    Returns:
+        list[dict]:
+            Ranked unique source documents and their metadata.
+    """
+
     unique_results = []
-    seen_adas = set()
+    seen_documents = set()
 
     for document in documents:
         ada = str(document.metadata.get("ada") or "").strip()
+        source_id = str(document.metadata.get("source_id") or "").strip()
+        file_name = str(document.metadata.get("file_name") or "").strip()
+        folder_name = str(document.metadata.get("folder_name") or "").strip()
+        drive_path = str(document.metadata.get("drive_path") or "").strip()
 
-        if not ada or ada in seen_adas:
+        document_id = ada or source_id or file_name
+
+        if not document_id or document_id in seen_documents:
             continue
 
-        seen_adas.add(ada)
+        seen_documents.add(document_id)
 
         unique_results.append({
-            "ada": ada,
-            "file_name": document.metadata.get("file_name"),
-            "folder_name": document.metadata.get("folder_name"),
-            "drive_path": document.metadata.get("drive_path"),
+            "document_id": document_id,
+            "ada": ada or None,
+            "source_id": source_id or None,
+            "file_name": file_name or None,
+            "folder_name": folder_name or None,
+            "drive_path": drive_path or None,
+            "source": document.metadata.get("source"),
+            "page": document.metadata.get("page"),
             "chunk_id": document.metadata.get("chunk_id"),
         })
 
