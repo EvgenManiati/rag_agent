@@ -275,7 +275,7 @@ The result tables below correspond to an earlier evaluation run and are retained
 | Qwen3 14B        | 0.885        | 0.904            | 0.923             | 0.846          |
 | GPT-4.1 Mini     | 0.930        | 0.704            | 0.923             | 0.872          |
 | Gemini 2.5 Flash | 0.885        | 0.879            | 0.923             | 0.872          |
-| Claude Haiku 4.5 | 0.774        | 0.923            | 0.923             | 0.872          |
+| Claude Haiku 4.5 | 0.877        | 0.774            | 0.923             | 0.872          |
 
 
 GPT-4.1 Mini achieved the highest Faithfulness, while Qwen3 14B and  Claude Haiku 4.5 achieved the highest Answer Relevancy. Contextual Precision and Contextual Recall reached 0.846 - 0.872 for almost all evaluated models. Llama 3.2 3B did not perform the evaluation at all.
