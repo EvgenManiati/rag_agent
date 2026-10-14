@@ -4,7 +4,7 @@
 ## Overview
 
 This project implements an Agentic Retrieval-Augmented Generation (RAG) assistant for organizational knowledge management. 
-The system information from organizational, regulatory and administrative documents, retrieves relevant information from the document stored in Google Drive, and generates answers based on the retrieved context.
+The system answers questions over organizational and administrative documents. It uses Google Drive as the cloud document repository, preserves the structure and metadata of the source documents, retrieves relevant information through local FAISS vector indexes, and generates grounded answers from the retrieved context.
 The architecture combines LangGraph-based agent orchestration, semantic and ensemble retrieval over a Google Drive document corpus, multiple Large Language Models (LLMs) and a comprehensive evaluation framework for retrieval and answer quality.
 The system was developed and evaluated primarily on Greek-language administrative documents.
 
@@ -34,9 +34,12 @@ The system was developed and evaluated primarily on Greek-language administrativ
 ## Architecture
 
 OFFLINE / INDEX BUILDING
+
 Google Drive
     ↓
-Documents
+Recursive PDF discovery + Drive metadata
+    ↓
+ADA mapping to final_dataset.jsonl page 
     ↓
 Chunking
     ↓
@@ -52,7 +55,7 @@ Selected Retriever
     ↓
 Retrieved Context
     ↓
-LLM 
+   LLM 
     ↓
 Final Answer
 
@@ -70,7 +73,7 @@ The system currently supports multiple local and API-based LLMs, allowing the sa
 Depending on the model, inference can be performed locally or through an external API provider.
 The available model configurations are defined in `model.py`.
 
-##Supported Retrievers
+## Supported Retrievers
 
 The system supports three retrieval strategies over the Google Drive document corpus.
 
@@ -99,14 +102,13 @@ The documents are processed into chunks and indexed locally in FAISS vector stor
 Administrative decisions are collected from the Greek Diavgeia platform from 2021 until 2026.
 The collection and preprocessing pipeline is implemented under `diavgeia/` and includes:
 - API-based metadata collection
-- PDF downloading, validation and repair 
 - text extraction 
 - OCR fallback for problematic documents
 - text quality checks
 - metadata preservation
 Each document contains metadata such as ADA identifier, document title, issue date and local filename.
 During dataset preparation, the processed Diavgeia records can be exported to JSONL format for validation and quality control. 
-For the final Drive-based RAG system, the curated PDF documents are organized in Google Drive and loaded from there for the vector indexing. 
+For the final Drive-based RAG system, the curated PDF documents are organized in Google Drive. During indexing, google_drive_loader.py recursively discovers the Drive PDFS, maps each file by ADA to its quality- checked text in final_dataset.jsonl, and preserves the Drive source metadata.
 
 ## Dataset Pipeline
 
@@ -154,7 +156,7 @@ The preprocessing pipeline produces a well organized document collection that ca
 
 The final compilation of PDF documents are organized and stored in Google Drive.
 The Drive corpus contains Diavgeia administrative decisions.
-`google_drive_loader.py` recursively loads the documents and preserve their source metadata.
+`google_drive_loader.py` recursively discovers the PDFs, maps them by ADA to the curated page in final_dataset.jsonl and preserves their source metadata.
 
 ### 8. Vector Indexing
 
@@ -182,7 +184,9 @@ Repaired Document Corpus
     ↓
 Google Drive
     ↓
-Document loading
+Recursive PDF Discovery
+    ↓
+ADA mapping to `final_dataset.jsonl`
     ↓
   Chunking
     ↓
@@ -216,9 +220,9 @@ The test-set selection metadata is stored in:
 
 The final benchmark compares three retrieval strategies over the same Google Drive document corpus:
 | Retriever     | Hit@1 | Hit@3 | Hit@5 | MRR   |
-| Drive MiniLM  | 0.250 | 0.420 | 0.450 | 0.326 |
-| Drive Ensemble| 0.610 | 0.840 | 0.920 | 0.738 |
-| Drive BGE-M3  | 0.670 | 0.860 | 0.920 | 0.768 |
+| Drive MiniLM  | 0.280 | 0.370 | 0.450 | 0.341 |
+| Drive Ensemble| 0.550 | 0.870 | 0.950 | 0.715 |
+| Drive BGE-M3  | 0.680 | 0.900 | 0.950 | 0.793 |
 
 As the table shows the BGE-M3 Retriever achieved the best overall retrieval performance with the highest Hit@1, Hit@3 and MRR while matching the Ensemble Retriever on Hit@5.
 Based on the above, `drive_bge` was selected as the retriever for the final end-to-end RAG evaluation.
@@ -266,27 +270,27 @@ The result tables below correspond to an earlier evaluation run and are retained
 ```markdown
 #### Answerable Results — Drive BGE-M3
 
-| Model            | Faithfulness | Answer Relevancy | Context Precision | Context Recall |
-| Llama 3.2        | 0.830        | 0.943            | 1.000             | 1.000          |
-| Qwen3 14B        | 0.925        | 0.833            | 1.000             | 1.000          |
-| GPT-4.1 Mini     | 0.975        | 0.674            | 1.000             | 1.000          |
-| Gemini 2.5 Flash | 0.900        | 0.930            | 1.000             | 1.000          |
-| Claude Haiku 4.5 | 0.975        | 0.799            | 1.000             | 1.000          |
+| Model            | Faithfulness | Answer Relevancy | Context Precision | Context Recall |
+| Llama 3.2 3B     | -            | -                | -                 | -              |
+| Qwen3 14B        | 0.885        | 0.904            | 0.923             | 0.846          |
+| GPT-4.1 Mini     | 0.930        | 0.704            | 0.923             | 0.872          |
+| Gemini 2.5 Flash | 0.885        | 0.879            | 0.923             | 0.872          |
+| Claude Haiku 4.5 | 0.774        | 0.923            | 0.923             | 0.872          |
 
 
-GPT-4.1 Mini and Claude Haiku 4.5 achieved the highest Faithfulness, while Llama 3.2 and Gemini 2.5 Flash achieved the highest Answer Relevancy. Contextual Precision and Contextual Recall reached 1.000 for all evaluated models.
+GPT-4.1 Mini achieved the highest Faithfulness, while Qwen3 14B and  Claude Haiku 4.5 achieved the highest Answer Relevancy. Contextual Precision and Contextual Recall reached 0.846 - 0.872 for almost all evaluated models. Llama 3.2 3B did not perform the evaluation at all.
 
 
 #### Unanswerable Results — Drive BGE-ME
 
-| Model            | Faithfulness | Answer Relevancy | Refusal Accuracy |Hallucination Rate
-| Llama 3.2        | 1.000        | 1.000            | 1.000            | 0.000
-| Qwen3 14B        | 1.000        | 1.000            | 1.000            | 0.000 
-| GPT-4.1 Mini     | 1.000        | 0.875            | 1.000            | 0.000 
-| Gemini 2.5 Flash | 1.000        | 1.000            | 1.000            | 0.000 
-| Claude Haiku 4.5 | 1.000        | 0.717            | 1.000            | 0.000 
+| Model            | Faithfulness | Answer Relevancy | Refusal Accuracy |Hallucination Rate |
+| Llama 3.2  3B    | -            | -                | -                | -                 |
+| Qwen3 14B        | 1.000        | 0.909            | 0.909            | 0.091             |
+| GPT-4.1 Mini     | 1.000        | 0.879            | 0.909            | 0.091             |
+| Gemini 2.5 Flash | 1.000        | 0.818            | 1.000            | 0.000             |
+| Claude Haiku 4.5 | 1.000        | 0.550            | 0.909            | 0.091             |
 All evaluated models correctly refused all unanswerable questions, achieving a Refusal Accurracy of 1.000 and Hallucination Rate of 0.000.
-
+The evaluated models refused to answer in 10 in 11 unanswerable questions, except from the Gemini 2.5 Flash which achieved the perfect score in both Refusal Accuracy and Hallucination Rate. Llama 3.2 3B did not perform the evaluation at all.
 
 ### Custom Evaluation
 
@@ -306,11 +310,12 @@ python -m evaluation.custom_eval
 #### Custom Evaluation Results — Drive BGE-M3
 
 | Model            | Answer Exactness | Number Accuracy | Source Accuracy | Source Rank |
-| Llama 3.2        | 0.000            | 0.182           | 1.000           | 1.100       |
+| Llama 3.2        | 0.000            | 0.181           | 1.000           | 1.100       |
 | Qwen3 14B        | 0.200            | 1.000           | 1.000           | 1.100       |
 | GPT-4.1 Mini     | 0.000            | 1.000           | 1.000           | 1.100       |
 | Gemini 2.5 Flash | 0.200            | 1.000           | 1.000           | 1.100       |
 | Claude Haiku 4.5 | 0.053            | 1.000           | 1.000           | 1.100       |
+
 For Source Rank, lower values indicate better retrieval performance, as the correct source appears earlier in the ranked results.
 Qwen3 14B and Gemini 2.5 Flash achieved the highest Answer Exactness. Qwen 14B, GPT-4.1 Mini, Gemini 2.5 Flash and Claude Haiku 4.5 achieved the perfect Number Accuracy.
 Source Accuracy and Source Rank are identical across all generator models because same fixed `drive_bge` retriever was used in every experiment.
@@ -503,9 +508,11 @@ The indexing architecture is:
 ```text
 Google Drive Corpus
         ↓
-Document Loading
+Recursive PDF discovery + metadata
+        ↓
+ADA mapping to `final_dataset.jsonl`
         ↓
-Chunking 
+   Chunking 
         ↓
 MiniLM  and BGE-M3
         ↓

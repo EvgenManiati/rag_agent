@@ -25,7 +25,7 @@ if __name__ == "__main__":
 
     llm = load_llm(model_key)
 
-   #για επιλογή και φόρτωση retriever
+   #for chosing retriever and model
 
     print("Διάλεξε retriever:")
     print("1. MiniLM")

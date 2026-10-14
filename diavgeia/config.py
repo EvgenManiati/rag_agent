@@ -2,13 +2,13 @@ from datetime import date
 from pathlib import Path
 
 
-# Φορέας
+# Organization
 
-# Ερευνητικό Κέντρο «Αθηνά»
+#Research Center Athena
 ORGANIZATION_UID = "99221083"
 
 
-# Χρονικό διάστημα
+# Issue date range
 
 DATE_FROM = date(2021, 1, 1)
 DATE_TO = date(2026, 12, 31)
@@ -16,23 +16,21 @@ DATE_TO = date(2026, 12, 31)
 
 # API
 
-
 DIAVGEIA_API_ROOT = "https://diavgeia.gov.gr/luminapi/opendata"
 
 SEARCH_ENDPOINT = f"{DIAVGEIA_API_ROOT}/search"
 
 DOCUMENT_URL_TEMPLATE = "https://diavgeia.gov.gr/doc/{ada}"
 
-# Πλήθος εγγραφών ανά σελίδα.
-# Για την τελική συλλογή βάλε 100.
+# Number of records per page for the final collection, set to 100.
+
 PAGE_SIZE = 100
 
-# None = ανάκτηση όλων των σελίδων.
-# Για δοκιμή μπορείς να βάλεις 1, 3, 5 κ.λπ.
+# None = retrieve all pages, otherwise set a number to limit the number of pages retrieved.
 MAX_PAGES = None
 
 
-#Μέγεθος χρονικού παραθύρου του crawler
+#range of days to crawl for new documents. The crawler will look for documents issued in the last CRAWL_WINDOW_DAYS days.
 
 CRAWL_WINDOW_DAYS = 180
 
@@ -45,23 +43,20 @@ MAX_RETRIES = 4
 RETRY_BASE_SECONDS = 2
 
 
-# Φίλτρα
+# Filters
 
-# Κρατάμε μόνο αναρτημένες και ενεργές πράξεις.
+# We keep only published and active decisions.
 DECISION_STATUS = "PUBLISHED"
 
-# Η σειρά μπορεί να είναι recent ή άλλο υποστηριζόμενο
-# sort value της υπηρεσίας.
+# The sort order can be 'recent' or another supported value
 SORT_ORDER = "recent"
 
 
 # Debug / logging
-
-
 DEBUG_MODE = False
 LOG_LEVEL = "INFO"
 
-# Αρχεία εξόδου
+# Output files
 
 DATA_DIRECTORY = Path("data/diavgeia")
 LOG_DIRECTORY = DATA_DIRECTORY / "logs"
@@ -83,23 +78,19 @@ FAILED_FILE = DATA_DIRECTORY / "failed_documents.jsonl"
 BUILDER_LOG_FILE = LOG_DIRECTORY / "dataset_builder.log"
 
 # True:
-# Αποθηκεύει και τα πρωτότυπα PDF στον φάκελο pdfs.
-#
+#Stores the original PDFs in the pdfs folder.
 # False:
-# Τα PDF μεταφέρονται προσωρινά στη RAM, εξάγεται το κείμενο
-# και μετά απορρίπτονται.
+#PDFs are temporarily loaded into RAM, text is extracted, and then discarded.
 SAVE_PDFS = False
 
-# None = επεξεργασία όλων των metadata records.
-# Αριθμός, π.χ. 10 = μόνο τα πρώτα 10 για δοκιμή.
+# None = process all documents.
+# Number, e.g., 10 = only the first 10 for testing.
 MAX_DOCUMENTS = None
 
-# Ελάχιστος αριθμός χαρακτήρων ώστε ένα PDF να θεωρείται
-# ότι περιέχει αξιοποιήσιμο κείμενο.
+# Minimum number of characters for a PDF to be considered as containing usable text.
 MIN_DOCUMENT_CHARACTERS = 100
 
-# Ελάχιστος αριθμός χαρακτήρων ανά σελίδα.
-# Σελίδες με λιγότερους χαρακτήρες θεωρούνται κενές.
+# Minimum number of characters per page.  Pages with fewer characters are considered empty.
 MIN_PAGE_CHARACTERS = 10
 
 

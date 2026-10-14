@@ -173,7 +173,7 @@ def run_quality_check() -> None:
         print("Δεν βρέθηκαν records στο dataset.")
         return
 
-    # Καθαρίζουμε προηγούμενα reports.
+    # Clean up old reports if they exist
     QUALITY_REPORT_FILE.unlink(missing_ok=True)
 
     SUSPICIOUS_FILE.unlink(missing_ok=True)

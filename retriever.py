@@ -20,7 +20,7 @@ from config import (
 #from google_drive_loader import load_documents_from_drive_folders
 
 
-# Ρυθμίσεις embedding models
+# Settings of the embedding models
 
 
 MINILM_MODEL_ID = (
@@ -32,7 +32,7 @@ BGE_MODEL_ID = "BAAI/bge-m3"
 
 
 
-# Απλό ensemble retriever
+# Simple ensemble retriever
 
 class SimpleEnsembleRetriever:
     """
@@ -57,8 +57,7 @@ class SimpleEnsembleRetriever:
         self.k = k
         self.rrf_constant = rrf_constant
 
-        # If no weights are provided,
-        # use equal weights.
+        # If no weights are provided, use equal weights.
         if weights is None:
             weights = [
                 1.0 / len(retrievers)
@@ -132,7 +131,7 @@ class SimpleEnsembleRetriever:
         return [documents_by_key[key] for key in ranked_keys[:self.k]]
 
 
-# Φόρτωση εγγράφων από Google Drive
+# Loading the documents from Google Drive
 
 @lru_cache(maxsize=1)
 def load_drive_source_documents() -> tuple[Document, ...]:
@@ -218,18 +217,15 @@ def load_bge_embeddings() -> HuggingFaceEmbeddings:
 @lru_cache(maxsize=1)
 def build_drive_bge_vectorstore():
     """
-    Φορτώνει υπάρχον Drive BGE-M3 FAISS index
-    ή τον δημιουργεί από τα Google Drive PDFs.
+    Load or build a BGE-M3 FAISS index 
+    using the Google Drive corpus.
     """
 
     embeddings = load_bge_embeddings()
 
     if DRIVE_BGE_INDEX_DIR.exists():
 
-        print(
-            "Φόρτωση υπάρχοντος Drive "
-            "BGE-M3 FAISS index..."
-        )
+        print("Φόρτωση υπάρχοντος Drive BGE-M3 FAISS index...")
 
         return FAISS.load_local(
             folder_path=str(DRIVE_BGE_INDEX_DIR),
@@ -289,7 +285,7 @@ def build_drive_minilm_vectorstore():
 
 # FAISS vector stores
 
-# Δημιουργία retrievers
+# Building retrievers
 
 @lru_cache(maxsize=3)
 
@@ -322,16 +318,16 @@ def load_retriever(mode: str = "drive_bge"):
     raise ValueError(f"Άγνωστος retriever mode: {mode}")
 
 
-# Χειροκίνητη ανανέωση δεδομένων
 
+#Manual cache clearing
 
 def clear_retriever_cache() -> None:
     """
-    Καθαρίζει όλο το cache.
+    Clear the cache.
 
-    Χρησιμοποίησέ το όταν αλλάζουν αρχεία στο Google Drive
-    και θέλεις να ξαναφορτωθούν τα PDF και να ξαναχτιστούν
-    τα FAISS indexes.
+    Use this when files in Google Drive change
+    and you want to reload the PDFs and rebuild
+    the FAISS indexes.
     """
 
     load_retriever.cache_clear()

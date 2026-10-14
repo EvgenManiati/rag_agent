@@ -18,7 +18,7 @@ st.markdown(
     """
     <style>
     /* 
-       Κύρια χρώματα, βασισμένα στην εταιρική ταυτότητα ΙΕΛ
+       colors pallete based on IEL branding
     */
 
     :root {
@@ -38,7 +38,7 @@ st.markdown(
     }
 
     /* 
-       Βασική εφαρμογή
+       Basic application styling
     */
 
     html,
@@ -60,7 +60,7 @@ st.markdown(
     }
 
     /* 
-       Τίτλοι
+       Titles
      */
 
     h1 {
@@ -124,7 +124,7 @@ st.markdown(
     }
 
     /*
-       Κουμπιά
+       Buttons
     */
 
     .stButton > button {
@@ -151,7 +151,7 @@ st.markdown(
         box-shadow: 0 0 0 3px rgba(16, 6, 159, 0.18);
     }
 
-    /* Κόκκινα κουμπιά ρυθμίσεων στο sidebar */
+    /* Settings' red buttons in sidebar */
 [data-testid="stSidebar"] .stButton > button {
     background-color: var(--iel-accent-red);
     color: #FFFFFF;
@@ -209,8 +209,8 @@ st.markdown(
         box-shadow: none;
     }
 
-    /* Πρώτο chat message style μπορεί να είναι user/assistant,
-       ανάλογα με την έκδοση του Streamlit. */
+    /* The chat message style may be user/assistant,
+       depending on the Streamlit version. */
     [data-testid="stChatMessage"] p {
         color: var(--iel-text);
         line-height: 1.65;
@@ -253,7 +253,7 @@ st.markdown(
     }
 
     /*
-       Μικρό κόκκινο accent
+       Small red accent
         */
 
     .iel-red-line {
@@ -316,7 +316,7 @@ st.markdown(
 }
 
     /*
-       Κατάσταση ενεργού agent
+       Status of the active agent
      */
 
     .iel-status-card {
@@ -329,8 +329,8 @@ st.markdown(
     }
 
     /* 
-       Απόκρυψη Streamlit branding
-       Προαιρετικό
+       Hide Streamlit branding
+       Optional
     */
 
     #MainMenu {
@@ -353,7 +353,7 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-# Τίτλος εφαρμογής
+# Streamlit app title and description
 
 
 st.markdown(
@@ -382,16 +382,16 @@ st.caption(
     "πολλαπλά LLMs και πολλαπλούς retrievers."
 )
 
-# Βοηθητικές συναρτήσεις
+# Helper functions
 
 
 def extract_answer(raw_answer) -> str:
     """
-    Μετατρέπει την απάντηση οποιουδήποτε model provider
-    σε απλό string.
+    Transforms the answer from any model provider
+    to a simple string.
 
-    Τα OpenRouter wrappers επιστρέφουν συνήθως string,
-    ενώ το ChatOllama μπορεί να επιστρέψει AIMessage.
+    The OpenRouter wrappers typically return a string,
+    while the ChatOllama might return an AIMessage.
     """
 
     if hasattr(raw_answer, "content"):
@@ -403,11 +403,11 @@ def extract_answer(raw_answer) -> str:
 @st.cache_resource(show_spinner=False)
 def create_agent(model_key: str, retriever_mode: str):
     """
-    Φορτώνει το επιλεγμένο LLM και τον retriever
-    και δημιουργεί τον LangGraph agent.
+    Loads the selected LLM and retriever
+    and creates the LangGraph agent.
 
-    Το cache_resource αποτρέπει την επαναφόρτωση
-    των μοντέλων και των vector stores σε κάθε UI rerun.
+    The cache_resource prevents reloading
+    the models and vector stores on each UI rerun.
     """
 
     llm = load_llm(model_key)
@@ -416,7 +416,7 @@ def create_agent(model_key: str, retriever_mode: str):
     return build_agent(llm, retriever)
 
 
-# Αρχικοποίηση session state
+# Activation of session state
 
 if "messages" not in st.session_state:
     st.session_state.messages = []
@@ -428,7 +428,7 @@ if "active_configuration" not in st.session_state:
     st.session_state.active_configuration = None
 
 
-# Sidebar: ρυθμίσεις του agent
+# Sidebar:  agent's settings
 
 with st.sidebar:
     st.header("Ρυθμίσεις")
@@ -448,11 +448,7 @@ with st.sidebar:
     )
 
                                 
-    retriever_options = {
-    "Προτεινόμενο: BGE-M3": "drive_bge",
-    "MiniLM": "drive_minilm",
-    "Ensemble": "drive_ensemble",
-}
+    retriever_options = {"BGE-M3": "drive_bge"}
 
     selected_retriever_label = st.selectbox(
         "Retriever",
@@ -460,10 +456,7 @@ with st.sidebar:
         index=0,
     )
 
-    show_context = st.checkbox(
-        "Εμφάνιση retrieved context",
-        value=False,
-    )
+    show_context = st.checkbox("Εμφάνιση retrieved context", value=False,)
 
     initialize_clicked = st.button(
         "Φόρτωση agent",
@@ -471,10 +464,7 @@ with st.sidebar:
         use_container_width=True,
     )
 
-    clear_clicked = st.button(
-        "Καθαρισμός συνομιλίας",
-        use_container_width=True,
-    )
+    clear_clicked = st.button("Καθαρισμός συνομιλίας", use_container_width=True)
 
 
     if st.button("Φόρτωση Google λογαριασμού"):
@@ -498,14 +488,14 @@ with st.sidebar:
             )
 
         st.rerun()
-# Καθαρισμός ιστορικού
+# history cleaning
 
 
 if clear_clicked:
     st.session_state.messages = []
     st.rerun()
 
-# Δημιουργία / αλλαγή agent
+# Creation / modification of the agent
 
 
 selected_model_key = model_options[selected_model_label]
@@ -539,7 +529,7 @@ if initialize_clicked:
         st.exception(error)
 
 
-# Εμφάνιση ενεργής ρύθμισης
+# Display active configuration
 
 
 if st.session_state.active_configuration:
@@ -558,7 +548,7 @@ else:
     )
 
 
-# Εμφάνιση ιστορικού συνομιλίας
+# Display chat history
 
 
 for message in st.session_state.messages:
@@ -583,7 +573,7 @@ for message in st.session_state.messages:
                 st.text(message["context"])
 
 
-# Πεδίο ερώτησης
+# Question input
 
 
 user_question = st.chat_input(
@@ -591,7 +581,7 @@ user_question = st.chat_input(
 )
 
 
-# Εκτέλεση του RAG agent
+#Run the agent
 
 if user_question:
     if st.session_state.agent is None:
@@ -612,9 +602,7 @@ if user_question:
     avatar="👤"):
         st.markdown(user_question)
 
-    with st.chat_message(
-    "assistant",
-    avatar="🤖"):
+    with st.chat_message("assistant", avatar="🤖"):
         try:
             with st.spinner("Αναζήτηση στα έγγραφα..."):
                 result = st.session_state.agent.invoke(
@@ -627,13 +615,9 @@ if user_question:
                     }
                 )
 
-            answer = extract_answer(
-                result.get("answer", "")
-            )
+            answer = extract_answer(result.get("answer", ""))
 
-            context = str(
-                result.get("context", "")
-            )
+            context = str(result.get("context", ""))
 
             st.markdown(answer)
 
@@ -650,7 +634,5 @@ if user_question:
             )
 
         except Exception as error:
-            st.error(
-                "Παρουσιάστηκε σφάλμα κατά την παραγωγή της απάντησης."
-            )
+            st.error("Παρουσιάστηκε σφάλμα κατά την παραγωγή της απάντησης.")
             st.exception(error)

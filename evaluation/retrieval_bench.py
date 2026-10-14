@@ -15,11 +15,10 @@ RETRIEVERS = ["drive_minilm", "drive_ensemble", "drive_bge"]
 
 BENCHMARK_SET = TEST_SET  # Use TEST_SET for evaluation
 
-# Ζητάμε περισσότερα chunks από όσα τελικά αξιολογούμε,
-# επειδή μπορεί πολλά chunks να ανήκουν στον ίδιο ΑΔΑ.
+#Asking for more chunks than we evaluate, because many chunks may belong to the same ADA.
 #RAW_RETRIEVAL_K = 15
 
-# Αξιολογούμε μέχρι τους πρώτους 5 μοναδικούς ΑΔΑ.
+# We evaluate up to the first 5 unique ADAs.
 EVALUATION_K = 5
 
 
