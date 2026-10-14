@@ -308,15 +308,12 @@ python -m evaluation.custom_eval
 
 #### Custom Evaluation Results — Drive BGE-M3
 
-#### Custom Evaluation Results — Drive BGE-M3
-
-| Model            | Answer Exactness | Number Accuracy | Source Accuracy | Source Rank |
-| Llama 3.2 3B     | 0.000            | 0.181           | 1.000           | 1.100       |
-| Qwen3 14B        | 0.200            | 1.000           | 1.000           | 1.100       |
-| GPT-4.1 Mini     | 0.000            | 1.000           | 1.000           | 1.100       |
-| Gemini 2.5 Flash | 0.200            | 1.000           | 1.000           | 1.100       |
-| Claude Haiku 4.5 | 0.053            | 1.000           | 1.000           | 1.100       |
-
+| Model            | Answer Exaxtness | Number Accuracy | Source Accuracy|Source Rank|
+| Llama 3.2  3B    | -                | 0.181           | 1.000          | 1.100     |       
+| Qwen3 14B        | 0.200            | 1.000           | 1.000          | 1.100     |
+| GPT-4.1 Mini     | 0.000            | 1.000           | 1.000          | 1.100     |
+| Gemini 2.5 Flash | 0.200            | 1.000           | 1.000          | 1.100     |
+| Claude Haiku 4.5 | 0.000            | 1.000           | 1.000          | 1.100     |
 For Source Rank, lower values indicate better retrieval performance, as the correct source appears earlier in the ranked results.
 Qwen3 14B and Gemini 2.5 Flash achieved the highest Answer Exactness. Qwen 14B, GPT-4.1 Mini, Gemini 2.5 Flash and Claude Haiku 4.5 achieved the perfect Number Accuracy.
 Source Accuracy and Source Rank are identical across all generator models because same fixed `drive_bge` retriever was used in every experiment.
