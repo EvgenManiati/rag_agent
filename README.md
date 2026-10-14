@@ -263,7 +263,6 @@ Run the evaluation with:
 ```bash
 python -m evaluation.evaluation_deepeval
 ```
-The result tables below correspond to an earlier evaluation run and are retained for reference. They should be regenerated after running the final 50-question evaluation dataset.
 
 ## Answerable Results
 
@@ -278,7 +277,7 @@ The result tables below correspond to an earlier evaluation run and are retained
 | Claude Haiku 4.5 | 0.877        | 0.774            | 0.923             | 0.872          |
 
 
-GPT-4.1 Mini achieved the highest Faithfulness, while Qwen3 14B and  Claude Haiku 4.5 achieved the highest Answer Relevancy. Contextual Precision and Contextual Recall reached 0.846 - 0.872 for almost all evaluated models. Llama 3.2 3B did not perform the evaluation at all.
+GPT-4.1 Mini achieved the highest Faithfulness, while Qwen3 14B and  Gemini 2.5 Flash achieved the highest Answer Relevancy. Contextual Precision and Contextual Recall reached 0.846 - 0.872 for almost all evaluated models. Llama 3.2 3B did not participate in the evaluation.
 
 
 #### Unanswerable Results — Drive BGE-ME
@@ -289,8 +288,7 @@ GPT-4.1 Mini achieved the highest Faithfulness, while Qwen3 14B and  Claude Haik
 | GPT-4.1 Mini     | 1.000        | 0.879            | 0.909            | 0.091             |
 | Gemini 2.5 Flash | 1.000        | 0.818            | 1.000            | 0.000             |
 | Claude Haiku 4.5 | 1.000        | 0.550            | 0.909            | 0.091             |
-All evaluated models correctly refused all unanswerable questions, achieving a Refusal Accurracy of 1.000 and Hallucination Rate of 0.000.
-The evaluated models refused to answer in 10 in 11 unanswerable questions, except from the Gemini 2.5 Flash which achieved the perfect score in both Refusal Accuracy and Hallucination Rate. Llama 3.2 3B did not perform the evaluation at all.
+The evaluated models refused 10 of 11 unanswerable questions, except Gemini 2.5 Flash, which achieved perfect scores in both Refusal Accuracy and Hallucination Rate. Llama 3.2 3B did not complete the evaluation.
 
 ### Custom Evaluation
 
@@ -307,14 +305,17 @@ Run the Custom evaluation with:
 ```bash
 python -m evaluation.custom_eval
 ```
+
 #### Custom Evaluation Results — Drive BGE-M3
 
-| Model            | Answer Exactness | Number Accuracy | Source Accuracy | Source Rank |
-| Llama 3.2        | 0.000            | 0.181           | 1.000           | 1.100       |
-| Qwen3 14B        | 0.200            | 1.000           | 1.000           | 1.100       |
-| GPT-4.1 Mini     | 0.000            | 1.000           | 1.000           | 1.100       |
-| Gemini 2.5 Flash | 0.200            | 1.000           | 1.000           | 1.100       |
-| Claude Haiku 4.5 | 0.053            | 1.000           | 1.000           | 1.100       |
+#### Custom Evaluation Results — Drive BGE-M3
+
+| Model            | Answer Exactness | Number Accuracy | Source Accuracy | Source Rank |
+| Llama 3.2 3B     | 0.000            | 0.181           | 1.000           | 1.100       |
+| Qwen3 14B        | 0.200            | 1.000           | 1.000           | 1.100       |
+| GPT-4.1 Mini     | 0.000            | 1.000           | 1.000           | 1.100       |
+| Gemini 2.5 Flash | 0.200            | 1.000           | 1.000           | 1.100       |
+| Claude Haiku 4.5 | 0.053            | 1.000           | 1.000           | 1.100       |
 
 For Source Rank, lower values indicate better retrieval performance, as the correct source appears earlier in the ranked results.
 Qwen3 14B and Gemini 2.5 Flash achieved the highest Answer Exactness. Qwen 14B, GPT-4.1 Mini, Gemini 2.5 Flash and Claude Haiku 4.5 achieved the perfect Number Accuracy.
