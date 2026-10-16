@@ -169,7 +169,7 @@ The embeddings are stored in local FAISS vector indexes:
 
 The Ensemble Retriever combines both the rankings of the two indexes rather than creating a separate vector index.
 
-```text
+
 Diavgeia API
     ↓
 Metadata + PDF collection
