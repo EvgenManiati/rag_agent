@@ -33,6 +33,7 @@ The system was developed and evaluated primarily on Greek-language administrativ
 
 ## Architecture
 
+``` text
 OFFLINE / INDEX BUILDING
 
 Google Drive
@@ -167,9 +168,9 @@ The embeddings are stored in local FAISS vector indexes:
 - MiniLM index
 - BGE-M3 index
 
-The Ensemble Retriever combines both the rankings of the two indexes rather than creating a separate vector index.
+The Ensemble Retriever combines both the rankings of the two indexes rather than creating a separate vector indexes.
 
-
+```text
 Diavgeia API
     ↓
 Metadata + PDF collection
