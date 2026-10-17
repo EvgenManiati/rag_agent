@@ -2,11 +2,9 @@ import os
 from dataclasses import dataclass
 
 from dotenv import load_dotenv
-from langchain_ollama import ChatOllama
 from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
 from langchain_huggingface import HuggingFacePipeline
-from openai import OpenAI
-
+from openai import OpenAI, api_key
 
 
 load_dotenv()
@@ -20,13 +18,6 @@ class ModelLoader:
     no_think: bool = False
 
 models = {
-
-    "llama": ModelLoader(
-        name = "llama",
-        provider = "ollama",
-        model_id = "llama3.2:3b",
-        max_new_tokens = 300
-    ),
 
    "qwen": ModelLoader(
         name="Qwen3 14B",
@@ -62,17 +53,18 @@ class OpenRouterLLM:
     def __init__(
         self,
         model_name: str,
-        max_new_tokens: int = 1000, 
-        no_think: bool = False
+        max_new_tokens: int = 1000,
+        no_think: bool = False,
+        api_key: str | None = None,
     ):
         self.model_id = model_name
         self.max_new_tokens = max_new_tokens
         self.no_think = no_think
-        self.api_key = os.getenv("OPENROUTER_API_KEY")
+        self.api_key = api_key or os.getenv("OPENROUTER_API_KEY")
 
         if not self.api_key:
             raise ValueError(
-                "Δεν βρέθηκε OPENROUTER_API_KEY στο .env"
+                "Δεν δόθηκε OpenRouter API key."
             )
 
     def _create_client(self):
@@ -146,38 +138,24 @@ def load_hf_model(config: ModelLoader):
 
     return HuggingFacePipeline(pipeline=pipe)
 
-def load_ollama_model(config: ModelLoader):
-    print(f"Φόρτωση Ollama μοντέλου: {config.name}")
-
-    return ChatOllama(
-        model=config.model_id,
-        temperature=0,
-        num_predict=config.max_new_tokens
-    )
-
-def load_openrouter_model(config: ModelLoader):
+def load_openrouter_model(config: ModelLoader, api_key: str | None = None):
     print(f"Φόρτωση OpenRouter μοντέλου: {config.name}")
 
     return OpenRouterLLM(
         model_name=config.model_id,
         max_new_tokens=config.max_new_tokens,
-        no_think = config.no_think
+        no_think=config.no_think,
+        api_key=api_key,
     )
 
-def load_llm(model_key: str = "llama"):
+def load_llm(model_key: str = "qwen", api_key: str | None = None):
     if model_key not in models:
         raise ValueError(f"Άγνωστο μοντέλο: {model_key}")
 
     config = models[model_key]
 
-    if config.provider == "huggingface":
-        return load_hf_model(config)
-
-    if config.provider == "ollama":
-        return load_ollama_model(config)
-
     if config.provider == "openrouter":
-        return load_openrouter_model(config)
+        return load_openrouter_model(config, api_key=api_key)
 
     raise ValueError(f"Άγνωστος provider: {config.provider}")
 

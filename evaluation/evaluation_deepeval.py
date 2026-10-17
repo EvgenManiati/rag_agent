@@ -1,6 +1,5 @@
 import csv
 import json
-import traceback
 
 from collections import defaultdict
 from pathlib import Path
@@ -34,7 +33,6 @@ if hasattr(sys.stderr, "reconfigure"):
 # CONFIGURATION
 
 MODELS_TO_TEST = [
-    "llama",
     "qwen",
     "gpt41_mini",
     "gemini_flash",

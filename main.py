@@ -5,23 +5,21 @@ from agent import build_agent
 if __name__ == "__main__":
 
     print("Διάλεξε μοντέλο:")
-    print("1. Llama 3.2 3B")
-    print("2. Qwen3 14B")
-    print("3. GPT-4.1 Mini")
-    print("4. Gemini 2.5 Flash")
-    print("5. Claude Haiku 4.5")
+    print("1. Qwen3 14B")
+    print("2. GPT-4.1 Mini")
+    print("3. Gemini 2.5 Flash")
+    print("4. Claude Haiku 4.5")
 
-    choice = input("Επιλογή [Enter = Llama]: ").strip()
+    choice = input("Επιλογή [Enter = Qwen3 14B]: ").strip()
 
     model_map = {
-        "": "llama",
-        "2": "qwen",
-        "3": "gpt41_mini",
-        "4": "gemini_flash",
-        "5": "claude_haiku",
+        "": "qwen",
+        "2": "gpt41_mini",
+        "3": "gemini_flash",
+        "4": "claude_haiku",
 }
 
-    model_key = model_map.get(choice, "llama")
+    model_key = model_map.get(choice, "qwen")
 
     llm = load_llm(model_key)
 

@@ -6,7 +6,7 @@ from retriever import load_retriever
 from pathlib import Path
 from google_drive_loader import authenticate_google_drive
 
-# Βασικές ρυθμίσεις σελίδας
+# Main page configuration 
 
 
 st.set_page_config(
@@ -374,13 +374,11 @@ Agentic Retrieval-Augmented Generation (RAG) σύστημα
 
 </div>
 """,
-unsafe_allow_html=True
-)
+unsafe_allow_html=True)
 
 st.caption(
     "Agentic RAG assistant με Google Drive, LangGraph, "
-    "πολλαπλά LLMs και πολλαπλούς retrievers."
-)
+    "πολλαπλά LLMs και πολλαπλούς retrievers.")
 
 # Helper functions
 
@@ -390,8 +388,7 @@ def extract_answer(raw_answer) -> str:
     Transforms the answer from any model provider
     to a simple string.
 
-    The OpenRouter wrappers typically return a string,
-    while the ChatOllama might return an AIMessage.
+    The OpenRouter wrappers typically return a string
     """
 
     if hasattr(raw_answer, "content"):
@@ -401,20 +398,25 @@ def extract_answer(raw_answer) -> str:
 
 
 @st.cache_resource(show_spinner=False)
-def create_agent(model_key: str, retriever_mode: str):
-    """
-    Loads the selected LLM and retriever
-    and creates the LangGraph agent.
 
-    The cache_resource prevents reloading
-    the models and vector stores on each UI rerun.
+def get_retriever(retriever_mode: str):
     """
+    Loads and caches the selected retriever so that it is not 
+    reloaded on every user input
 
-    llm = load_llm(model_key)
-    retriever = load_retriever(mode=retriever_mode)
+    """
+    return load_retriever(mode=retriever_mode)
+
+
+def create_agent(model_key: str, retriever_mode: str,api_key: str | None = None,):
+    """
+    Creates a new agent for the current session.
+    The selected llm is initialized with the OpenRouter API key.
+    """
+    llm = load_llm(model_key, api_key=api_key)
+    retriever = get_retriever(retriever_mode)
 
     return build_agent(llm, retriever)
-
 
 # Activation of session state
 
@@ -434,7 +436,6 @@ with st.sidebar:
     st.header("Ρυθμίσεις")
 
     model_options = {
-        "Llama 3.2 - Ollama": "llama",
         "Qwen3 14B — OpenRouter": "qwen",
         "GPT-4.1 Mini — OpenRouter": "gpt41_mini",
         "Gemini 2.5 Flash — OpenRouter": "gemini_flash",
@@ -447,7 +448,24 @@ with st.sidebar:
         index=0,
     )
 
-                                
+    selected_model_key = model_options[selected_model_label]
+
+    openrouter_models = {
+        "qwen": "Qwen3 14B — OpenRouter",
+        "gpt41_mini": "GPT-4.1 Mini — OpenRouter",
+        "gemini_flash": "Gemini 2.5 Flash — OpenRouter",
+        "claude_haiku": "Claude Haiku — OpenRouter",
+    }
+    openrouter_api_key = None
+
+    if selected_model_key in openrouter_models:
+        openrouter_api_key = st.text_input(
+            "OpenRouter API Key",
+            type="password",
+            placeholder="Εισαγωγή OpenRouter API Key",
+            help="Το API Key χρησιμοποιείται μόνο για το παρόν Streamlit session.",
+        )
+
     retriever_options = {"BGE-M3": "drive_bge"}
 
     selected_retriever_label = st.selectbox(
@@ -488,8 +506,8 @@ with st.sidebar:
             )
 
         st.rerun()
-# history cleaning
 
+# history cleaning
 
 if clear_clicked:
     st.session_state.messages = []
@@ -497,8 +515,6 @@ if clear_clicked:
 
 # Creation / modification of the agent
 
-
-selected_model_key = model_options[selected_model_label]
 selected_retriever_mode = retriever_options[selected_retriever_label]
 
 selected_configuration = (
@@ -507,27 +523,24 @@ selected_configuration = (
 )
 
 if initialize_clicked:
-    try:
-        with st.spinner(
-            "Φόρτωση μοντέλου, εγγράφων και retriever..."
-        ):
-            st.cache_resource.clear()
-            st.session_state.agent = create_agent(
-                model_key=selected_model_key,
-                retriever_mode=selected_retriever_mode,
-            )
-            st.session_state.active_configuration = selected_configuration
+    if(selected_model_key in openrouter_models and not openrouter_api_key):
+        st.error("Πρέπει να εισάγεις το OpenRouter API Key για να φορτώσεις το μοντέλο.")
+    else:
+        try:
+            with st.spinner("Φόρτωση μοντέλου, retriever και εγγράφων..."):
+                api_key = (openrouter_api_key.strip() 
+                           if selected_model_key in openrouter_models else None)
+                st.session_state.agent = create_agent(model_key = selected_model_key, 
+                                                      retriever_mode = selected_retriever_mode,
+                                                        api_key = api_key)
+                st.session_state.active_configuration = selected_configuration
+                st.success("Ο agent φορτώθηκε επιτυχώς!")
 
-        st.success(
-            f"Ο agent φορτώθηκε με "
-            f"{selected_model_label} και "
-            f"{selected_retriever_label}."
-        )
-
-    except Exception as error:
-        st.session_state.agent = None
-        st.exception(error)
-
+        except Exception as error:
+            st.session_state.agent = None
+            st.session_state.active_configuration = None
+            st.error("Παρουσιάστηκε σφάλμα κατά τη φόρτωση του agent.")
+            st.exception(error)
 
 # Display active configuration
 
