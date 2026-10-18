@@ -5,15 +5,10 @@ import re
 from pathlib import Path
 from typing import Any
 from diavgeia.config import (
-    NEW_DATASET_FILE,
+    NEW_DATASET_FILE, 
     NEW_QUALITY_REPORT_FILE,
-    NEW_SUSPICIOUS_FILE,
-)
+      NEW_SUSPICIOUS_FILE,)
 
-QUALITY_REPORT_FILE = Path("data/diavgeia/final_new_quality_report.jsonl")
-   
-
-SUSPICIOUS_FILE = Path("data/diavgeia/final_new_suspicious_documents.jsonl")
 
 
 def load_jsonl(path: Path) -> list[dict[str, Any]]:
@@ -174,9 +169,9 @@ def run_quality_check() -> None:
         return
 
     # Clean up old reports if they exist
-    QUALITY_REPORT_FILE.unlink(missing_ok=True)
+    NEW_QUALITY_REPORT_FILE.unlink(missing_ok=True)
 
-    SUSPICIOUS_FILE.unlink(missing_ok=True)
+    NEW_SUSPICIOUS_FILE.unlink(missing_ok=True)
 
     good_count = 0
     suspicious_count = 0
@@ -191,13 +186,13 @@ def run_quality_check() -> None:
         
         report = {"ada": record.get("ada"), **quality}
 
-        append_jsonl(QUALITY_REPORT_FILE, report)
+        append_jsonl(NEW_QUALITY_REPORT_FILE, report)
 
         if (quality["status"] == "suspicious"):
 
             suspicious_count += 1
 
-            append_jsonl(SUSPICIOUS_FILE, report)
+            append_jsonl(NEW_SUSPICIOUS_FILE, report)
 
             for reason in quality["reasons"]:
                 reason_counts[reason] = ( reason_counts.get(reason, 0) + 1)
@@ -225,9 +220,9 @@ def run_quality_check() -> None:
         ):
             print(f"  {reason}: {count}")
 
-    print(f"\nQuality report: {QUALITY_REPORT_FILE.resolve()}")
+    print(f"\nQuality report: {NEW_QUALITY_REPORT_FILE.resolve()}")
 
-    print(f"Suspicious documents: {SUSPICIOUS_FILE.resolve()}")
+    print(f"Suspicious documents: {NEW_SUSPICIOUS_FILE.resolve()}")
 
 
 if __name__ == "__main__":

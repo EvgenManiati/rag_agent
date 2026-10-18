@@ -96,28 +96,26 @@ MIN_PAGE_CHARACTERS = 10
 
 # Suspicious document repair
 
-SUSPICIOUS_FILE = (DATA_DIRECTORY / "suspicious_documents.jsonl")
-
-REPAIRED_FILE = (DATA_DIRECTORY / "repaired_documents.jsonl")
-
-REPAIR_FAILED_FILE = (DATA_DIRECTORY / "repair_failed.jsonl")
-
-REPAIR_LOG_FILE = (LOG_DIRECTORY / "repair_suspicious.log")
+NEW_SUSPICIOUS_FILE = DATA_DIRECTORY / "new_suspicious_documents.jsonl"
+NEW_REPAIRED_FILE = DATA_DIRECTORY / "new_repaired_documents.jsonl"
+NEW_REPAIR_FAILED_FILE = DATA_DIRECTORY / "new_repair_failed.jsonl"
+NEW_REPAIR_LOG_FILE = LOG_DIRECTORY / "new_repair_suspicious.log"
 
 # OCR settings
+
 OCR_ENABLED = True
 OCR_LANGUAGES = "ell+eng"
 OCR_DPI = 250
 
 # Quality threshold after which extracted text is accepted.
+
 MIN_REPAIR_QUALITY_SCORE = 0.70
+
+# New dataset pipeline
 
 NEW_SELECTED_METADATA_FILE = DATA_DIRECTORY / "new_selected_metadata.jsonl"
 NEW_DATASET_FILE = DATA_DIRECTORY / "dataset_new.jsonl"
 NEW_FAILED_FILE = DATA_DIRECTORY / "new_failed_documents.jsonl"
-NEW_REPAIRED_FILE = DATA_DIRECTORY / "new_repaired_documents.jsonl"
-NEW_FINAL_DATASET_FILE = DATA_DIRECTORY / "final_dataset_new.jsonl"
-
 NEW_QUALITY_REPORT_FILE = DATA_DIRECTORY / "new_quality_report.jsonl"
 NEW_SUSPICIOUS_FILE = DATA_DIRECTORY / "new_suspicious_documents.jsonl"
 NEW_REPAIRED_FILE = DATA_DIRECTORY / "new_repaired_documents.jsonl"

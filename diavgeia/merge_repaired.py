@@ -4,8 +4,10 @@ import json
 from pathlib import Path
 from typing import Any
 
-from diavgeia.config import NEW_DATASET_FILE
-from diavgeia.config import REPAIRED_FILE, FINAL_DATASET_FILE
+from diavgeia.config import (
+                              NEW_DATASET_FILE,
+                              NEW_REPAIRED_FILE, 
+                              NEW_FINAL_DATASET_FILE)
 
 
 
@@ -78,7 +80,7 @@ def merge_repaired_documents() -> None:
 
     original_records = load_jsonl(NEW_DATASET_FILE)
 
-    repaired_records = load_jsonl(REPAIRED_FILE)
+    repaired_records = load_jsonl(NEW_REPAIRED_FILE)
 
     print(f"Original dataset records: {len(original_records)}")
 
@@ -166,7 +168,7 @@ def merge_repaired_documents() -> None:
     # Save final dataset
     
 
-    save_jsonl(FINAL_DATASET_FILE, final_records)
+    save_jsonl(NEW_FINAL_DATASET_FILE, final_records)
 
     # Summary
    
@@ -183,7 +185,7 @@ def merge_repaired_documents() -> None:
 
     print(f"Unique ADA values: {len(final_adas)}")
 
-    print(f"Final dataset: {FINAL_DATASET_FILE.resolve()}")
+    print(f"Final dataset: {NEW_FINAL_DATASET_FILE.resolve()}")
 
 
 
