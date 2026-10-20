@@ -16,9 +16,9 @@ EVAL_DATASET = [
 
     # ANSWERABLE CASES
 
-    # 1. AdVENt - κόστος προμήθειας δίσκων
+    # 1. AdVENt: κόστος προμήθειας δίσκων
 
-        {
+    {
         "question": "Πόσο κόστισε η προμήθεια 4 δίσκων για το έργο AdVENt;",
         "expected_answer": "967,60 ευρώ, συμπεριλαμβανομένου ΦΠΑ και λοιπών νόμιμων κρατήσεων.",
         "expected_adas": ["69ΑΟ469ΗΞΩ-4ΔΥ"],
@@ -27,7 +27,7 @@ EVAL_DATASET = [
         "answerable": True,
     },
 
-    # 2. ΔΙΟΙΚΗΣΗ - προμηθευτής ηλεκτρονικών ειδών
+    # 2. ΔΙΟΙΚΗΣΗ: προμηθευτής ηλεκτρονικών ειδών
     {
         "question": "Ποια εταιρεία ανέλαβε την προμήθεια ηλεκτρονικών ειδών για το έργο ΔΙΟΙΚΗΣΗ το 2021;",
         "expected_answer": "Creative Minds M. ΕΠΕ.",
@@ -36,7 +36,7 @@ EVAL_DATASET = [
         "category": "procurement",
         "answerable": True,
     },
-     # 3. MORE - κόστος ηλεκτρονικού εξοπλισμού
+     # 3. MORE: κόστος ηλεκτρονικού εξοπλισμού
     {
         "question": "Ποιο ποσό εγκρίθηκε για την προμήθεια ηλεκτρονικού εξοπλισμού στο έργο MORE το 2021;",
         "expected_answer": "5.592,93 ευρώ, συμπεριλαμβανομένου ΦΠΑ και λοιπών νόμιμων κρατήσεων.",
@@ -46,7 +46,7 @@ EVAL_DATASET = [
         "answerable": True,
     },
 
-   # 4. Ανάπτυξη και Λειτουργία - προμήθεια φαρμακευτικού υλικού
+   # 4. Ανάπτυξη και Λειτουργία: προμήθεια φαρμακευτικού υλικού
     {
         "question": "Τι προμηθεύτηκε το έργο Ανάπτυξη και Λειτουργία με δαπάνη 74,02 ευρώ;",
         "expected_answer": "Φαρμακευτικό υλικό.",
@@ -56,7 +56,7 @@ EVAL_DATASET = [
         "answerable": True,
     },
 
-   # 5. Ανάπτυξη και Λειτουργία - προμηθευτής γραμματοσήμων
+   # 5. Ανάπτυξη και Λειτουργία: προμηθευτής γραμματοσήμων
     {
         "question": "Από ποια εταιρεία έγινε η προμήθεια γραμματοσήμων για το έργο Ανάπτυξη και Λειτουργία το 2021;",
         "expected_answer": "ΕΛΛΗΝΙΚΑ ΤΑΧΥΔΡΟΜΕΙΑ Α.Ε.",
@@ -66,7 +66,7 @@ EVAL_DATASET = [
         "answerable": True,
     },
 
-    # 6. Visual Facts - κόστος δημοσίευσης επιστημονικού άρθρου
+    # 6. Visual Facts: κόστος δημοσίευσης επιστημονικού άρθρου
     {
         "question": "Ποιο ποσό εγκρίθηκε στο έργο Visual Facts για τη δημοσίευση επιστημονικού άρθρου;",
         "expected_answer": "2.178,00 ευρώ.",
@@ -76,7 +76,7 @@ EVAL_DATASET = [
         "answerable": True,
     },
 
-    # 7. NEANIAS - εκτύπωση προωθητικού υλικού
+    # 7. NEANIAS: εκτύπωση προωθητικού υλικού
     {
         "question": "Για ποιο σκοπό εγκρίθηκε δαπάνη 620,00 ευρώ στο έργο NEANIAS το 2022;",
         "expected_answer": "Για την εκτύπωση προωθητικού υλικού του έργου.",
@@ -86,7 +86,7 @@ EVAL_DATASET = [
         "answerable": True,
     },
 
-    # 8. STELAR - κόστος φιλοξενίας εναρκτήριας συνάντησης
+    # 8. STELAR: κόστος φιλοξενίας εναρκτήριας συνάντησης
     {
         "question": "Ποιο ποσό εγκρίθηκε για τη φιλοξενία στο πλαίσιο της εναρκτήριας συνάντησης του έργου STELAR;",
         "expected_answer": "1.008,00 ευρώ, συμπεριλαμβανομένου ΦΠΑ και λοιπών νόμιμων κρατήσεων.",
@@ -96,7 +96,7 @@ EVAL_DATASET = [
         "answerable": True,
     },
 
-    # 9. ΑΡΧΙΜΗΔΗΣ - γραφική ύλη και είδη γραφείου
+    # 9. ΑΡΧΙΜΗΔΗΣ: γραφική ύλη και είδη γραφείου
     {
         "question": "Ποιο ποσό εγκρίθηκε στο έργο ΑΡΧΙΜΗΔΗΣ για γραφική ύλη και είδη γραφείου;",
         "expected_answer": "1.160,50 ευρώ, συμπεριλαμβανομένου ΦΠΑ και λοιπών νόμιμων κρατήσεων.",
@@ -107,7 +107,7 @@ EVAL_DATASET = [
     },
 
     
-# 10. ERA4TB - προμήθεια σκληρού δίσκου
+# 10. ERA4TB: προμήθεια σκληρού δίσκου
     {
         "question": "Τι αγοράστηκε για το έργο ERA4TB με εγκεκριμένη δαπάνη 90,00 ευρώ;",
         "expected_answer": "Ένας σκληρός δίσκος.",
@@ -116,7 +116,7 @@ EVAL_DATASET = [
         "category": "procurement",
         "answerable": True,
     },
-# 11. LAZARUS - εγγραφή σε συνέδριο
+# 11. LAZARUS: εγγραφή σε συνέδριο
     {
         "question": "Σε ποιο συνέδριο αφορούσε η εγγραφή μέλους ΔΕΠ στο πλαίσιο του έργου LAZARUS το 2023;",
         "expected_answer": "Στο συνέδριο IEEE DAPPS 2023.",
@@ -125,7 +125,7 @@ EVAL_DATASET = [
         "category": "conference",
         "answerable": True,
     },
-# 12. EASIER - κόστος προωθητικού υλικού
+# 12. EASIER: κόστος προωθητικού υλικού
     {
         "question": "Ποιο ποσό εγκρίθηκε για την προμήθεια προωθητικού υλικού στο έργο EASIER;",
         "expected_answer": "50,00 ευρώ, συμπεριλαμβανομένου ΦΠΑ και λοιπών νόμιμων κρατήσεων.",
@@ -136,7 +136,7 @@ EVAL_DATASET = [
     },
 
 
-# 13. SciLake - προμήθεια μνήμης RAM
+# 13. SciLake: προμήθεια μνήμης RAM
     {
         "question": "Τι είδους εξοπλισμός αγοράστηκε για το έργο SciLake το 2023;",
         "expected_answer": "Μνήμη τυχαίας προσπέλασης (RAM).",
@@ -146,7 +146,7 @@ EVAL_DATASET = [
         "answerable": True,
     },
 
-# 14. EDITH - κόστος αναλώσιμων Η/Υ
+# 14. EDITH: κόστος αναλώσιμων Η/Υ
     {
         "question": "Ποιο ποσό εγκρίθηκε για αναλώσιμα είδη Η/Υ στο έργο EDITH το 2024;",
         "expected_answer": "818,40 ευρώ, συμπεριλαμβανομένου ΦΠΑ και λοιπών νόμιμων κρατήσεων.",
@@ -156,7 +156,7 @@ EVAL_DATASET = [
         "answerable": True,
     },
 
-# 15. GRAPES - συμμετοχή στο Summer School HYPATIA 2024
+# 15. GRAPES: συμμετοχή στο Summer School HYPATIA 2024
     {
         "question": "Σε ποια διοργάνωση αφορούσε η εγγραφή συνεργάτη του ΙΠΣΥ στο έργο GRAPES το 2024;",
         "expected_answer": "Στο Summer School HYPATIA 2024.",
@@ -166,7 +166,7 @@ EVAL_DATASET = [
         "answerable": True,
     },
 
-  # 16. HDMS2024 - προωθητικό υλικό και ενοικίαση εξοπλισμού
+  # 16. HDMS2024: προωθητικό υλικό και ενοικίαση εξοπλισμού
     {
         "question": "Τι κάλυπτε η δαπάνη των 2.000,00 ευρώ στο έργο HDMS2024;",
         "expected_answer": "Την προμήθεια προωθητικού υλικού και την ενοικίαση εξοπλισμού για τη διοργάνωση του HDMS 2024.",
@@ -176,7 +176,7 @@ EVAL_DATASET = [
         "answerable": True,
     },
 
-# 17. ALGEBRA - προμήθεια εργαστηριακού αναλώσιμου
+# 17. ALGEBRA: προμήθεια εργαστηριακού αναλώσιμου
     {
         "question": "Ποιο εργαστηριακό αναλώσιμο εγκρίθηκε για προμήθεια στο έργο ALGEBRA;",
         "expected_answer": "Κιτ για το NIR.",
@@ -187,7 +187,7 @@ EVAL_DATASET = [
     },
 
 
-# 18. EBRAINS 2.0 - ηλεκτρονικός εξοπλισμός και άδειες λογισμικού
+# 18. EBRAINS 2.0: ηλεκτρονικός εξοπλισμός και άδειες λογισμικού
     {
         "question": "Τι αφορούσε η προμήθεια ύψους 1.016,80 ευρώ στο έργο EBRAINS 2.0 το 2025;",
         "expected_answer": "Ηλεκτρονικό εξοπλισμό και άδειες χρήσης λογισμικού.",
@@ -198,7 +198,7 @@ EVAL_DATASET = [
     },
 
 
-# 19. EU BabyRobot+ - προμηθευτής αναλώσιμων Η/Υ
+# 19. EU BabyRobot+: προμηθευτής αναλώσιμων Η/Υ
 
     {
         "question": "Ποιος ήταν ο προμηθευτής αναλώσιμων ειδών Η/Υ για το έργο EU BabyRobot+;",
@@ -209,7 +209,7 @@ EVAL_DATASET = [
         "answerable": True,
     },
 
-# 20. ENABLE 6G - κόστος δημιουργίας ιστοσελίδας
+# 20. ENABLE 6G: κόστος δημιουργίας ιστοσελίδας
     {
         "question": "Ποιο ποσό εγκρίθηκε για τη δημιουργία ιστοσελίδας του έργου ENABLE 6G το 2025;",
         "expected_answer": "6.200,00 ευρώ, συμπεριλαμβανομένου ΦΠΑ και λοιπών νόμιμων κρατήσεων.",
@@ -219,7 +219,7 @@ EVAL_DATASET = [
         "answerable": True,
     },
     
-# 21 - procurement
+#21 AdVENt: Προμηθευτής
 {
     "question": "Ποια εταιρεία ανέλαβε την προμήθεια αναλωσίμων και περιφερειακών ειδών για το έργο AdVENt;",
     "expected_answer": "Η easyPC – ΝΙΚΟΛΑΪΔΗΣ ΔΗΜΗΤΡΙΟΣ ΚΑΙ ΣΙΑ Ο.Ε.",
@@ -229,7 +229,7 @@ EVAL_DATASET = [
     "answerable": True,
 },
 
-# 22 - procurement
+#22 AdVENt: Ποσό προμήθειας
 {
     "question": "Ποιο ήταν το ποσό της προμήθειας για το έργο AdVENt;",
     "expected_answer": "9.794,00 ευρώ, πλέον του αναλογούντος ΦΠΑ.",
@@ -239,7 +239,7 @@ EVAL_DATASET = [
     "answerable": True,
 },
 
-# 23 - procurement
+#23 AdVENt: Χρονικό διάστημα προμήθειας
 {
     "question": "Ποιο ήταν το χρονικό διάστημα της προμήθειας για το έργο AdVENt;",
     "expected_answer": "Από 10/01/2022 έως 17/01/2022.",
@@ -249,7 +249,7 @@ EVAL_DATASET = [
     "answerable": True,
 },
 
-# 24 - procurement
+#24 IntelComp: Προμηθευτής ηλεκτρονικού εξοπλισμού
 {
     "question": "Ποια εταιρεία ανέλαβε την προμήθεια ηλεκτρονικού εξοπλισμού για το IntelComp;",
     "expected_answer": "Η MSYSTEMS I.K.E.",
@@ -259,7 +259,7 @@ EVAL_DATASET = [
     "answerable": True,
 },
 
-# 25 - procurement
+#25 IntelComp: Ποσό προμήθειας
 {
     "question": "Πόσο κόστισε η προμήθεια ηλεκτρονικού εξοπλισμού για το IntelComp;",
     "expected_answer": "4.397,1 ευρώ, πλέον του αναλογούντος ΦΠΑ.",
@@ -269,7 +269,8 @@ EVAL_DATASET = [
     "answerable": True,
 },
 
-# 26 - travel
+
+#26 PREMIERE: Διαδρομή μετακίνησης
 {
     "question": "Από πού προς πού θα μετακινούνταν ο συνεργάτης του έργου PREMIERE;",
     "expected_answer": "Από την Αθήνα στο Πόρτο.",
@@ -279,7 +280,8 @@ EVAL_DATASET = [
     "answerable": True,
 },
 
-# 27 - travel
+
+#27 PREMIERE: Χρονικό διάστημα μετακίνησης
 {
     "question": "Ποιο ήταν το χρονικό διάστημα της μετακίνησης για το έργο PREMIERE;",
     "expected_answer": "Από 17/09/2025 έως 24/09/2025.",
@@ -289,7 +291,8 @@ EVAL_DATASET = [
     "answerable": True,
 },
 
-# 28 - travel
+
+#28 IEEE Smart Cities Conference: Προορισμός μετακίνησης
 {
     "question": "Πού θα ταξίδευε ο συνεργάτης για το συνέδριο 10th IEEE International Smart Cities Conference;",
     "expected_answer": "Από την Πάτρα στην Pataya City της Ταϊλάνδης.",
@@ -298,7 +301,8 @@ EVAL_DATASET = [
     "category": "travel",
     "answerable": True,
 },
-# 29 - TRUSTEE
+
+#29 TRUSTEE: Τροποποίηση σύμβασης
 {
     "question": "Τι άλλαξε στη σύμβαση του έργου TRUSTEE;",
     "expected_answer": "Τροποποιήθηκε το οικονομικό αντικείμενο της σύμβασης.",
@@ -308,7 +312,7 @@ EVAL_DATASET = [
     "answerable": True,
 },
 
-# 30 - scholarship
+#30 Ανάπτυξη Αυτόνομων Ρομποτικών Συστημάτων: Υποτροφία
 {
     "question": "Ποιο ήταν το μηνιαίο ποσό της υποτροφίας στο έργο Ανάπτυξη Αυτόνομων Ρομποτικών Συστημάτων;",
     "expected_answer": "1.300,00 ευρώ τον μήνα.",
@@ -336,7 +340,8 @@ EVAL_DATASET = [
     "category": "contract",
     "answerable": True,
 },
-# 33 - recruitment
+
+#33 MINOR-MED: Μόρια συνέντευξης
 {
     "question": "Πόσα μόρια μπορεί να δώσει η συνέντευξη στην πρόσκληση MINOR-MED;",
     "expected_answer": "Έως 10 μόρια.",
@@ -346,7 +351,7 @@ EVAL_DATASET = [
     "answerable": True,
 },
 
-# 34 - recruitment
+#34 MINOR-MED: Ανώτατη συνολική βαθμολογία
 {
     "question": "Ποια είναι η ανώτατη συνολική βαθμολογία στην αξιολόγηση της πρόσκλησης MINOR-MED;",
     "expected_answer": "100 μόρια.",
@@ -356,7 +361,8 @@ EVAL_DATASET = [
     "answerable": True,
 },
 
-# 35 - procurement
+
+#35 ΤΜΗΜΑ 3: Προμηθευτής φορητού συστήματος φασματοσκoπίας
 {
     "question": "Ποια εταιρεία ανέλαβε την προμήθεια ηλεκτρονικού και εργαστηριακού εξοπλισμού για ΤΜΗΜΑ 3 –Φορητό σύστημα φασματοσκοπίας φθορισμού ακτίνων-Χ;",
     "expected_answer": "Η ΑΝΑΛΥΤΙΚΕΣ ΣΥΣΚΕΥΕΣ ΑΕ.",
@@ -366,7 +372,8 @@ EVAL_DATASET = [
     "answerable": True,
 },
 
-# 36 - procurement
+
+#36 ΤΜΗΜΑ 3: Ποσό σύμβασης
 {
     "question": "Ποιο ήταν το ποσό της σύμβασης προμήθειας ηλεκτρονικού και εργαστηριακού εξοπλισμού με την ΑΝΑΛΥΤΙΚΕΣ ΣΥΣΚΕΥΕΣ ΑΕ;",
     "expected_answer": "94.866,00 ευρώ, πλέον του αναλογούντος ΦΠΑ.",
@@ -376,7 +383,8 @@ EVAL_DATASET = [
     "answerable": True,
 },
 
-# 37 - travel
+
+#37 IEEE Smart Cities Conference: Διάρκεια μετακίνησης
 {
     "question": "Πόσες ημέρες θα διαρκούσε η μετακίνηση στην Ταϊλάνδη για το 10th IEEE International Smart Cities Conference;",
     "expected_answer": "8 ημέρες.",
@@ -386,7 +394,7 @@ EVAL_DATASET = [
     "answerable": True,
 },
 
-# 38 - recruitment
+#38 RegulAIze: Ελάχιστη βαθμολογία επιτυχίας
 {
     "question": "Πόσα μόρια πρέπει να συγκεντρώσει τουλάχιστον ένας υποψήφιος για να θεωρηθεί επιτυχών στην πρόσκληση RegulAIze;",
     "expected_answer": "Τουλάχιστον 40 μόρια.",
@@ -396,7 +404,7 @@ EVAL_DATASET = [
     "answerable": True,
 },
 
-# 39. ΕΚ Αθηνά - αναμόρφωση προϋπολογισμού
+# 39. ΕΚ Αθηνά : αναμόρφωση προϋπολογισμού
 {
     "question": "Τι αφορούσε η δεύτερη αναμόρφωση του προϋπολογισμού του ΕΚ Αθηνά για το 2026;",
     "expected_answer": "Αφορούσε τη δεύτερη αναμόρφωση του προϋπολογισμού του ΕΚ Αθηνά για το οικονομικό έτος 2026.",
@@ -410,97 +418,99 @@ EVAL_DATASET = [
     
 
     # 40. Άδεια μητρότητας
-    {
+{
         "question": "Πόσες μέρες άδεια μητρότητας δικαιούμαι;",
         "expected_answer": UNANSWERABLE_RESPONSE,
         "expected_adas": [],
         "expected_source_ids": [],
         "category": "unanswerable",
         "answerable": False,
-    },
+},
 
     # 41. Άδεια πατρότητας
-    {
+{
         "question":"Πόσες μέρες άδεια πατρότητας δικαιούμαι;",
         "expected_answer": UNANSWERABLE_RESPONSE,
         "expected_adas": [],
         "expected_source_ids": [],
         "category": "unanswerable",
         "answerable": False,
-    },
+},
 
     # 42. Κανονική άδεια
-    {
+{
         "question":"Πόσες μέρες κανονική άδεια δικαιούμαι;",
         "expected_answer": UNANSWERABLE_RESPONSE,
         "expected_adas": [],
         "expected_source_ids": [],
         "category": "unanswerable",
         "answerable": False,
-    },
+},
 
     # 43. Άδεια ασθενείας
-    {
+{
         "question":"Πόσες μέρες άδεια ασθενείας επί πληρωμή δικαιούμαι;",
         "expected_answer": UNANSWERABLE_RESPONSE,
         "expected_adas": [],
         "expected_source_ids": [],
         "category": "unanswerable",
         "answerable": False,
-    },
+},
     # 44. Άδεια γάμου
-    {
+{
         "question": "Πόσες μέρες άδεια γάμου δικαιούμαι;",
         "expected_answer": UNANSWERABLE_RESPONSE,
         "expected_adas": [],
         "expected_source_ids": [],
         "category": "unanswerable",
         "answerable": False,
-    },
+},
 
     # 45. Άδεια πένθους
-    {"question": "Πόσες μέρες άδεια πένθους δικαιούμαι;", 
+{"question": "Πόσες μέρες άδεια πένθους δικαιούμαι;", 
      "expected_answer": UNANSWERABLE_RESPONSE, 
      "expected_adas": [], 
      "expected_source_ids": [], 
      "category": "unanswerable", 
      "answerable": False
-     },
+},
 
     # 46. Άδεια αιμοδοσίας
-    {"question": "Πόσες μέρες άδεια αιμοδοσίας δικαιούμαι;", 
+{"question": "Πόσες μέρες άδεια αιμοδοσίας δικαιούμαι;", 
      "expected_answer": UNANSWERABLE_RESPONSE, 
      "expected_adas": [],
     "expected_source_ids": [], 
     "category": "unanswerable", 
     "answerable": False
-    },
+},
 
     # 47. Κυριακή
-    {
+{
         "question":"Τι προσαύξηση παίρνω αν δουλέψω Κυριακή;",
         "expected_answer": UNANSWERABLE_RESPONSE,
         "expected_adas": [],
         "expected_source_ids": [],
         "category": "unanswerable",
         "answerable": False,
-    },
+},
 
     # 48. Διάλειμμα εργασίας
-    {"question": "Πόσο διάλειμμα δικαιούμαι κατά τη διάρκεια της εργασίας μου;", 
+{"question": "Πόσο διάλειμμα δικαιούμαι κατά τη διάρκεια της εργασίας μου;", 
      "expected_answer": UNANSWERABLE_RESPONSE, 
      "expected_adas": [], 
      "expected_source_ids": [], 
      "category": "unanswerable", 
-     "answerable": False},
+     "answerable": False
+},
 
     # 49. Εργατικό ατύχημα
-    {"question": "Τι θεωρείται εργατικό ατύχημα;", 
+{"question": "Τι θεωρείται εργατικό ατύχημα;", 
      "expected_answer": UNANSWERABLE_RESPONSE, 
      "expected_adas": [], 
      "expected_source_ids": [], 
      "category": "unanswerable", 
-     "answerable": False},
+     "answerable": False
+},
 
 # 50. Επίδομα τηλεργασίας
 {
@@ -511,6 +521,7 @@ EVAL_DATASET = [
     "category": "unanswerable",
     "answerable": False,
 },
+
 ]
 
 # Βοηθητικά subsets
@@ -527,7 +538,7 @@ UNANSWERABLE_CASES = [case for case in EVAL_DATASET if not case["answerable"]]
 
 def validate_dataset():
     """
-    Βασικός έλεγχος της δομής του evaluation dataset.
+    Main check of the evaluation dataset.
     """
 
     assert len(EVAL_DATASET) == 50, (f"Αναμένονταν 50 cases, βρέθηκαν {len(EVAL_DATASET)}.")
@@ -548,8 +559,7 @@ def validate_dataset():
     for index, case in enumerate(EVAL_DATASET, start=1):
         missing_fields = (required_fields - set(case.keys()))
 
-        assert not missing_fields, (
-            f"Case {index}: λείπουν fields {sorted(missing_fields)}")
+        assert not missing_fields, (f"Case {index}: λείπουν fields {sorted(missing_fields)}")
 
         assert case["question"].strip(), (f"Case {index}: κενή ερώτηση.")
 

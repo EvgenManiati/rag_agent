@@ -12,7 +12,7 @@ The system was developed and evaluated primarily on Greek-language administrativ
 
 - Agentic RAG architecture using LangGraph
 - Google Drive integration through OAuth 2.0
-- Recursive document loading from multiple Google Drive folders
+- Recursive PDF discovery across the configured Google Drive corpus and its subfolders.
 - PDF processing and metadata preservation
 - Multiple LLM providers
   -OpenRouter
@@ -62,9 +62,8 @@ Final Answer
 
 ## Supported Models
 
-The system currently supports multiple local and API-based LLMs, allowing the same RAG pipeline to be tested and evaluated with six different generator models:
+The system currently supports multiple local and API-based LLMs, allowing the same RAG pipeline to be tested and evaluated with four different generator models:
 
-- Llama 3.2 - Ollama
 - Qwen 14B - OpenRouter
 - Gemini Flash - OpenRouter
 - GPT-4.1 Mini - OpenRouter
@@ -119,18 +118,25 @@ The document corpus is created through a multi-stage preprocessing pipeline:
 
 `crawler.py`
 
-Collects Diavgeia metadata through the public API and downloads the matching PDF documents.
+Collects and validates Diavgeia metadata through the public API and stores the normalized metadata records for subsequent processing.
 
-### 2. Dataset Constraction
+### 2. Dataset Construction
 
 `dataset_builder.py`
 
-The documents are collected as follows:
-- extracting text from PDFs
-- validating document quality
-- repairing problematic PDF files
-- preserving document metadata
-- producing structured dataset records
+dataset_new.jsonl
+        ↓
+quality_check.py
+        ↓
+new_suspicious_documents.jsonl
+        ↓
+repair_suspicious.py
+        ↓
+new_repaired_documents.jsonl
+        ↓
+merge_repaired.py
+        ↓
+final_dataset_new.jsonl
 
 ### 3. OCR Repair
 
@@ -157,7 +163,7 @@ The preprocessing pipeline produces a well organized document collection that ca
 
 The final compilation of PDF documents are organized and stored in Google Drive.
 The Drive corpus contains Diavgeia administrative decisions.
-`google_drive_loader.py` recursively discovers the PDFs, maps them by ADA to the curated page in final_dataset.jsonl and preserves their source metadata.
+google_drive_loader.py recursively discovers the Drive PDFs, derives the ADA from each filename, maps it to the corresponding quality-controlled record and page texts in final_dataset.jsonl, and preserves the Google Drive source metadata.
 
 ### 8. Vector Indexing
 
@@ -271,25 +277,24 @@ python -m evaluation.evaluation_deepeval
 #### Answerable Results — Drive BGE-M3
 
 | Model            | Faithfulness | Answer Relevancy | Context Precision | Context Recall |
-| Llama 3.2 3B     | -            | -                | -                 | -              |
 | Qwen3 14B        | 0.885        | 0.904            | 0.923             | 0.846          |
 | GPT-4.1 Mini     | 0.930        | 0.704            | 0.923             | 0.872          |
 | Gemini 2.5 Flash | 0.885        | 0.879            | 0.923             | 0.872          |
 | Claude Haiku 4.5 | 0.877        | 0.774            | 0.923             | 0.872          |
 
 
-GPT-4.1 Mini achieved the highest Faithfulness, while Qwen3 14B and  Gemini 2.5 Flash achieved the highest Answer Relevancy. Contextual Precision and Contextual Recall reached 0.846 - 0.872 for almost all evaluated models. Llama 3.2 3B did not participate in the evaluation.
+GPT-4.1 Mini achieved the highest Faithfulness, while Gemini 2.5 Flash achieved the highest Answer Relevancy. Context Precision reached 0.923 and Context Recall reached 0.846 - 0.872 for almost all evaluated models. 
 
 
 #### Unanswerable Results — Drive BGE-ME
 
 | Model            | Faithfulness | Answer Relevancy | Refusal Accuracy |Hallucination Rate |
-| Llama 3.2  3B    | -            | -                | -                | -                 |
 | Qwen3 14B        | 1.000        | 0.909            | 0.909            | 0.091             |
 | GPT-4.1 Mini     | 1.000        | 0.879            | 0.909            | 0.091             |
 | Gemini 2.5 Flash | 1.000        | 0.818            | 1.000            | 0.000             |
 | Claude Haiku 4.5 | 1.000        | 0.550            | 0.909            | 0.091             |
-The evaluated models refused 10 of 11 unanswerable questions, except Gemini 2.5 Flash, which achieved perfect scores in both Refusal Accuracy and Hallucination Rate. Llama 3.2 3B did not complete the evaluation.
+
+The evaluated models refused 10 of 11 unanswerable questions, except Gemini 2.5 Flash, which achieved perfect scores in both Refusal Accuracy and Hallucination Rate. 
 
 ### Custom Evaluation
 
@@ -309,14 +314,14 @@ python -m evaluation.custom_eval
 
 #### Custom Evaluation Results — Drive BGE-M3
 
-| Model            | Answer Exaxtness | Number Accuracy | Source Accuracy|Source Rank|
-| Llama 3.2  3B    | -                | 0.181           | 1.000          | 1.100     |       
-| Qwen3 14B        | 0.200            | 1.000           | 1.000          | 1.100     |
-| GPT-4.1 Mini     | 0.000            | 1.000           | 1.000          | 1.100     |
-| Gemini 2.5 Flash | 0.200            | 1.000           | 1.000          | 1.100     |
-| Claude Haiku 4.5 | 0.000            | 1.000           | 1.000          | 1.100     |
+| Model            | Answer Exaxtness | Number Accuracy | Source Accuracy|Source Rank|    
+| Qwen3 14B        | 0.230            | 0.750           | 0.820          | 1.343     |
+| GPT-4.1 Mini     | 0.000            | 0.791           | 0.820          | 1.343     |
+| Gemini 2.5 Flash | 0.512            | 0.708           | 0.820          | 1.343     |
+| Claude Haiku 4.5 | 0.000            | 0.791           | 0.820          | 1.343     |
+
 For Source Rank, lower values indicate better retrieval performance, as the correct source appears earlier in the ranked results.
-Qwen3 14B and Gemini 2.5 Flash achieved the highest Answer Exactness. Qwen 14B, GPT-4.1 Mini, Gemini 2.5 Flash and Claude Haiku 4.5 achieved the perfect Number Accuracy.
+Gemini 2.5 Flash achieved the highest Answer Exactness. GPT-4.1 Mini, Gemini 2.5 Flash and Claude Haiku 4.5 achieved the perfect Number Accuracy.
 Source Accuracy and Source Rank are identical across all generator models because same fixed `drive_bge` retriever was used in every experiment.
 
 
@@ -378,12 +383,13 @@ rag_agent/
        -- retrieval_benchmark.json
        -- retrieval_test_100_manifest.json
     -- evaluation_results/
-       -- custom_eval_drive_bge_final_results.csv
-       -- custom_eval_drive_bge_final_results.json
-       -- custom_eval_drive_bge_final_detailed_results.csv
-       -- deepeval_drive_bge_final_results.csv
-       -- deepeval_drive_bge_final_results.json
-       -- deepeval_drive_bge_final_detailed_results.csv
+       -- custom_eval_final_results.csv
+       -- custom_eval_final_results.json
+       -- custom_eval_final_detailed_results.csv
+       -- deepeval_final_results.csv
+       -- deepeval_final_results.json
+       -- deepeva_final_detailed_results.csv
+       -- diavgeia/final_dataset.jsonl
 - requirements.txt
 - README.md
 - .gitignore
@@ -402,7 +408,6 @@ Generated FAISS vector stores are stored locally under `data/vectorstores/` and 
 - Python 3.11 or newer is recommended
 - Git
 - Tesseract OCR (required only for OCR-based PDF repair)
-- Ollama (required only when using locally hosted Ollama models)
 
 ### 1. Clone the Repository
 ```bash
@@ -435,13 +440,26 @@ The main RAG application does not require Tesseract when working with an already
 ## Configuration 
 
 ### API Keys
-Create a `.env` file in the Project root and add the credentials required by the selected model providers.
-Example:
+OpenRouter-based models require an OpenRouter API key.
+
+When using the Streamlit interface, users can provide their personal
+OpenRouter API key directly from the sidebar. The key is used to
+initialize the selected OpenRouter model for the current Streamlit
+session and is not written to a local file by the application.
+
+For command-line execution and evaluation scripts, an OpenRouter API
+key can alternatively be provided through a `.env` file in the project
+root:
+
 ```env
 OPENROUTER_API_KEY=your_openrouter_api_key
+
+The .env value acts as a fallback when no API key is supplied
+explicitly at runtime.
+
+If a Hugging Face model requiring authentication is used, the
+corresponding token can also be configured through the environment:
 HUGGINGFACE_TOKEN=your_huggingface_token
-```
-Only the credentials required by the selected models need to be configured.
 
 ### Google Drive Authentication
 
@@ -531,7 +549,6 @@ Generated vector indexes are local artifacts and should not be committed to the 
 - FAISS
 - HuggingFace Transformers
 - Sentence Transformers
-- Ollama
 - OpenRouter
 - Streamlit
 - Google Drive API
