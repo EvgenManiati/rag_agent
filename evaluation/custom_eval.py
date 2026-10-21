@@ -31,9 +31,9 @@ SOURCE_TOP_K = 5
 
 RESULTS_DIR = Path("data/evaluation_results")
 
-JSON_RESULTS_FILE = RESULTS_DIR / "custom_eval_drive_bge_last_results.json"
-CSV_RESULTS_FILE = RESULTS_DIR / "custom_eval_drive_bge_last_results.csv"
-DETAILED_CSV_FILE = RESULTS_DIR / "custom_eval_drive_bge_last_detailed_results.csv"
+JSON_RESULTS_FILE = RESULTS_DIR / "custom_eval_final_results.json"
+CSV_RESULTS_FILE = RESULTS_DIR / "custom_eval_final_results.csv"
+DETAILED_CSV_FILE = RESULTS_DIR / "custom_eval_final_detailed_results.csv"
 
 
 # TEXT NORMALIZATION

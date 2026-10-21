@@ -277,24 +277,24 @@ python -m evaluation.evaluation_deepeval
 #### Answerable Results — Drive BGE-M3
 
 | Model            | Faithfulness | Answer Relevancy | Context Precision | Context Recall |
-| Qwen3 14B        | 0.885        | 0.904            | 0.923             | 0.846          |
-| GPT-4.1 Mini     | 0.930        | 0.704            | 0.923             | 0.872          |
-| Gemini 2.5 Flash | 0.885        | 0.879            | 0.923             | 0.872          |
-| Claude Haiku 4.5 | 0.877        | 0.774            | 0.923             | 0.872          |
+| Qwen3 14B        | 0.886        | 0.912            | 0.974             | 0.949          |
+| GPT-4.1 Mini     | 0.893        | 0.686            | 0.974             | 0.974          |
+| Gemini 2.5 Flash | 0.928        | 0.691            | 0.974             | 0.949          |
+| Claude Haiku 4.5 | 0.861        | 0.767            | 0.974             | 0.974          |
 
 
-GPT-4.1 Mini achieved the highest Faithfulness, while Gemini 2.5 Flash achieved the highest Answer Relevancy. Context Precision reached 0.923 and Context Recall reached 0.846 - 0.872 for almost all evaluated models. 
+Gemini 2.5 Flash achieved the highest Faithfulness, while Qwen3 14B achieved the highest Answer Relevancy. Context Precision reached 0.974 and Context Recall reached 0.949 - 0.974 for almost all evaluated models. 
 
 
 #### Unanswerable Results — Drive BGE-ME
 
 | Model            | Faithfulness | Answer Relevancy | Refusal Accuracy |Hallucination Rate |
-| Qwen3 14B        | 1.000        | 0.909            | 0.909            | 0.091             |
+| Qwen3 14B        | 0.909        | 0.909            | 1.000            | 0.000             |
 | GPT-4.1 Mini     | 1.000        | 0.879            | 0.909            | 0.091             |
-| Gemini 2.5 Flash | 1.000        | 0.818            | 1.000            | 0.000             |
-| Claude Haiku 4.5 | 1.000        | 0.550            | 0.909            | 0.091             |
+| Gemini 2.5 Flash | 1.000        | 0.864            | 0.909            | 0.091             |
+| Claude Haiku 4.5 | 1.000        | 0.605            | 0.909            | 0.091             |
 
-The evaluated models refused 10 of 11 unanswerable questions, except Gemini 2.5 Flash, which achieved perfect scores in both Refusal Accuracy and Hallucination Rate. 
+The evaluated models refused 10 of 11 unanswerable questions, except Qwen3 14B, which achieved perfect scores in both Refusal Accuracy and Hallucination Rate. 
 
 ### Custom Evaluation
 
@@ -315,13 +315,13 @@ python -m evaluation.custom_eval
 #### Custom Evaluation Results — Drive BGE-M3
 
 | Model            | Answer Exaxtness | Number Accuracy | Source Accuracy|Source Rank|    
-| Qwen3 14B        | 0.230            | 0.750           | 0.820          | 1.343     |
-| GPT-4.1 Mini     | 0.000            | 0.791           | 0.820          | 1.343     |
-| Gemini 2.5 Flash | 0.512            | 0.708           | 0.820          | 1.343     |
-| Claude Haiku 4.5 | 0.000            | 0.791           | 0.820          | 1.343     |
+| Qwen3 14B        | 0.359            | 0.960           | 0.923          | 1.361     |
+| GPT-4.1 Mini     | 0.000            | 0.960           | 0.923          | 1.361     |
+| Gemini 2.5 Flash | 0.000            | 0.880           | 0.923          | 1.361     |
+| Claude Haiku 4.5 | 0.000            | 0.960           | 0.923          | 1.361     |
 
 For Source Rank, lower values indicate better retrieval performance, as the correct source appears earlier in the ranked results.
-Gemini 2.5 Flash achieved the highest Answer Exactness. GPT-4.1 Mini, Gemini 2.5 Flash and Claude Haiku 4.5 achieved the perfect Number Accuracy.
+Qwen3 14B Flash achieved the highest Answer Exactness. GPT-4.1 Mini, Qwen3 14B and Claude Haiku 4.5 achieved better Number Accuracy than Gemini 2.5 Flash.
 Source Accuracy and Source Rank are identical across all generator models because same fixed `drive_bge` retriever was used in every experiment.
 
 

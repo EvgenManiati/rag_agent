@@ -52,11 +52,11 @@ EVALUATOR_MODEL_KEY = "gpt41_mini"
 
 RESULTS_DIR = Path("data/evaluation_results")
 
-JSON_RESULTS_FILE = (RESULTS_DIR/ "deepeval_unanswerable_results_drive_bge_last.json")
+JSON_RESULTS_FILE = (RESULTS_DIR/ "deepeval_final_results.json")
 
-CSV_RESULTS_FILE = (RESULTS_DIR/ "deepeval_unanswerable_results_drive_bge_last.csv")
+CSV_RESULTS_FILE = (RESULTS_DIR/ "deepeval_final_results.csv")
 
-DETAILED_CSV_FILE = (RESULTS_DIR/ "deepeval_unanswerable_detailed_results_drive_bge_last.csv")
+DETAILED_CSV_FILE = (RESULTS_DIR/ "deepeval_final_results_detailed.csv")
 
 
 # DEEPEVAL MODEL WRAPPER
