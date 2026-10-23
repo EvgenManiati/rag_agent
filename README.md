@@ -1,5 +1,5 @@
 
-#RAG AGENT
+#A Controlled Agentic Pipeline for RAG-based Question Answering over Greek Administrative Documents
 
 ## Overview
 
@@ -64,10 +64,10 @@ Final Answer
 
 The system currently supports multiple local and API-based LLMs, allowing the same RAG pipeline to be tested and evaluated with four different generator models:
 
-- Qwen 14B - OpenRouter
-- Gemini Flash - OpenRouter
-- GPT-4.1 Mini - OpenRouter
-- Claude Haiku - OpenRouter
+- Qwen 14B (OpenRouter)
+- Gemini Flash (OpenRouter)
+- GPT-4.1 Mini (OpenRouter)
+- Claude Haiku (OpenRouter)
 
 
 Depending on the model, inference can be performed locally or through an external API provider.
@@ -87,7 +87,7 @@ The system supports three retrieval strategies over the Google Drive document co
 
 - Ensemble Retriever
     - Retriever mode: `drive_ensemble`
-    - It combines the rankings produced by MiniLM and BGE-M3 using Weighted Reciprocal Rank Fusion (RRF). 
+    - It combines the rankings produced by MiniLM and BGE-M3 using Weighted Reciprocal Rank Fusion (WRRF). 
 The contribution of each retriever is controlled through configurable weights. 
 Based on the retrieval benchmark, `drive_bge` was selected as the retriever for the final end-to-end RAG evaluation, achieving the highest Hit@1 and MRR while matching the Ensemble Retriever on Hit@5.
 
@@ -210,10 +210,10 @@ The evaluation uses manually defined ground-truth queries with expected source d
 
 
 ### Retrieval Metrics
-- Hit@1 - whether the correct source appears at rank 1
-- Hit@3 - whether the correct source appears within the top 3 results
-- Hit@5 - whether the correct source appears within the top 5 results
-- Mean Reciprocal Rank (MRR) - measures how highly the First correct result is ranked
+- Hit@1: whether the correct source appears at rank 1
+- Hit@3: whether the correct source appears within the top 3 results
+- Hit@5: whether the correct source appears within the top 5 results
+- Mean Reciprocal Rank (MRR): measures how highly the First correct result is ranked
 
 ### Final Test Set
 
@@ -258,10 +258,11 @@ The generator models included in the evaluation configuration are evaluated.
 
 DeepEval is used for semantic and LLM-based evaluation.
 For answerable questions, the following metrics are used:
-- Faithfulness - whether the generated answer is supported by the retrieved context
-- Answer Relevancy - whether the generated answer directly addresses the question
-- Contextual Precision - whether the retrieved context contains relevant information without excessive irrelevant content 
-- Contextual Recall - whether the retrieved context contains the information required to answer the question
+- Faithfulness: whether the generated answer is supported by the retrieved context
+- Answer Relevancy: whether the generated answer directly addresses the question
+- Contextual Precision: whether the retrieved context contains relevant information without excessive irrelevant content 
+- Contextual Recall: whether the retrieved context contains the information required to answer the question
+- Hallucination Metric: whether the generated answer contradicts the trusted ground-truth document associated with the expected source. 
 Unanswerable questions are additionally evaluated for Refusal Accuracy and Hallucination Rate.
 The Refusal Accuracy indicates whether the model correctly refuses to provide an unsupported answer, while the Hallucination Rate shows how often the models provide an answer even if the available context does not support one.
 
@@ -276,17 +277,17 @@ python -m evaluation.evaluation_deepeval
 ```markdown
 #### Answerable Results — Drive BGE-M3
 
-| Model            | Faithfulness | Answer Relevancy | Context Precision | Context Recall |
-| Qwen3 14B        | 0.886        | 0.912            | 0.974             | 0.949          |
-| GPT-4.1 Mini     | 0.893        | 0.686            | 0.974             | 0.974          |
-| Gemini 2.5 Flash | 0.928        | 0.691            | 0.974             | 0.949          |
-| Claude Haiku 4.5 | 0.861        | 0.767            | 0.974             | 0.974          |
+| Model            | Faithfulness | Answer Relevancy | Context Precision | Context Recall | Hallucination Metric |
+| Qwen3 14B        | 0.886        | 0.912            | 0.974             | 0.949          | 0.333                |
+| GPT-4.1 Mini     | 0.893        | 0.686            | 0.974             | 0.974          | 0.128                |
+| Gemini 2.5 Flash | 0.928        | 0.691            | 0.974             | 0.949          | 0.179                |
+| Claude Haiku 4.5 | 0.861        | 0.767            | 0.974             | 0.974          | 0.154                |
 
 
-Gemini 2.5 Flash achieved the highest Faithfulness, while Qwen3 14B achieved the highest Answer Relevancy. Context Precision reached 0.974 and Context Recall reached 0.949 - 0.974 for almost all evaluated models. 
+Gemini 2.5 Flash achieved the highest Faithfulness, while Qwen3 14B achieved the highest Answer Relevancy. Context Precision reached 0.974 and Context Recall reached 0.949 - 0.974 for almost all evaluated models. The Hallucination Metric was evaluated separately on the 39 answerable questions using the full quality-controlled document associated with each expected ADA as trusted context.
 
 
-#### Unanswerable Results — Drive BGE-ME
+#### Unanswerable Results — Drive BGE-M3
 
 | Model            | Faithfulness | Answer Relevancy | Refusal Accuracy |Hallucination Rate |
 | Qwen3 14B        | 0.909        | 0.909            | 1.000            | 0.000             |
@@ -300,10 +301,10 @@ The evaluated models refused 10 of 11 unanswerable questions, except Qwen3 14B, 
 
 A separate deterministic evaluation framework complements the semantics DeepEval evaluation measuring factual properties that can be checked directly without an LLM judge.
 The custom metrics are:
-- Answer Exactness - strict normalized textual match between the generated and expected answer
-- Number Accuracy - whether the expected numerical values are present in the generated answer
-- Source Accuracy - whether the expected source appears among the retrieved documents
-- Source Rank - the ranking position of the first correct retrieved source
+- Answer Exactness: strict normalized textual match between the generated and expected answer
+- Number Accuracy: whether the expected numerical values are present in the generated answer
+- Source Accuracy: whether the expected source appears among the retrieved documents
+- Source Rank: the ranking position of the first correct retrieved source
 Answer Exactness is intentionally strict. Semanticly equivalent answers with different wording may therefore receive a score of '0'.
 
 Run the Custom evaluation with:
@@ -378,6 +379,7 @@ rag_agent/
     -- retrieval_bench.py
     -- custom_eval.py 
     -- evaluation_deepeval.py  
+    -- hallucination_metric_eval.py
  -- data/
     -- evaluation/
        -- retrieval_benchmark.json
@@ -390,15 +392,18 @@ rag_agent/
        -- deepeval_final_results.json
        -- deepeva_final_detailed_results.csv
        -- diavgeia/final_dataset.jsonl
+       -- hallucination_metric_final_results.csv
+       -- hallucination_metric_final_results.json
+       -- hallucination_metric_final_detailed_results.csv
 - requirements.txt
 - README.md
 - .gitignore
 ```
 The repository is organized into four main components:
- - Core RAG system - agent orchestration, model loading, retrieval, Google Drive integration and user interface
- - Dataset preparation - Diavgeia collection, PDF processing, repair, OCR and Drive preparation
- - Evaluation framework - retrieval benchmarking, DeepEval evaluation, custom deterministic evaluation and error analysis
- - Evaluation results - preserved experimental outputs for the evaluated system configurations
+ - Core RAG system: agent orchestration, model loading, retrieval, Google Drive integration and user interface
+ - Dataset preparation: Diavgeia collection, PDF processing, repair, OCR and Drive preparation
+ - Evaluation framework: retrieval benchmarking, DeepEval evaluation, custom deterministic evaluation and error analysis
+ - Evaluation results: preserved experimental outputs for the evaluated system configurations
 Generated FAISS vector stores are stored locally under `data/vectorstores/` and are excluded from version control. 
 
 
